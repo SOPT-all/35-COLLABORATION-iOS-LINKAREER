@@ -1,0 +1,2 @@
+# 35-COLLABORATION-iOS-LINKAREER
+35기 AND SOPT 합동세미나 모바일 앱 5팀 iOS - 링커리어
