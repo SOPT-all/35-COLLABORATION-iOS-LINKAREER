@@ -168,7 +168,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZVPB55PQN5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "LINKAREER-iOS/Info.plist";
+				INFOPLIST_FILE = "LINKAREER-iOS/Global/Settings/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -195,7 +195,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZVPB55PQN5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "LINKAREER-iOS/Info.plist";
+				INFOPLIST_FILE = "LINKAREER-iOS/Global/Settings/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
