@@ -21,7 +21,7 @@
 		0D926CD82CE8EE640053EB5B /* Exceptions for "LINKAREER-iOS" folder in "LINKAREER-iOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Global/Settings/Info.plist,
 			);
 			target = 0D926CC52CE8EE620053EB5B /* LINKAREER-iOS */;
 		};
