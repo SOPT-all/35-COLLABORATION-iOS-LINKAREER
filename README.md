@@ -1,6 +1,6 @@
 # 35-COLLABORATION-iOS-LINKAREER
 > 35기 AND SOPT 합동세미나 모바일 앱 5팀 iOS - 링커리어
-<img src="https://github.com/user-attachments/assets/ecbfe250-3fe5-4535-b934-3569f2c0cac2" width="760">
+<img src="https://github.com/user-attachments/assets/ecbfe250-3fe5-4535-b934-3569f2c0cac2">
 <br>
 <br>
 
@@ -31,6 +31,15 @@
 
 ![Frame 14](https://github.com/user-attachments/assets/4b862702-1a2e-4d36-8d51-1a94463b146f)
 <img src="https://github.com/user-attachments/assets/998e10ec-1847-405b-92bb-c72cdc877719" width="800">
+```
+1. main branch에서 이슈번호를 가진 branch 생성
+2. 생성한 branch에서 작업 진행 (Add - Commit - Push - Pull Request 의 과정)
+3. Pull Request가 작성되면 팀원의 Code Review → Code Review 반영까지
+4. 로컬 main branch로 넘어가서 원격 main branch를 pull 받기 (💡로컬 main 브랜치 최신화 작업💡)
+5. 본인 로컬 main 브랜치  → merge into '본인 작업 브랜치' (본인 작업 브랜치에 최신화된 main 반영하는 작업)
+6. 컨플릭 생기면 해결하고 다시 머지 반영하고 push (push 하기 전에 한 번 실행해보기)
+7. 깃허브 돌아가서 merge 가능한지 확인하고 merge
+```
 
 ![Frame 13](https://github.com/user-attachments/assets/43788510-37f0-496f-8c5a-3a91bd433b09)
 > [StyleShare 의 Swift Style Guide](https://github.com/StyleShare/swift-style-guide) 를 기반으로 추가/수정
@@ -42,10 +51,8 @@
 │   ├── SceneDelegate
 │   ├── LaunchScreen
 ├── Global
-│   ├── UserDefault
 │   ├── Extension
 │   ├── Literals
-│   │   ├── String
 │   ├── UIComponents
 │   ├── Resources
 │   │   ├── Font
