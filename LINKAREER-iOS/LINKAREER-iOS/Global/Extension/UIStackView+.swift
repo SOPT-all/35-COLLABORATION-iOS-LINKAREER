@@ -9,7 +9,7 @@ import UIKit
 
 extension UIStackView {
     
-    // UUIStackView 여러 개 인자로 받아서 한 번에 addArrangedSubviews하는 메소드
+    // UIStackView 여러 개 인자로 받아서 한 번에 addArrangedSubviews하는 메소드
     func addArrangedSubviews(_ views: UIView...) {
         for view in views {
             self.addArrangedSubview(view)
