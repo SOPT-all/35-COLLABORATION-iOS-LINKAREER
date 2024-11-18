@@ -1,5 +1,5 @@
 //
-//  ChatCertificationView.swift
+//  ChatCertificationInitialView.swift
 //  LINKAREER-iOS
 //
 //  Created by Gahyun Kim on 11/19/24.
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class ChatCertificationView: UIView {
+final class ChatCertificationInitialView: UIView {
     
     // MARK: - Init
     
@@ -28,7 +28,7 @@ final class ChatCertificationView: UIView {
 
 }
 
-extension ChatCertificationView {
+extension ChatCertificationInitialView {
 
     func setHierarchy() {
         

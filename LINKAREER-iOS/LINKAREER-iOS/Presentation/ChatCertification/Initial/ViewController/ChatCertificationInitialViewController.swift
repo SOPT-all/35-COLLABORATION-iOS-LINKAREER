@@ -1,5 +1,5 @@
 //
-//  ChatCertificationViewController.swift
+//  ChatCertificationInitialViewController.swift
 //  LINKAREER-iOS
 //
 //  Created by Gahyun Kim on 11/19/24.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class ChatCertificationViewController: UIViewController {
+final class ChatCertificationInitialViewController: UIViewController {
     
 
     // MARK: - Life Cycle
@@ -30,7 +30,7 @@ final class ChatCertificationViewController: UIViewController {
     
 }
 
-extension ChatCertificationViewController {
+extension ChatCertificationInitialViewController {
     
     func setHierarchy() {
         
