@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_checkbadge_home_inperson.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
