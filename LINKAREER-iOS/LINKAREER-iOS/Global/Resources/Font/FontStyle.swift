@@ -8,10 +8,10 @@
 import UIKit
 
 enum fontStyle {
-    case title1_b_20
+    case title1_b_18
     case title2_b_17
-    case title3_b_15
-    case body1_b_15
+    case title3_b_16
+    case body1_b_16
     case body2_b_14
     case body3_b_13
     case body4_b_12
@@ -35,9 +35,9 @@ enum fontStyle {
     // 폰트 크기
     var fontSize: CGFloat {
         switch self {
-        case .title1_b_20: return 18
+        case .title1_b_18: return 18
         case .title2_b_17: return 17
-        case .title3_b_15, .body1_b_15, .body5_m_16: return 16
+        case .title3_b_16, .body1_b_16, .body5_m_16: return 16
         case .body6_m_15: return 15
         case .body2_b_14, .body10_r_14, .body7_m_14: return 14
         case .body3_b_13, .body8_m_13, .body11_r_13: return 13
@@ -52,7 +52,7 @@ enum fontStyle {
     // (Bold = 700, Medium = 500, Regular = 400)
     var weight: String {
         switch self {
-        case .title1_b_20, .title2_b_17, .title3_b_15, .body1_b_15, .body2_b_14, .body3_b_13, .body4_b_12,
+        case .title1_b_18, .title2_b_17, .title3_b_16, .body1_b_16, .body2_b_14, .body3_b_13, .body4_b_12,
                 .label1_b_12, .label2_b_11, .label3_b_10, .label4_b_9:
             return "NotoSansKR-Bold"
         case .body5_m_16, .body6_m_15, .body7_m_14, .body8_m_13, .body9_m_12, .label5_m_11, .label6_m_10, .label7_m_8:
@@ -64,12 +64,12 @@ enum fontStyle {
     
     var letterSpacing: CGFloat {
         switch self {
-        case .title2_b_17, .body1_b_15: return 1
+        case .title2_b_17, .body1_b_16: return 1
         case .body4_b_12: return 0
         case .body3_b_13, .label4_b_9, .body13_r_11: return -1
         case .body5_m_16: return -2
         case .body2_b_14, .body6_m_15, .body7_m_14, .label3_b_10, .label1_b_12: return -3
-        case .title1_b_20, .title3_b_15, .body9_m_12, .body10_r_14, .body11_r_13, .body12_r_12, .label2_b_11, .label5_m_11, .label6_m_10, .label7_m_8: return -4
+        case .title1_b_18, .title3_b_16, .body9_m_12, .body10_r_14, .body11_r_13, .body12_r_12, .label2_b_11, .label5_m_11, .label6_m_10, .label7_m_8: return -4
         case .body8_m_13: return -5
         }
     }
