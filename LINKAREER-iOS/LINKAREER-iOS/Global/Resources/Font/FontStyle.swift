@@ -30,7 +30,7 @@ enum fontStyle {
     case label4_b_9
     case label5_m_11
     case label6_m_10
-    case label7_m_8
+    case label7_m_9
     
     // 폰트 크기
     var fontSize: CGFloat {
@@ -44,8 +44,7 @@ enum fontStyle {
         case .body4_b_12, .body9_m_12, .body12_r_12, .label1_b_12: return 12
         case .body13_r_11, .label2_b_11, .label5_m_11: return 11
         case .label3_b_10, .label6_m_10: return 10
-        case .label4_b_9: return 9
-        case .label7_m_8: return 8
+        case .label4_b_9, .label7_m_9: return 9
         }
     }
     
@@ -55,7 +54,7 @@ enum fontStyle {
         case .title1_b_18, .title2_b_17, .title3_b_16, .body1_b_16, .body2_b_14, .body3_b_13, .body4_b_12,
                 .label1_b_12, .label2_b_11, .label3_b_10, .label4_b_9:
             return "NotoSansKR-Bold"
-        case .body5_m_16, .body6_m_15, .body7_m_14, .body8_m_13, .body9_m_12, .label5_m_11, .label6_m_10, .label7_m_8:
+        case .body5_m_16, .body6_m_15, .body7_m_14, .body8_m_13, .body9_m_12, .label5_m_11, .label6_m_10, .label7_m_9:
             return "NotoSansKR-Medium"
         case .body10_r_14, .body11_r_13, .body12_r_12, .body13_r_11:
             return "NotoSansKR-Regular"
@@ -69,7 +68,7 @@ enum fontStyle {
         case .body3_b_13, .label4_b_9, .body13_r_11: return -1
         case .body5_m_16: return -2
         case .body2_b_14, .body6_m_15, .body7_m_14, .label3_b_10, .label1_b_12: return -3
-        case .title1_b_18, .title3_b_16, .body9_m_12, .body10_r_14, .body11_r_13, .body12_r_12, .label2_b_11, .label5_m_11, .label6_m_10, .label7_m_8: return -4
+        case .title1_b_18, .title3_b_16, .body9_m_12, .body10_r_14, .body11_r_13, .body12_r_12, .label2_b_11, .label5_m_11, .label6_m_10, .label7_m_9: return -4
         case .body8_m_13: return -5
         }
     }
