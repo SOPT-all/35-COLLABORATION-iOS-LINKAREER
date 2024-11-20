@@ -71,7 +71,7 @@ enum TabBarItem: CaseIterable {
         case .calendar:
             return ViewController()
         case .chat:
-            return ViewController()
+            return ChatCertificationInitialViewController()
         }
     }
 }
