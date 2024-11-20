@@ -11,7 +11,7 @@ import SwiftUI
 import SnapKit
 import Then
 
-class CompanyHorizontalScrollViewCell: UICollectionViewCell {
+class CompanyHorizontalScrollCollectionViewCell: UICollectionViewCell {
     
     private let scrollView = UIScrollView().then {
         $0.showsHorizontalScrollIndicator = false

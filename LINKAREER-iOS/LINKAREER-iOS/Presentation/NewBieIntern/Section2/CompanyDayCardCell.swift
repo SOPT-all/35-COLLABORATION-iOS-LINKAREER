@@ -37,9 +37,11 @@ class CompanyDayCardCell: UIView {
         
         backgroundColor = .white
   
-        boxView.backgroundColor = .gray100
-        boxView.layer.cornerRadius = 10
-        boxView.layer.masksToBounds = true
+        boxView.do {
+            $0.backgroundColor = .gray100
+            $0.layer.cornerRadius = 10
+            $0.layer.masksToBounds = true
+        }
 
         dayLabel.setLabel(
             text: nil,
@@ -48,15 +50,17 @@ class CompanyDayCardCell: UIView {
             textColor: .white,
             font: fontStyle.label7_m_9.font()
         )
-        dayLabel.backgroundColor = .black
-        dayLabel.layer.cornerRadius = 4
-        dayLabel.layer.masksToBounds = true
-        dayLabel.padding = UIEdgeInsets(
-            top: 2,
-            left: 4,
-            bottom: 2,
-            right: 4)
-
+        dayLabel.do {
+            $0.backgroundColor = .black
+            $0.layer.cornerRadius = 4
+            $0.layer.masksToBounds = true
+            $0.padding = UIEdgeInsets(
+                top: 2,
+                left: 4,
+                bottom: 2,
+                right: 4)
+        }
+        
         companyNameLabel.setLabel(
             text: nil,
             alignment: .left,
@@ -80,15 +84,17 @@ class CompanyDayCardCell: UIView {
             textColor: .systemBlue,
             font: fontStyle.label7_m_9.font()
         )
-        categoryLabel.backgroundColor = .blue100
-        categoryLabel.layer.cornerRadius = 4
-        categoryLabel.layer.masksToBounds = true
-        categoryLabel.padding = UIEdgeInsets(
-            top: 2,
-            left: 4,
-            bottom: 2,
-            right: 4)
-
+        categoryLabel.do {
+            $0.backgroundColor = .blue100
+            $0.layer.cornerRadius = 4
+            $0.layer.masksToBounds = true
+            $0.padding = UIEdgeInsets(
+                top: 2,
+                left: 4,
+                bottom: 2,
+                right: 4)
+        }
+       
         viewCountLabel.setLabel(
             text: nil,
             alignment: .left,
@@ -105,24 +111,24 @@ class CompanyDayCardCell: UIView {
             font: fontStyle.label7_m_9.font()
         )
 
-        logoImageView.contentMode = .scaleAspectFit
-        logoImageView.clipsToBounds = true
+        logoImageView.do {
+            $0.contentMode = .scaleAspectFit
+            $0.clipsToBounds = true
+        }
 
-        actionButton.setImage(
-            UIImage(named: "ic_bookmark_w_default")?.withRenderingMode(.alwaysTemplate),
-            for: .normal
-        )
-        actionButton.tintColor = .black
-        actionButton.backgroundColor = .clear
-
-        
+        actionButton.do {
+            $0.setImage(
+                UIImage(resource:.icBookmarkWDefault).withRenderingMode(.alwaysTemplate),
+                for: .normal
+            )
+            $0.tintColor = .black
+            $0.backgroundColor = .clear
+        }
     }
     
     private func setHierarchy() {
-        [boxView, dayLabel, logoImageView, actionButton, companyNameLabel, titleLabel, categoryLabel, viewCountLabel, commentCountLabel]
-            .forEach { addSubview($0) }
+        addSubviews(boxView, dayLabel, logoImageView, actionButton, companyNameLabel, titleLabel, categoryLabel, viewCountLabel, commentCountLabel)
     }
-
 
     private func setLayout() {
         boxView.snp.makeConstraints {
@@ -207,7 +213,7 @@ struct CompanyDayCardCellPreview: UIViewRepresentable {
         let cell = CompanyDayCardCell(frame: CGRect(x: 0, y: 0, width: 194, height: 1004))
         cell.configure(
             day: "3",
-            image: UIImage(named: "img_hotofficial_ibk_142") ?? UIImage(systemName: "photo")!,
+            image: UIImage(resource: .imgHotofficialIbk142),
             buttonTitle: "지원하기",
             companyName: "IBK 기업은행",
             title: "2025년 마케팅 인턴 모집",

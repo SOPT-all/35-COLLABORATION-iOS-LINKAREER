@@ -53,7 +53,7 @@ extension NewbieInternViewController {
     }
     
     private func setRegister() {
-        collectionView.register(CompanyHorizontalScrollViewCell.self, forCellWithReuseIdentifier: CompanyHorizontalScrollViewCell.identifier)
+        collectionView.register(CompanyHorizontalScrollCollectionViewCell.self, forCellWithReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
     }
     
@@ -103,7 +103,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CompanyHorizontalScrollViewCell.identifier, for: indexPath) as! CompanyHorizontalScrollViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier, for: indexPath) as! CompanyHorizontalScrollCollectionViewCell
             cell.configure(with: horizontalScrollData)
             return cell
         } else {
