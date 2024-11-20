@@ -13,7 +13,7 @@ import Then
 class TagHeaderView: UICollectionReusableView {
     
     // MARK: - UI Properties
-    
+    private let nickNameLabel: UILabel = UILabel()
     private let titleLabel: UILabel = UILabel()
     
     private let tagStackView: UIStackView = UIStackView()
@@ -37,12 +37,17 @@ class TagHeaderView: UICollectionReusableView {
     
     
     func setHierarchy() {
-        self.addSubviews(titleLabel, tagStackView, descriptionLabel, moreButton)
+        self.addSubviews(nickNameLabel, titleLabel, tagStackView, descriptionLabel, moreButton)
     }
     
     func setLayout() {
-        titleLabel.snp.makeConstraints {
+        nickNameLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview()
+        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(nickNameLabel)
+            $0.leading.equalTo(nickNameLabel.snp.trailing).offset(5)
         }
         
         tagStackView.snp.makeConstraints {
@@ -62,7 +67,11 @@ class TagHeaderView: UICollectionReusableView {
     }
     
     func setStyle() {
-        backgroundColor = .yellow
+        nickNameLabel.do {
+            $0.font = fontStyle.title1_b_18.font()
+            $0.textColor = .lkBlue
+        }
+        
         titleLabel.do {
             $0.font = fontStyle.title1_b_18.font()
             $0.textColor = .lkBlack
@@ -91,4 +100,38 @@ class TagHeaderView: UICollectionReusableView {
         }
     }
     
+}
+
+extension TagHeaderView {
+    
+    func configure(headerData: TagHeader) {
+        nickNameLabel.text = headerData.nickname
+        titleLabel.text = headerData.title
+        descriptionLabel.text = headerData.discription
+        
+        tagStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        headerData.tags.forEach { tag in
+            let tagButton: UIButton = UIButton()
+            
+            tagButton.do {
+                $0.setTitle(tag, for: .normal)
+                $0.titleLabel?.font = fontStyle.label7_m_9.font()
+                $0.setTitleColor(.lkBlue, for: .normal)
+                $0.backgroundColor = .white
+                $0.clipsToBounds = true
+                $0.layer.borderWidth = 0.5
+                $0.layer.borderColor = UIColor.lkBlue.cgColor
+                $0.layer.cornerRadius = 4
+                $0.contentEdgeInsets = UIEdgeInsets(top: 2, left: 6, bottom: 2, right: 6)
+            }
+            
+            tagButton.snp.makeConstraints {
+                $0.height.equalTo(17)
+                $0.width.greaterThanOrEqualTo(50)
+            }
+            
+            tagStackView.addArrangedSubview(tagButton)
+        }
+    }
 }

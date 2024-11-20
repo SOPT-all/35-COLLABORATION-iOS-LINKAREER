@@ -17,6 +17,7 @@ class HomeViewController: UIViewController {
     
     private let dataSource: [HomeSection] = HomeSection.dataSource
     
+    private var tagHeader: [TagHeader] = TagHeader.headerData
     private var homeBanners: [HomeBanner] = HomeBanner.dummyData
     private var interestBoard: [Board] = Board.dummyData
     
@@ -104,6 +105,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TagHeaderView.identifier, for: indexPath) as? TagHeaderView else {
                 return UICollectionReusableView()
             }
+            let tagHeaderInfo = tagHeader[indexPath.section]
+            header.configure(headerData: tagHeaderInfo)
             return header
         } else if kind == BottomPageControlView.identifier {
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControlView.identifier, for: indexPath) as? BottomPageControlView else {
