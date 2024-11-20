@@ -32,21 +32,37 @@ class NewbieInternViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setHierarchy()
-        setupConstraints()
+        setStyle()
+        setRegister()
+        setLayout()
         fetchData()
+        setDelegate()
     }
+    
+}
 
-    private func setHierarchy() {
+extension NewbieInternViewController {
+
+    // 추후 추가된 뷰를 위해 함수 선언
+    private func setHierarchy(){
         view.addSubview(collectionView)
+    }
+    
+    private func setStyle() {
         collectionView.backgroundColor = .white
-        collectionView.register(CompanyHorizontalScrollViewCell.self, forCellWithReuseIdentifier: "CompanyHorizontalScrollViewCell")
-        //더미
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "DefaultCell")
+    }
+    
+    private func setRegister() {
+        collectionView.register(CompanyHorizontalScrollViewCell.self, forCellWithReuseIdentifier: CompanyHorizontalScrollViewCell.identifier)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
+    }
+    
+    private func setDelegate(){
         collectionView.dataSource = self
         collectionView.delegate = self
     }
 
-    private func setupConstraints() {
+    private func setLayout() {
         collectionView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
 
@@ -87,22 +103,28 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CompanyHorizontalScrollViewCell", for: indexPath) as! CompanyHorizontalScrollViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CompanyHorizontalScrollViewCell.identifier, for: indexPath) as! CompanyHorizontalScrollViewCell
             cell.configure(with: horizontalScrollData)
             return cell
         } else {
-            //더미 데이터
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DefaultCell", for: indexPath)
-            cell.backgroundColor = .lightGray
-            let label = UILabel()
-            label.text = otherSectionData[indexPath.item]
-            label.textColor = .black
-            label.font = UIFont.systemFont(ofSize: 14)
-            label.textAlignment = .center
-            cell.contentView.addSubview(label)
-            label.snp.makeConstraints { $0.edges.equalToSuperview() }
-            return cell
+            return configureDummyCell(for: collectionView, at: indexPath)
         }
+    }
+
+    private func configureDummyCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.identifier, for: indexPath)
+        cell.backgroundColor = .lightGray
+
+        let label = UILabel().then {
+            $0.text = otherSectionData[indexPath.item]
+            $0.textColor = .black
+            $0.font = UIFont.systemFont(ofSize: 14)
+            $0.textAlignment = .center
+        }
+
+        cell.contentView.addSubview(label)
+        label.snp.makeConstraints { $0.edges.equalToSuperview() }
+        return cell
     }
 
     // 레이아웃
@@ -118,7 +140,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
 }
 
 
-//pre
+//preview
 
 struct NewbieInternViewControllerPreview: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> NewbieInternViewController {
