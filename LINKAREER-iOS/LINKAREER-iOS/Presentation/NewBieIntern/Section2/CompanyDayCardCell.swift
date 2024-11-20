@@ -10,7 +10,7 @@ import SwiftUI
 import SnapKit
 import Then
 
-class CompanyDayCardCell: UIView {
+class CompanyDayCardCell: UICollectionViewCell {
     
     private let boxView = UIView()
     private let dayLabel = PaddedUILabel()

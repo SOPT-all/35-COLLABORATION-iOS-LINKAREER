@@ -93,7 +93,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 1 // 일단 첫 번째 섹션은 가로 스크롤
+            return 1 // 일단 첫 번째 섹션은 가로 스크롤 컬뷰셀
         case 1, 2:
             return otherSectionData.count // 나머지 섹션은 더미 데이터 사용
         default:
