@@ -177,3 +177,14 @@ final class BoardCell: UICollectionViewCell {
 
 }
 
+extension BoardCell {
+    
+    func configure(with board: Board) {
+        benefitTagButton.setTitle( board.category, for: .normal)
+        titleLabel.text = board.title
+        contentLabel.text = board.content
+        imageView.image = board.image
+    }
+    
+}
+

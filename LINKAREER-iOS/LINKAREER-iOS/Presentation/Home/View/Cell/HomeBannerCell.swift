@@ -10,10 +10,13 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MainPosterDelegate: AnyObject {
+    func didSwipePoster(index: Int, vc: UIPageViewController, vcData: [UIViewController])
+}
 
 final class HomeBannerCell: UICollectionViewCell {
     
-    // MARK: - Properties
+    // MARK: - UI Properties
     
     private let bannerImage: UIImageView = UIImageView()
     
@@ -27,6 +30,7 @@ final class HomeBannerCell: UICollectionViewCell {
     
     private let viewsLabel: UILabel = UILabel()
     private let commentLabel: UILabel = UILabel()
+   
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,7 +47,7 @@ final class HomeBannerCell: UICollectionViewCell {
         self.addSubviews(bannerImage, dDayButton, bookMarkButton, companyLabel, titleLabel, benefitTagButton, viewsLabel, commentLabel)
     }
     
-    func setLayout() {        
+    func setLayout() {
         bannerImage.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.height.equalTo(177)
@@ -59,6 +63,7 @@ final class HomeBannerCell: UICollectionViewCell {
             $0.top.equalTo(bannerImage)
             $0.trailing.equalTo(bannerImage).inset(10)
         }
+        
         companyLabel.snp.makeConstraints {
             $0.top.equalTo(bannerImage.snp.bottom).offset(8)
             $0.leading.equalToSuperview()
@@ -129,6 +134,19 @@ final class HomeBannerCell: UICollectionViewCell {
             $0.font = fontStyle.label7_m_9.font()
             $0.textColor = .gray600
         }
+    }
+}
+
+
+extension HomeBannerCell {
+    
+    func configure(with banner: HomeBanner) {
+        bannerImage.image = banner.image
+        companyLabel.text = banner.company
+        titleLabel.text = banner.title
+        benefitTagButton.setTitle( banner.benefit, for: .normal)
+        viewsLabel.text = "조회수 \(banner.views)"
+        commentLabel.text = "댓글 \(banner.comment)"
     }
     
 }

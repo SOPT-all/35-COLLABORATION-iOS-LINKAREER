@@ -17,6 +17,9 @@ class HomeViewController: UIViewController {
     
     private let dataSource: [HomeSection] = HomeSection.dataSource
     
+    private var homeBanners: [HomeBanner] = HomeBanner.dummyData
+    private var interestBoard: [Board] = Board.dummyData
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -82,12 +85,16 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeBannerCell.identifier, for: indexPath) as? HomeBannerCell else {
                 fatalError("Unable to dequeue HomeBannerCell")
             }
+            let banner = homeBanners[indexPath.row]
+            cell.configure(with: banner)
             return cell
             
         case .interestBoard, .recommendRecruit:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCell.identifier, for: indexPath) as? BoardCell else {
                 fatalError("Unable to dequeue BoardCell")
             }
+            let board = interestBoard[indexPath.row]
+            cell.configure(with: board)
             return cell
         }
     }
