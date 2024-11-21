@@ -12,8 +12,8 @@ import SnapKit
 
 final class ChatView: UIView {
     
-    private lazy var myChatButton: UIButton = UIButton()
-    private lazy var entireChatButton: UIButton = UIButton()
+    lazy var myChatButton: UIButton = UIButton()
+    lazy var entireChatButton: UIButton = UIButton()
     
     let totalCountLabel: UILabel = UILabel()
     

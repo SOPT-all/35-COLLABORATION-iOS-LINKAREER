@@ -30,6 +30,7 @@ final class ChatViewController: UIViewController {
         
         setDelegate()
         setRegister()
+        setAddTarget()
         
         defaultSelectCategoryCell()
     }
@@ -65,11 +66,34 @@ private extension ChatViewController {
         
     }
     
-    func defaultSelectCategoryCell() {
-            let indexPathToSelect = IndexPath(item: 1, section: 0)
-            rootView.categoryCollectionView.selectItem(at: indexPathToSelect, animated: false, scrollPosition: [])
-            collectionView(rootView.categoryCollectionView, didSelectItemAt: indexPathToSelect)
+    func setAddTarget() {
+        rootView.myChatButton.addTarget(self, action: #selector(buttonDidTapped(_:)), for: .touchUpInside)
+        rootView.entireChatButton.addTarget(self, action: #selector(buttonDidTapped(_:)), for: .touchUpInside)
+    }
+}
+
+extension ChatViewController {
+    
+    @objc func buttonDidTapped(_ sender: UIButton) {
+        if sender == rootView.myChatButton {
+            updateButtonColor(for: rootView.myChatButton)
+        } else if sender == rootView.entireChatButton {
+            updateButtonColor(for: rootView.entireChatButton)
         }
+    }
+    
+    func updateButtonColor(for selectedButton: UIButton) {
+        let allButtons = [rootView.myChatButton, rootView.entireChatButton]
+        allButtons.forEach { button in
+            button.setTitleColor(button == selectedButton ? .gray900 : .gray600, for: .normal)
+        }
+    }
+    
+    func defaultSelectCategoryCell() {
+        let indexPathToSelect = IndexPath(item: 1, section: 0)
+        rootView.categoryCollectionView.selectItem(at: indexPathToSelect, animated: false, scrollPosition: [])
+        collectionView(rootView.categoryCollectionView, didSelectItemAt: indexPathToSelect)
+    }
 }
 
 extension ChatViewController: UICollectionViewDataSource {
