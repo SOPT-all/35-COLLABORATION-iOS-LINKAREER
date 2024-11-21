@@ -59,7 +59,7 @@ private extension ChatViewController {
         rootView.categoryCollectionView.register(CategoryCollectionViewCell.self,
                                                  forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
         rootView.listCollectionView.register(ChatListCollectionViewCell.self,
-                                                 forCellWithReuseIdentifier: ChatListCollectionViewCell.identifier)
+                                             forCellWithReuseIdentifier: ChatListCollectionViewCell.identifier)
         
     }
 }
@@ -93,8 +93,18 @@ extension ChatViewController: UICollectionViewDataSource {
 }
 
 extension ChatViewController: UICollectionViewDelegate {
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
-//        // index에 따라서 list 분기처리
-//    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == rootView.categoryCollectionView {
+            let idx = indexPath.item
+            if idx == 3 {
+                rootView.listCollectionView.isHidden = true
+            } else {
+                rootView.listCollectionView.isHidden = false
+            }
+        }
+        else if collectionView == rootView.listCollectionView {
+            print("Cell Tapped")
+            //TODO: - Chatting Room 으로 이동
+        }
+    }
 }
