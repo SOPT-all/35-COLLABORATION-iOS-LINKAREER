@@ -99,7 +99,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 fatalError("Unable to dequeue CategorySelectorCell")
             }
             let category = categorySelector[indexPath.row]
-            
             let isSelected = indexPath.row == 0 
             cell.configure(with: category, isSelected: isSelected)
             return cell
@@ -130,7 +129,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: PolicyFooterView.identifier, for: indexPath) as? PolicyFooterView else {
                 return UICollectionReusableView()
             }
-            
             return footer
         } else {
             return UICollectionReusableView()

@@ -54,6 +54,7 @@ struct CategorySelector {
         ]
     }
 }
+
 struct Board {
     let category: String
     let title: String

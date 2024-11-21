@@ -55,7 +55,6 @@ class HomeView: UIView {
             $0.isScrollEnabled = true
             $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
-        
     }
     
 }
@@ -96,19 +95,13 @@ extension HomeView {
     }
     
     func setCategorySelectorLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(40), // 너비가 텍스트 길이에 따라 변경
-            heightDimension: .fractionalHeight(1)
-        )
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(40), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(36)
-        )
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 0)
-        group.interItemSpacing = .fixed(8) // 아이템 간 간격
+        group.interItemSpacing = .fixed(8)
 
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)
@@ -132,7 +125,6 @@ extension HomeView {
         
         return section
     }
-    
     
     func setRecommendRecruitLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -171,7 +163,6 @@ extension HomeView {
         
         return footer
     }
-    
     
 }
 
