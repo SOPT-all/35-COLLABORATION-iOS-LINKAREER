@@ -13,20 +13,11 @@ import Then
 
 class NewbieInternViewController: UIViewController {
 
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
-        $0.scrollDirection = .vertical
-        $0.minimumLineSpacing = 16
-        $0.sectionInset = UIEdgeInsets(
-            top: 16,
-            left: 16,
-            bottom: 16,
-            right: 16)
-    }).then {
-        $0.backgroundColor = .white
-    }
+    private let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
 
-    private var horizontalScrollData: [CompanyDayCardDataModel] = []
+
+    private var horizontalScrollData: [CompanyDayCardDataModel] = [] // Section2
     private var otherSectionData: [String] = [] // 더미 데이터
 
     override func viewDidLoad() {
@@ -39,16 +30,23 @@ class NewbieInternViewController: UIViewController {
         setDelegate()
     }
     
-}
-
-extension NewbieInternViewController {
-
     // 추후 추가된 뷰를 위해 함수 선언
     private func setHierarchy(){
         view.addSubview(collectionView)
     }
     
     private func setStyle() {
+        
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .vertical
+            layout.minimumLineSpacing = 16
+            layout.sectionInset = UIEdgeInsets(
+                top: 16,
+                left: 16,
+                bottom: 16,
+                right: 16
+            )
+        }
         collectionView.backgroundColor = .white
     }
     
@@ -65,6 +63,9 @@ extension NewbieInternViewController {
     private func setLayout() {
         collectionView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
+}
+
+extension NewbieInternViewController {
 
     //임시 데이터
     private func fetchData() {

@@ -12,17 +12,7 @@ import Then
 
 class CompanyHorizontalScrollCollectionViewCell: UICollectionViewCell {
 
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout().then {
-            $0.scrollDirection = .horizontal
-            $0.minimumLineSpacing = 8
-            $0.itemSize = CGSize(width: 142, height: 255)
-        }
-        return UICollectionView(frame: .zero, collectionViewLayout: layout).then {
-            $0.showsHorizontalScrollIndicator = false
-            $0.backgroundColor = .clear
-        }
-    }()
+    private lazy var collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
     private var data: [CompanyDayCardDataModel] = []
 
@@ -31,35 +21,48 @@ class CompanyHorizontalScrollCollectionViewCell: UICollectionViewCell {
         setHierarchy()
         setLayout()
         setDelegate()
-        setRegister()
+        setStyle()
+        registerCell()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-
-extension CompanyHorizontalScrollCollectionViewCell {
-
+    
     private func setHierarchy() {
         contentView.addSubview(collectionView)
     }
-
-    private func setRegister() {
-        collectionView.register(CompanyDayCardCell.self, forCellWithReuseIdentifier: CompanyDayCardCell.identifier)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
-    }
-
+    
     private func setLayout() {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
-
+    
     private func setDelegate() {
         collectionView.dataSource = self
         collectionView.delegate = self
+    }
+    
+    private func setStyle() {
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+            layout.minimumLineSpacing = 8
+            layout.itemSize = CGSize(width: 142, height: 255)
+        }
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+    }
+
+
+}
+
+
+extension CompanyHorizontalScrollCollectionViewCell {
+
+    private func registerCell() {
+        collectionView.register(CompanyDayCardCell.self, forCellWithReuseIdentifier: CompanyDayCardCell.identifier)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
     }
 
     // 컬렉션 뷰에 표시할 데이터 배열
