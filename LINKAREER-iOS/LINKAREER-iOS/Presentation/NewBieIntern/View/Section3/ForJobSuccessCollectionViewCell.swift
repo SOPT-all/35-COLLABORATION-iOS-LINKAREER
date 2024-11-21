@@ -36,13 +36,11 @@ class ForJobSuccessCollectionViewCell: UICollectionViewCell {
     private func setupLayout() {
         
         headerView.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(40)
+            $0.top.leading.equalToSuperview()
         }
         
         firstCard.snp.makeConstraints {
-            $0.top.equalTo(headerView.snp.bottom).offset(14)
+            $0.top.equalTo(headerView.snp.bottom)
             $0.leading.equalToSuperview().offset(10)
             $0.width.equalTo(110)
             $0.height.equalTo(134)
