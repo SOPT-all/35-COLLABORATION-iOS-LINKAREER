@@ -63,7 +63,9 @@ extension ChatView {
         
         listCollectionView.snp.makeConstraints {
             $0.top.equalTo(categoryCollectionView.snp.bottom).offset(44)
-            $0.leading.equalToSuperview().inset(14)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(520)
+            $0.width.equalTo(347)
         }
     }
     
