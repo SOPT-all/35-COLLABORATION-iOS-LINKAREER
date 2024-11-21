@@ -137,6 +137,7 @@ final class HomeBannerCell: UICollectionViewCell {
 extension HomeBannerCell {
     
     func configure(with banner: HomeBanner) {
+        dDayButton.setTitle("D - \(banner.dDay)", for: .normal)
         bannerImage.image = banner.image
         companyLabel.text = banner.company
         titleLabel.text = banner.title

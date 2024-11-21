@@ -14,13 +14,15 @@ struct HomeBanner {
     let benefit: String
     let views: Int
     let comment: Int
+    let dDay: Int
+
     
     static var dummyData: [HomeBanner] {
         return [
-            HomeBanner(image: .imgMainbanner1347, company: "SAP Korea", title: "SYNC 아카데미 6기 모집 (~11/18(월) 오전 11시 부터 모집이다아", benefit: "1차 서류 프리패스", views: 2000, comment: 16),
-            HomeBanner(image: .imgMainbanner2347, company: "SAP Korea", title: "SAP Korea", benefit: "SAP Korea", views: 100, comment: 16),
-            HomeBanner(image: .imgMainbanner3347, company: "SAP Korea", title: "SAP Korea", benefit: "SAP Korea", views: 500, comment: 16),
-            HomeBanner(image: .imgMainbanner4347, company: "SAP Korea", title: "SAP Korea", benefit: "SAP Korea", views: 5000, comment: 16)
+            HomeBanner(image: .imgMainbanner1347, company: "SAP Korea", title: "SYNC 아카데미 6기 모집 (~11/18(월) 오전 11시 부터 모집이다아", benefit: "1차 서류 프리패스", views: 2810, comment: 0, dDay: 1),
+            HomeBanner(image: .imgMainbanner2347, company: "행복나눔재단", title: "2025년 Sunny School 4기 모집", benefit: "활동기간 연구실 제공", views: 9894, comment: 16, dDay: 10),
+            HomeBanner(image: .imgMainbanner3347, company: "IT’s DGB, Challenger", title: "제3회 대한민국 디지털 인재 양성 프로젝트 IT’s DGB, iM Challenger", benefit: "수상자 미국 글로벌 기업 견학", views: 344, comment: 0, dDay: 38),
+            HomeBanner(image: .imgMainbanner4347, company: "SK하이닉스 청년 Hy-Five", title: "2024년 하반기 sk하이닉스 청년 Hy-Five 12기 모집 (~12/19)", benefit: "정규직 채용 연계", views: 9007, comment: 2, dDay: 35)
         ]
     }
 }
@@ -46,15 +48,17 @@ struct Board {
     let title: String
     let content: String
     let image: UIImage
+    let writer: String
+    let createAt: String
+    let likeCount: Int
+    let commentCount: Int
+    let views: Int
     
     static var dummyData: [Board] {
         return [
-            Board(category: "면접 합격 후기", title: "하나은행 2차 면접 후기입니다", content: "우선 대기실에 도착하면 안내 분들께서 친절", image: .imgCommuBestNh70),
-            Board(category: "면접 합격 후기", title: "하나은행 2차 면접 후기입니다", content: "우선 대기실에 도착하면 안내 분들께서 친절", image: .imgCommuBestNh70),
-            Board(category: "면접 합격 후기", title: "하나은행 2차 면접 후기입니다", content: "우선 대기실에 도착하면 안내 분들께서 친절", image: .imgCommuBestNh70),
-            Board(category: "면접 합격 후기", title: "하나은행 2차 면접 후기입니다", content: "우선 대기실에 도착하면 안내 분들께서 친절", image: .imgCommuBestNh70),
-
-            Board(category: "면접 합격 후기", title: "하나은행 2차 면접 후기입니다", content: "우선 대기실에 도착하면 안내 분들께서 친절", image: .imgCommuBestNh70)
+            Board(category: "면접 합격 후기", title: "하나은행 2차 면접 후기입니다", content: "우선 대기실에 도착하면 안내 분들께서 친절하게", image: .imgCommuBestNh70, writer: "문과출신", createAt: "2시간 전", likeCount: 384, commentCount: 76, views: 6546),
+            Board(category: "자유 이야기방", title: "라인 1차 합격 했는데 고민되네요...", content: "막상 합격하니 얼떨떨 하기도 하고 제가 과연...", image: .imgCommuBestNh70, writer: "파란사과", createAt: "2시간 전", likeCount: 106, commentCount: 64, views: 3485),
+            Board(category: "인턴 고민", title: "하나은행 2차 면접 후기입니다", content: "우선 대기실에 도착하면 안내 분들께서 친절", image: .imgCommuBestNh70, writer: "surf", createAt: "1시간 전", likeCount: 45, commentCount: 2, views: 1294)
         ]
     }
 }

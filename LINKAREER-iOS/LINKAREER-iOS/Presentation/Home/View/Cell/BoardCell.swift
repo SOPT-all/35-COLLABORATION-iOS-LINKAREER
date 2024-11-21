@@ -177,6 +177,11 @@ extension BoardCell {
         titleLabel.text = board.title
         contentLabel.text = board.content
         imageView.image = board.image
+        writerLabel.text = board.writer
+        createAtLabel.text = board.createAt
+        likeLabel.text = "\(board.likeCount)"
+        commentLabel.text = "\(board.commentCount)"
+        viewsLabel.text =  "\(board.views)"
     }
     
 }
