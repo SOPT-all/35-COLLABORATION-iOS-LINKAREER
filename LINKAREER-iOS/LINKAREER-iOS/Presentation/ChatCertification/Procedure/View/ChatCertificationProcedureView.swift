@@ -22,7 +22,7 @@ final class ChatCertificationProcedureView: UIView {
     
     private let passPhotoLabel = UILabel()
     private let passPhotoSubLabel = UILabel()
-    private lazy var passPhotoButton = CaptureButton()
+    lazy var passPhotoButton = CaptureButton()
     
     lazy var completeButton = UIButton()
     

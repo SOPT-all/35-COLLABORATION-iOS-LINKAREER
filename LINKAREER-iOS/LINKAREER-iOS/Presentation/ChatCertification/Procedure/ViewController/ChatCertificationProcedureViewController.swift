@@ -68,12 +68,22 @@ extension ChatCertificationProcedureViewController {
     }
     
     func setAddTarget() {
-        rootView.completeButton.addTarget(self, action: #selector(buttonDidTapped), for: .touchUpInside)
+        rootView.completeButton.addTarget(self, action: #selector(completeButtonDidTapped), for: .touchUpInside)
+        rootView.passPhotoButton.addTarget(self, action: #selector(passPhotoButtonDidTapped), for: .touchUpInside)
     }
     
-    @objc func buttonDidTapped() {
+    @objc func completeButtonDidTapped() {
         let nextViewController = ChatCertificationCompleteViewController()
         navigationController?.pushViewController(nextViewController, animated: true)
+    }
+    
+    @objc func passPhotoButtonDidTapped() {
+        rootView.passPhotoButton.setImage(.imgImgregistOrion, for: .normal)
+        rootView.passPhotoButton.setTitle("", for: .normal)
+        rootView.passPhotoButton.imageView?.contentMode = .scaleAspectFill
+        rootView.passPhotoButton.contentHorizontalAlignment = .fill
+        rootView.passPhotoButton.contentVerticalAlignment = .fill
+        rootView.passPhotoButton.imageEdgeInsets = .zero
     }
 }
 
