@@ -6,13 +6,17 @@
 //
 
 import UIKit
+import Combine
 
 import Then
 import SnapKit
 
 final class ChatCertificationProcedureViewController: UIViewController {
-
-
+    
+    private let rootView = ChatCertificationProcedureView()
+    
+    private var cancellables = Set<AnyCancellable>()
+    
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -21,7 +25,8 @@ final class ChatCertificationProcedureViewController: UIViewController {
 
         setHierarchy()
         setLayout()
-        setStyle()
+        
+        isEnabledCompleteButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -32,16 +37,40 @@ final class ChatCertificationProcedureViewController: UIViewController {
 }
 
 extension ChatCertificationProcedureViewController {
-
+    
     func setHierarchy() {
-
+        view.addSubview(rootView)
     }
-
+    
     func setLayout() {
-
+        rootView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
+    
+    func isEnabledCompleteButton() {
+        let namePublisher = rootView.nameTextField.textFieldPublisher
+            .map { !$0.isEmpty }
+        
+        let phonePublisher = rootView.phoneTextField.textFieldPublisher
+            .map { !$0.isEmpty }
+        
+        Publishers.CombineLatest(namePublisher, phonePublisher)
+            .map { $0 && $1 }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isValid in
+                guard let self = self else { return }
+                self.rootView.completeButton.isEnabled = isValid
+                self.rootView.completeButton.backgroundColor = isValid ? .lkBlue : .gray400
+            }
+            .store(in: &cancellables)
+    }
+}
 
-    func setStyle() {
-
+extension UITextField {
+    var textFieldPublisher: AnyPublisher<String, Never> {
+        NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: self)
+            .compactMap { ($0.object as? UITextField)?.text }
+            .eraseToAnyPublisher()
     }
 }

@@ -14,7 +14,7 @@ final class ChatCertificationInitialView: UIView {
     
     // MARK: - UI Components
     
-    private let titleLabel = UILabel()
+    private let titleLabel: UILabel = UILabel()
     lazy var listCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical

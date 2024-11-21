@@ -15,16 +15,16 @@ final class ChatCertificationProcedureView: UIView {
     private let titleLabel = UILabel()
     
     private let nameLabel = UILabel()
-    private let nameTextField = UITextField()
+    let nameTextField = UITextField()
     
     private let phoneLabel = UILabel()
-    private let phoneTextField = UITextField()
+    let phoneTextField = UITextField()
     
     private let passPhotoLabel = UILabel()
     private let passPhotoSubLabel = UILabel()
     private lazy var passPhotoButton = CaptureButton()
     
-    private lazy var completeButton = UIButton()
+    lazy var completeButton = UIButton()
     
     // MARK: - Init
 
