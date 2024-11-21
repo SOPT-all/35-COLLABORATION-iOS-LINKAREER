@@ -117,9 +117,9 @@ extension HomeView {
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 14)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 200, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 65, trailing: 0)
         section.orthogonalScrollingBehavior = .continuous
-        section.boundarySupplementaryItems = [self.setHeaderView()]
+        section.boundarySupplementaryItems = [self.setHeaderView(), self.setPolicyFooterView()]
         
         return section
     }
@@ -139,6 +139,12 @@ extension HomeView {
         return footer
     }
     
+    func setPolicyFooterView() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(173))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: PolicyFooterView.identifier, alignment: .bottom)
+        
+        return footer
+    }
     
     
 }
