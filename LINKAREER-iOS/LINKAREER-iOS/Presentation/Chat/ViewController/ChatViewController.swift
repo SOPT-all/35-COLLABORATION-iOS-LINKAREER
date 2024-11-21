@@ -30,6 +30,8 @@ final class ChatViewController: UIViewController {
         
         setDelegate()
         setRegister()
+        
+        defaultSelectCategoryCell()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,6 +64,12 @@ private extension ChatViewController {
                                              forCellWithReuseIdentifier: ChatListCollectionViewCell.identifier)
         
     }
+    
+    func defaultSelectCategoryCell() {
+            let indexPathToSelect = IndexPath(item: 1, section: 0)
+            rootView.categoryCollectionView.selectItem(at: indexPathToSelect, animated: false, scrollPosition: [])
+            collectionView(rootView.categoryCollectionView, didSelectItemAt: indexPathToSelect)
+        }
 }
 
 extension ChatViewController: UICollectionViewDataSource {
@@ -99,9 +107,11 @@ extension ChatViewController: UICollectionViewDelegate {
             if idx == 3 {
                 rootView.totalCountLabel.isHidden = true
                 rootView.listCollectionView.isHidden = true
+                rootView.emptyView.isHidden = false
             } else {
                 rootView.totalCountLabel.isHidden = false
                 rootView.listCollectionView.isHidden = false
+                rootView.emptyView.isHidden = true
             }
         }
         else if collectionView == rootView.listCollectionView {
