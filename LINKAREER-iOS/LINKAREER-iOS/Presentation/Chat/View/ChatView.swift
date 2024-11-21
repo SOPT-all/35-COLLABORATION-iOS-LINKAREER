@@ -15,6 +15,8 @@ final class ChatView: UIView {
     private lazy var myChatButton: UIButton = UIButton()
     private lazy var entireChatButton: UIButton = UIButton()
     
+    let totalCountLabel: UILabel = UILabel()
+    
     let categoryCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let listCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -38,7 +40,7 @@ final class ChatView: UIView {
 extension ChatView {
     
     func setHierarchy() {
-        addSubviews(myChatButton, entireChatButton, categoryCollectionView, listCollectionView)
+        addSubviews(myChatButton, entireChatButton, totalCountLabel, categoryCollectionView, listCollectionView)
     }
     
     func setLayout() {
@@ -61,8 +63,13 @@ extension ChatView {
             $0.width.equalTo(400)
         }
         
+        totalCountLabel.snp.makeConstraints {
+            $0.top.equalTo(categoryCollectionView.snp.bottom).offset(14)
+            $0.leading.equalToSuperview().inset(14)
+        }
+        
         listCollectionView.snp.makeConstraints {
-            $0.top.equalTo(categoryCollectionView.snp.bottom).offset(44)
+            $0.top.equalTo(totalCountLabel.snp.bottom).offset(14)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(520)
             $0.width.equalTo(UIScreen.main.bounds.width - 28)
@@ -84,6 +91,11 @@ extension ChatView {
             $0.backgroundColor = .clear
         }
         
+        totalCountLabel.do {
+            $0.text = "총 6개"
+            $0.font = fontStyle.label5_m_11.font()
+            $0.textColor = .gray600
+        }
         
         categoryCollectionView.do {
             let layout = UICollectionViewFlowLayout()

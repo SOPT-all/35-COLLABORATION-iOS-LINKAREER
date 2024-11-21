@@ -97,8 +97,10 @@ extension ChatViewController: UICollectionViewDelegate {
         if collectionView == rootView.categoryCollectionView {
             let idx = indexPath.item
             if idx == 3 {
+                rootView.totalCountLabel.isHidden = true
                 rootView.listCollectionView.isHidden = true
             } else {
+                rootView.totalCountLabel.isHidden = false
                 rootView.listCollectionView.isHidden = false
             }
         }
