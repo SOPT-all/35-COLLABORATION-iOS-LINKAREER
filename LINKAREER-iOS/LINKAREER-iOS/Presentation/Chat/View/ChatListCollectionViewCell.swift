@@ -15,7 +15,7 @@ final class ChatListCollectionViewCell: UICollectionViewCell {
     private let thumbnailImageView: UIImageView = UIImageView()
     
     private let firstTagLabel: UILabel = UILabel()
-    private let secondTagLabel: UILabel = UILabel()
+    let secondTagLabel: UILabel = UILabel()
     private let thirdTagLabel: UILabel = UILabel()
     private let tagStackView: UIStackView = UIStackView()
     
@@ -53,7 +53,7 @@ extension ChatListCollectionViewCell {
     func setLayout() {
         self.snp.makeConstraints {
             $0.height.equalTo(97)
-            $0.width.equalTo(347)
+            $0.width.equalTo(UIScreen.main.bounds.width - 28)
         }
       
         thumbnailImageView.snp.makeConstraints {
@@ -61,6 +61,8 @@ extension ChatListCollectionViewCell {
             $0.leading.equalToSuperview().inset(12)
             $0.size.equalTo(74)
         }
+        
+        [firstTagLabel, secondTagLabel, thirdTagLabel].forEach { $0.snp.makeConstraints { $0.height.equalTo(17) }}
         
         tagStackView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(10)
@@ -109,6 +111,8 @@ extension ChatListCollectionViewCell {
                 $0.font = fontStyle.label7_m_9.font()
                 $0.layer.cornerRadius = 4
                 $0.backgroundColor = .white
+                $0.textAlignment = .center
+                $0.clipsToBounds = true
             }
         }
         

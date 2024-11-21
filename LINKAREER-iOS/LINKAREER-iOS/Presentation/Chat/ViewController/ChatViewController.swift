@@ -84,6 +84,7 @@ extension ChatViewController: UICollectionViewDataSource {
         else if collectionView == rootView.listCollectionView {
             guard let cell = rootView.listCollectionView.dequeueReusableCell(withReuseIdentifier: ChatListCollectionViewCell.identifier, for: indexPath) as? ChatListCollectionViewCell else { return UICollectionViewCell() }
             let data = listDummy[indexPath.item]
+            if data.secondTagLabel == "" { cell.secondTagLabel.isHidden = true }
             cell.configure(data: data)
             return cell
         }

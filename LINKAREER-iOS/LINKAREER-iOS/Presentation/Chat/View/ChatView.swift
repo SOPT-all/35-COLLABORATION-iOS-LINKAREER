@@ -65,7 +65,7 @@ extension ChatView {
             $0.top.equalTo(categoryCollectionView.snp.bottom).offset(44)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(520)
-            $0.width.equalTo(347)
+            $0.width.equalTo(UIScreen.main.bounds.width - 28)
         }
     }
     
@@ -103,6 +103,7 @@ extension ChatView {
             layout.minimumLineSpacing = 8
             layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
             $0.collectionViewLayout = layout
+            $0.showsVerticalScrollIndicator = false
             $0.backgroundColor = .white
         }
     }
