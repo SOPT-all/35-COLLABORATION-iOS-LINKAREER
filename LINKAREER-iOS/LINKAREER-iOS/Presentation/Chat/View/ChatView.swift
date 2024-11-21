@@ -20,6 +20,8 @@ final class ChatView: UIView {
     let categoryCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let listCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
+    let emptyView = EmptyView()
+    
     // MARK: - Init
     
     override init(frame: CGRect) {
@@ -40,7 +42,7 @@ final class ChatView: UIView {
 extension ChatView {
     
     func setHierarchy() {
-        addSubviews(myChatButton, entireChatButton, totalCountLabel, categoryCollectionView, listCollectionView)
+        addSubviews(myChatButton, entireChatButton, totalCountLabel, categoryCollectionView, listCollectionView, emptyView)
     }
     
     func setLayout() {
@@ -73,6 +75,11 @@ extension ChatView {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(520)
             $0.width.equalTo(UIScreen.main.bounds.width - 28)
+        }
+        
+        emptyView.snp.makeConstraints {
+            $0.top.equalTo(categoryCollectionView.snp.bottom).offset(14)
+            $0.horizontalEdges.equalToSuperview().inset(14)
         }
     }
     
