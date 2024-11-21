@@ -58,6 +58,7 @@ class HomeViewController: UIViewController {
             $0.register(BoardCell.self, forCellWithReuseIdentifier: BoardCell.identifier)
             $0.register(TagHeaderView.self, forSupplementaryViewOfKind: TagHeaderView.identifier, withReuseIdentifier: TagHeaderView.identifier)
             $0.register(BottomPageControlView.self, forSupplementaryViewOfKind: BottomPageControlView.identifier, withReuseIdentifier: BottomPageControlView.identifier)
+            $0.register(PolicyFooterView.self, forSupplementaryViewOfKind: PolicyFooterView.identifier, withReuseIdentifier: PolicyFooterView.identifier)
         }
     }
     
@@ -112,6 +113,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BottomPageControlView.identifier, for: indexPath) as? BottomPageControlView else {
                 return UICollectionReusableView()
             }
+            return footer
+        } else if kind == PolicyFooterView.identifier {
+            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: PolicyFooterView.identifier, for: indexPath) as? PolicyFooterView else {
+                return UICollectionReusableView()
+            }
+            
             return footer
         } else {
             return UICollectionReusableView()
