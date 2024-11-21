@@ -10,11 +10,13 @@ import Foundation
 enum HomeSection {
     case homeBanner
     case interestBoard
+    case catecoryBoard
     case recommendRecruit
     
     static let dataSource: [HomeSection] = [
         HomeSection.homeBanner,
         HomeSection.interestBoard,
+        HomeSection.catecoryBoard,
         HomeSection.recommendRecruit
     ]
 }

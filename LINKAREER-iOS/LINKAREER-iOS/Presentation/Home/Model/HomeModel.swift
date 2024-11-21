@@ -15,7 +15,7 @@ struct HomeBanner {
     let views: Int
     let comment: Int
     let dDay: Int
-
+    
     
     static var dummyData: [HomeBanner] {
         return [
@@ -43,6 +43,17 @@ struct TagHeader {
     }
 }
 
+struct CategorySelector {
+    let title: String
+    
+    static var dummyData: [CategorySelector] {
+        return [
+            CategorySelector(title: "채용공고"),
+            CategorySelector(title: "대외활동")
+            
+        ]
+    }
+}
 struct Board {
     let category: String
     let title: String

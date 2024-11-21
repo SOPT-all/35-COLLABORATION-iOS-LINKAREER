@@ -18,6 +18,7 @@ class HomeViewController: UIViewController {
     private let dataSource: [HomeSection] = HomeSection.dataSource
     
     private var tagHeader: [TagHeader] = TagHeader.headerData
+    private var categorySelector: [CategorySelector] = CategorySelector.dummyData
     private var homeBanners: [HomeBanner] = HomeBanner.dummyData
     private var interestBoard: [Board] = Board.dummyData
     
@@ -56,6 +57,7 @@ class HomeViewController: UIViewController {
         homeView.mainCollectionView.do {
             $0.register(HomeBannerCell.self, forCellWithReuseIdentifier: HomeBannerCell.identifier)
             $0.register(BoardCell.self, forCellWithReuseIdentifier: BoardCell.identifier)
+            $0.register(CategorySelectorCell.self, forCellWithReuseIdentifier: CategorySelectorCell.identifier)
             $0.register(TagHeaderView.self, forSupplementaryViewOfKind: TagHeaderView.identifier, withReuseIdentifier: TagHeaderView.identifier)
             $0.register(BottomPageControlView.self, forSupplementaryViewOfKind: BottomPageControlView.identifier, withReuseIdentifier: BottomPageControlView.identifier)
             $0.register(PolicyFooterView.self, forSupplementaryViewOfKind: PolicyFooterView.identifier, withReuseIdentifier: PolicyFooterView.identifier)
@@ -74,6 +76,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         switch dataSource[section] {
         case .homeBanner:
             return homeBanners.count
+        case .catecoryBoard:
+            return categorySelector.count
         case .interestBoard:
             return interestBoard.count
         case .recommendRecruit:
@@ -90,7 +94,15 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let banner = homeBanners[indexPath.row]
             cell.configure(with: banner)
             return cell
+        case .catecoryBoard:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategorySelectorCell.identifier, for: indexPath) as? CategorySelectorCell else {
+                fatalError("Unable to dequeue CategorySelectorCell")
+            }
+            let category = categorySelector[indexPath.row]
             
+            let isSelected = indexPath.row == 0 
+            cell.configure(with: category, isSelected: isSelected)
+            return cell
         case .interestBoard, .recommendRecruit:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCell.identifier, for: indexPath) as? BoardCell else {
                 fatalError("Unable to dequeue BoardCell")

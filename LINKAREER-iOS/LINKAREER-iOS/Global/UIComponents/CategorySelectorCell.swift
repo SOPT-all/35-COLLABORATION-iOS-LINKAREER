@@ -55,3 +55,22 @@ final class CategorySelectorCell: UICollectionViewCell {
         }
     }
 }
+
+extension CategorySelectorCell {
+    
+    func configure(with category: CategorySelector, isSelected: Bool) {
+        categoryLabel.text = category.title
+        updateSelectionState(isSelectedCell: isSelected)
+    }
+    
+    func updateSelectionState(isSelectedCell: Bool) {
+        if isSelectedCell {
+            self.backgroundColor = .lkBlue
+            categoryLabel.textColor = .lkWhite
+        } else {
+            self.backgroundColor = .gray300 
+            categoryLabel.textColor = .gray900
+        }
+    }
+
+}
