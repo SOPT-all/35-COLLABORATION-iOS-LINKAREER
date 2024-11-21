@@ -27,6 +27,7 @@ final class ChatCertificationProcedureViewController: UIViewController {
         setLayout()
         
         isEnabledCompleteButton()
+        setAddTarget()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +65,15 @@ extension ChatCertificationProcedureViewController {
                 self.rootView.completeButton.backgroundColor = isValid ? .lkBlue : .gray400
             }
             .store(in: &cancellables)
+    }
+    
+    func setAddTarget() {
+        rootView.completeButton.addTarget(self, action: #selector(buttonDidTapped), for: .touchUpInside)
+    }
+    
+    @objc func buttonDidTapped() {
+        let nextViewController = ChatCertificationCompleteViewController()
+        navigationController?.pushViewController(nextViewController, animated: true)
     }
 }
 

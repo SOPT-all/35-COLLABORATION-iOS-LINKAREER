@@ -27,6 +27,7 @@ final class ChatCertificationInitialViewController: UIViewController {
         
         setDelegate()
         setRegister()
+        setAddTarget()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,6 +54,15 @@ private extension ChatCertificationInitialViewController {
     func setRegister() {
         rootView.listCollectionView.register(ChatCertificationInitialCell.self,
                                              forCellWithReuseIdentifier: ChatCertificationInitialCell.identifier)
+    }
+    
+    func setAddTarget() {
+        rootView.confirmButton.addTarget(self, action: #selector(buttonDidTapped), for: .touchUpInside)
+    }
+    
+    @objc func buttonDidTapped() {
+        let nextViewController = ChatCertificationProcedureViewController()
+        navigationController?.pushViewController(nextViewController, animated: true)
     }
 }
 
