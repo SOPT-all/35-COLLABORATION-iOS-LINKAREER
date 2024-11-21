@@ -61,11 +61,13 @@ final class BoardCell: UICollectionViewCell {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(benefitTagButton.snp.bottom).offset(8)
             $0.leading.equalTo(benefitTagButton)
+            $0.trailing.equalTo(imageView.snp.leading).offset(-20)
         }
         
         contentLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
             $0.leading.equalTo(titleLabel)
+            $0.trailing.equalTo(imageView.snp.leading).offset(-20)
         }
         
         imageView.snp.makeConstraints {
@@ -128,11 +130,11 @@ final class BoardCell: UICollectionViewCell {
         }
         
         titleLabel.do {
-            $0.setLabel(textColor: .gray900, font: fontStyle.title3_b_16.font())
+            $0.setLabel(alignment: .left, numberOfLines: 1, textColor: .gray900, font: fontStyle.title3_b_16.font())
         }
         
         contentLabel.do {
-            $0.setLabel(textColor: .gray800, font: fontStyle.body11_r_13.font())
+            $0.setLabel(alignment: .left, numberOfLines: 1, textColor: .gray800, font: fontStyle.body11_r_13.font())
         }
         
         imageView.do {
