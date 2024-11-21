@@ -68,13 +68,11 @@ class TagHeaderView: UICollectionReusableView {
     
     func setStyle() {
         nickNameLabel.do {
-            $0.font = fontStyle.title1_b_18.font()
-            $0.textColor = .lkBlue
+            $0.setLabel(textColor: .lkBlue, font: fontStyle.title1_b_18.font())
         }
         
         titleLabel.do {
-            $0.font = fontStyle.title1_b_18.font()
-            $0.textColor = .lkBlack
+            $0.setLabel(textColor: .lkBlack, font: fontStyle.title1_b_18.font())
         }
         
         tagStackView.do {
@@ -85,8 +83,7 @@ class TagHeaderView: UICollectionReusableView {
         }
         
         descriptionLabel.do {
-            $0.font = fontStyle.label7_m_9.font()
-            $0.textColor = .gray600
+            $0.setLabel(textColor: .gray600, font: fontStyle.label7_m_9.font())
         }
         
         moreButton.do {

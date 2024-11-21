@@ -111,9 +111,7 @@ final class HomeBannerCell: UICollectionViewCell {
         }
         
         titleLabel.do {
-            $0.font = fontStyle.body2_b_14.font()
-            $0.textColor = .gray900
-            $0.textAlignment = .left
+            $0.setLabel(alignment: .left, textColor: .gray900, font: fontStyle.body2_b_14.font())
         }
         
         benefitTagButton.do {
@@ -126,13 +124,11 @@ final class HomeBannerCell: UICollectionViewCell {
         }
         
         viewsLabel.do {
-            $0.font = fontStyle.label7_m_9.font()
-            $0.textColor = .gray600
+            $0.setLabel(textColor: .gray600, font: fontStyle.label7_m_9.font())
         }
         
         commentLabel.do {
-            $0.font = fontStyle.label7_m_9.font()
-            $0.textColor = .gray600
+            $0.setLabel(textColor: .gray600, font: fontStyle.label7_m_9.font())
         }
     }
 }

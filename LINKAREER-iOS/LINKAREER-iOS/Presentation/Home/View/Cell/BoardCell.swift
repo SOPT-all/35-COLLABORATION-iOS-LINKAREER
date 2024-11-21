@@ -128,13 +128,11 @@ final class BoardCell: UICollectionViewCell {
         }
         
         titleLabel.do {
-            $0.font = fontStyle.title3_b_16.font()
-            $0.textColor = .gray900
+            $0.setLabel(textColor: .gray900, font: fontStyle.title3_b_16.font())
         }
         
         contentLabel.do {
-            $0.font = fontStyle.body11_r_13.font()
-            $0.textColor = .gray800
+            $0.setLabel(textColor: .gray800, font: fontStyle.body11_r_13.font())
         }
         
         imageView.do {
@@ -143,33 +141,28 @@ final class BoardCell: UICollectionViewCell {
         }
         
         writerLabel.do {
+            $0.setLabel(textColor: .gray600, font: fontStyle.label5_m_11.font())
             $0.text = "문과출신"
-            $0.font = fontStyle.label5_m_11.font()
-            $0.textColor = .gray600
         }
         
         createAtLabel.do {
+            $0.setLabel(textColor: .gray600, font: fontStyle.label5_m_11.font())
             $0.text = "2시간 전"
-            $0.font = fontStyle.label5_m_11.font()
-            $0.textColor = .gray600
         }
         
         likeLabel.do {
             $0.text = "245"
-            $0.font = fontStyle.label5_m_11.font()
-            $0.textColor = .gray600
+            $0.setLabel(textColor: .gray600, font: fontStyle.label5_m_11.font())
         }
         
         commentLabel.do {
             $0.text = "64"
-            $0.font = fontStyle.label5_m_11.font()
-            $0.textColor = .gray600
+            $0.setLabel(textColor: .gray600, font: fontStyle.label5_m_11.font())
         }
         
         viewsLabel.do {
             $0.text = "6546"
-            $0.font = fontStyle.label5_m_11.font()
-            $0.textColor = .gray600
+            $0.setLabel(textColor: .gray600, font: fontStyle.label5_m_11.font())
         }
         
         lineView.backgroundColor = .gray300
