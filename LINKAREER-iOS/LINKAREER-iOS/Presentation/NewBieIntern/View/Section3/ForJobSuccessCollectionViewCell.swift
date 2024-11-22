@@ -19,21 +19,21 @@ class ForJobSuccessCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupHierarchy()
-        setupLayout()
+        setHierarchy()
+        setLayout()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupHierarchy()
-        setupLayout()
+        setHierarchy()
+        setLayout()
     }
     
-    private func setupHierarchy() {
+    private func setHierarchy() {
         contentView.addSubviews(headerView, firstCard, secondCard, thirdCard)
     }
     
-    private func setupLayout() {
+    private func setLayout() {
         
         headerView.snp.makeConstraints {
             $0.top.leading.equalToSuperview()

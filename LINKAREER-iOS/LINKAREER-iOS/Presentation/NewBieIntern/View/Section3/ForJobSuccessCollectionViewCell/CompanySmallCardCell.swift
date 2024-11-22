@@ -79,7 +79,6 @@ class CompanySmallCardView: UIView {
             $0.top.equalTo(headLabel.snp.bottom).offset(2)
             $0.leading.equalTo(headLabel.snp.leading)
             $0.trailing.equalTo(boxView.snp.trailing).offset(-30)
-            
         }
         
         iconView.snp.makeConstraints{
