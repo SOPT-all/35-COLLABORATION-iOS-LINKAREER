@@ -36,7 +36,7 @@ class HomeView: UIView {
     
     
     func setHierarchy() {
-        self.addSubviews(mainCollectionView)
+        self.addSubview(mainCollectionView)
     }
     
     func setLayout() {
