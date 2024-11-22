@@ -110,7 +110,7 @@ extension TagHeaderView {
 
         headerData.tags.forEach { tag in
             let tagButton: UIButton = UIButton()
-            
+    
             tagButton.do {
                 $0.setTitle(tag, for: .normal)
                 $0.titleLabel?.font = fontStyle.label7_m_9.font()
@@ -123,12 +123,13 @@ extension TagHeaderView {
                 $0.contentEdgeInsets = UIEdgeInsets(top: 2, left: 6, bottom: 2, right: 6)
             }
             
+            tagStackView.addArrangedSubview(tagButton)
+            
             tagButton.snp.makeConstraints {
                 $0.height.equalTo(17)
                 $0.width.greaterThanOrEqualTo(50)
             }
             
-            tagStackView.addArrangedSubview(tagButton)
         }
     }
 }

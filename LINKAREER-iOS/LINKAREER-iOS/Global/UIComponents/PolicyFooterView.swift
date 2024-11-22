@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class PolicyFooterView: UICollectionReusableView {
+final class PolicyFooterView: UICollectionReusableView {
     
     // MARK: - UI Properties
     
