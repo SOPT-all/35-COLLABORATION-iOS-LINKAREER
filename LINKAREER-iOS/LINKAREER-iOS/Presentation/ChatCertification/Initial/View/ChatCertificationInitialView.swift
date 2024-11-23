@@ -14,7 +14,7 @@ final class ChatCertificationInitialView: UIView {
     
     // MARK: - UI Components
     
-    private let titleLabel = UILabel()
+    private let titleLabel: UILabel = UILabel()
     lazy var listCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -22,7 +22,7 @@ final class ChatCertificationInitialView: UIView {
         layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width - 40, height: 80)
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
-    private let confirmButton = UIButton()
+    let confirmButton = UIButton()
     
     // MARK: - Init
     
