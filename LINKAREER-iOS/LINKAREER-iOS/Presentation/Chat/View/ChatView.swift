@@ -80,6 +80,7 @@ extension ChatView {
         emptyView.snp.makeConstraints {
             $0.top.equalTo(categoryCollectionView.snp.bottom).offset(14)
             $0.horizontalEdges.equalToSuperview().inset(14)
+            $0.height.equalTo(52)
         }
     }
     
