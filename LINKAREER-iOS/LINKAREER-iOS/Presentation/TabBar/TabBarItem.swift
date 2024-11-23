@@ -63,15 +63,15 @@ enum TabBarItem: CaseIterable {
     var targetViewController: UIViewController {
         switch self {
         case .menu:
-            return ViewController()
+            return HomeViewController()
         case .community:
-            return ViewController()
+            return HomeViewController()
         case .home:
-            return ViewController()
+            return HomeViewController()
         case .calendar:
-            return ViewController()
+            return HomeViewController()
         case .chat:
-            return ChatCertificationInitialViewController()
+            return UINavigationController(rootViewController: ChatCertificationInitialViewController())
         }
     }
 }
