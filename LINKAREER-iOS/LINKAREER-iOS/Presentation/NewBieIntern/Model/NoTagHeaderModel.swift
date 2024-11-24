@@ -18,7 +18,7 @@ struct NoTagHeaderModelData {
     
     static let shared = NoTagHeaderModelData()
     
-    let title1 = NoTagHeaderModel(nickname: "앤솝",title: "님이 관심 있을만한 공고")
-    let title2 = NoTagHeaderModel(nickname: "앤솝",title: "님과 같은 관심사를 가진 사람들")
-    let title3 = NoTagHeaderModel(nickname: "앤솝",title: "님에게 추천하는 공고")
+    let title1 = NoTagHeaderModel(nickname: "실시간",title: "UX/UI 인기 공고 모아보기")
+    let title2 = NoTagHeaderModel(nickname: "UX/UI",title: "직무 기업별 합격 가이드")
+
 }

@@ -15,8 +15,12 @@ class NewbieInternViewController: UIViewController {
     
     private let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    private var horizontalScrollData: [CompanyDayCardModel] = [] // Section2
+    private var companyDayData: [CompanyDayCardModel] = [] // Section2
     private var jobSuccessData: [SectionTitleModel] = [] // Section 3
+    private var jobGuideData: [CompanyBigCardDataModel] = [] // Section 4
+
+    private var noTagTitleData: NoTagHeaderModel?
+    
     private var otherSectionData: [String] = [] // 더미 데이터
     
     override func viewDidLoad() {
@@ -52,6 +56,7 @@ class NewbieInternViewController: UIViewController {
     private func setRegister() {
         collectionView.register(CompanyHorizontalScrollCollectionViewCell.self, forCellWithReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier)
         collectionView.register(JobSuccessCollectionViewCell.self, forCellWithReuseIdentifier: JobSuccessCollectionViewCell.identifier)
+        collectionView.register(JobCompanyGuideViewCell.self, forCellWithReuseIdentifier: JobCompanyGuideViewCell.identifier)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
     }
     
@@ -70,10 +75,14 @@ extension NewbieInternViewController {
     //임시 데이터
     private func fetchData() {
         // 섹션 2
-        horizontalScrollData = CompanyDayCardModelData.shared.allCard
+        companyDayData = CompanyDayCardModelData.shared.allCard
         
         // 섹션 3
         jobSuccessData = SectionTitleModelData.shared.allSections
+        
+        // 섹션 4
+        noTagTitleData = NoTagHeaderModelData.shared.title2
+        jobGuideData = CompanyBigCardDataModelData.shared.allCellData
         
         // 더미
         otherSectionData = (1...5).map { "더미 데이터 \($0)" }
@@ -84,7 +93,7 @@ extension NewbieInternViewController {
 extension NewbieInternViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3 //임시 섹션 3개
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -98,6 +107,8 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         case 1:
             return configureJobSuccessCell(for: collectionView, at: indexPath)
         case 2:
+            return configureJobCompanyGuideCell(for: collectionView, at: indexPath)
+        case 3:
             return configureDummyCell(for: collectionView, at: indexPath)
         default:
             return UICollectionViewCell()
@@ -112,6 +123,8 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         case 1:
             return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width)
         case 2:
+            return CGSize(width: collectionView.bounds.width, height: 700)
+        case 3:
             return CGSize(width: collectionView.bounds.width, height: 50)
         default:
             return .zero
@@ -123,10 +136,9 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
             withReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier,
             for: indexPath
         ) as! CompanyHorizontalScrollCollectionViewCell
-        cell.configure(with: horizontalScrollData) // 데이터를 주입
+        cell.configure(with: companyDayData) // 데이터를 주입
         return cell
     }
-    
     
     private func configureJobSuccessCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
@@ -137,6 +149,19 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         let dummyData = SectionTitleModelData.shared.allSections
         cell.configure(with: dummyData)
         
+        return cell
+    }
+    
+    private func configureJobCompanyGuideCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: JobCompanyGuideViewCell.identifier,
+            for: indexPath
+        ) as! JobCompanyGuideViewCell
+        
+        let dummyData = CompanyBigCardDataModelData.shared.allCellData
+        let dummyTitleData = NoTagHeaderModelData.shared.title2
+        cell.configure(with: dummyData, noTagHeaderData: dummyTitleData)
+
         return cell
     }
     
