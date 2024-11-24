@@ -71,10 +71,16 @@ class CertificationPopUpView: UIView {
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor.gray200.cgColor
         }
+        
         certificationButton.do {
-            $0.setTitle("합불인증", for: .normal)
-            $0.titleLabel?.font = fontStyle.body9_m_12.font()
-            $0.setTitleColor(.lkBlue, for: .normal)
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: fontStyle.body9_m_12.font(),
+                .foregroundColor: UIColor.lkBlue,
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+            
+            let attributedTitle = NSAttributedString(string: "합불인증", attributes: attributes)
+            $0.setAttributedTitle(attributedTitle, for: .normal)
         }
         
         subLabel.do {
