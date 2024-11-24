@@ -80,7 +80,6 @@ private extension ChattingRoomViewController {
     
     @objc
     func closeButtonDidTap() {
-        print("눌림?")
         chattingRoomView.certificationPopUpView.removeFromSuperview()
     }
     
