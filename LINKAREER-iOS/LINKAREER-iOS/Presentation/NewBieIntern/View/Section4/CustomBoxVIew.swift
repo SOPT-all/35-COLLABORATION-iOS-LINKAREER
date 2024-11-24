@@ -11,8 +11,8 @@ import Then
 // for CompanyBigCardCell
 class CustomBoxView: UIView {
     
-    private let titleLabel = UILabel()
-    private let pointLabel = UILabel()
+    private let titleLabel: UILabel = UILabel()
+    private let pointLabel: UILabel = UILabel()
     
     init(title: String) {
         super.init(frame: .zero)
