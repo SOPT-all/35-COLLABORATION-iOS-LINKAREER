@@ -16,6 +16,7 @@ class CustomBoxView: UIView {
     
     init(title: String) {
         super.init(frame: .zero)
+        setHierarchy()
         setLayout()
         setStyle()
         titleLabel.text = title
@@ -39,10 +40,12 @@ class CustomBoxView: UIView {
         }
     }
     
-    private func setLayout() {
-        
+    private func setHierarchy() {
         addSubviews(titleLabel, pointLabel)
-        
+    }
+    
+    private func setLayout() {
+                
         pointLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.centerX.equalToSuperview()

@@ -19,7 +19,7 @@ class JobCompanyGuideViewCell: UICollectionViewCell {
     
     private var data: [CompanyBigCardDataModel] = []
     private var noTagHeader: NoTagHeaderModel?
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -50,6 +50,7 @@ class JobCompanyGuideViewCell: UICollectionViewCell {
     }
     
     private func setStyle() {
+        /// if let을 한 이유가 상단 collectionView를 정의한 타입이 UICollectionViewFlowLayout 이기 때문에 layout 작업을 위해 as? UICollectionViewLayout로 타입 처리를 하는데, 오류처리로 if let을 했습니다!
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.itemSize = CGSize(width: collectionView.bounds.width, height: 150)
             layout.minimumLineSpacing = 8
@@ -58,7 +59,7 @@ class JobCompanyGuideViewCell: UICollectionViewCell {
         }
         collectionView.backgroundColor = .clear
     }
-
+    
     private func registerCell() {
         collectionView.register(
             CompanyBigCardCell.self,
@@ -70,6 +71,9 @@ class JobCompanyGuideViewCell: UICollectionViewCell {
             withReuseIdentifier: NoTagHeaderView.identifier
         )
     }
+}
+
+extension JobCompanyGuideViewCell{
     
     func configure(with CompanyBigCardData: [CompanyBigCardDataModel], noTagHeaderData: NoTagHeaderModel) {
         self.data = CompanyBigCardData
@@ -100,14 +104,7 @@ extension JobCompanyGuideViewCell: UICollectionViewDataSource, UICollectionViewD
         }
         
         let sectionData = data[indexPath.row]
-        cell.configure(
-            companyImage: sectionData.companyImage,
-            companyName: sectionData.companyName,
-            profileCraftPoint: sectionData.profileCraftPoint,
-            aptitudeCheckPoint: sectionData.aptitudeCheckPoint,
-            interviewPassPoint: sectionData.interviewPassPoint,
-            finalSealPoint: sectionData.finalSealPoint
-        )
+        cell.configure(with: sectionData)
         return cell
     }
     

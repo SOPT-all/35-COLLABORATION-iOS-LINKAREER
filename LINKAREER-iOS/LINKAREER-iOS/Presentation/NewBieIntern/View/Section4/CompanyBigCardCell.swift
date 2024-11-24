@@ -176,48 +176,13 @@ class CompanyBigCardCell: UICollectionViewCell {
 
 extension CompanyBigCardCell{
     func configure(
-        companyImage: UIImage?,
-        companyName: String,
-        profileCraftPoint: String,
-        aptitudeCheckPoint: String,
-        interviewPassPoint: String,
-        finalSealPoint: String
+        with model: CompanyBigCardDataModel
     ) {
-        companyImageView.image = companyImage
-        companyNameLabel.text = companyName
-        profileCraftBox.configure(profileCraftPoint)
-        aptitudeCheckBox.configure(aptitudeCheckPoint)
-        interviewPassBox.configure(interviewPassPoint)
-        finalSealBox.configure(finalSealPoint)
-    }
-}
-
-
-/// Preview
-
-struct CompanyBigCardCellPreview: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIView {
-        
-        let cell = CompanyBigCardCell()
-        cell.configure(
-            companyImage: UIImage(resource: .imgCompanypassLgcns54),
-            companyName: "LG",
-            profileCraftPoint: "85",
-            aptitudeCheckPoint: "90",
-            interviewPassPoint: "95",
-            finalSealPoint: "100"
-        )
-        cell.frame = CGRect(x: 0, y: 0, width: 375, height: 148)
-        return cell
-    }
-    
-    func updateUIView(_ uiView: UIView, context: Context) {}
-}
-
-struct CompanyBigCardCellPreview_Previews: PreviewProvider {
-    static var previews: some View {
-        CompanyBigCardCellPreview()
-            .previewLayout(.sizeThatFits)
-            .padding()
+        companyImageView.image = model.companyImage
+        companyNameLabel.text = model.companyName
+        profileCraftBox.configure(model.profileCraftPoint)
+        aptitudeCheckBox.configure(model.aptitudeCheckPoint)
+        interviewPassBox.configure(model.interviewPassPoint)
+        finalSealBox.configure(model.finalSealPoint)
     }
 }

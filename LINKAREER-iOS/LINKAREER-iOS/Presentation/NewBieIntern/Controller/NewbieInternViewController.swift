@@ -19,8 +19,8 @@ class NewbieInternViewController: UIViewController {
     private var jobSuccessData: [SectionTitleModel] = [] // Section 3
     private var jobGuideData: [CompanyBigCardDataModel] = [] // Section 4
 
-    private var noTagTitleData: NoTagHeaderModel?
-    private var tagTitleData: TagHeader?
+    private var noTagTitleData: NoTagHeaderModel? // Section 2의 header
+    private var tagTitleData: TagHeader? // Section 3의 header
 
     private var otherSectionData: [String] = [] // 더미 데이터
     
