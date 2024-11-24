@@ -100,8 +100,6 @@ class CompanyBigCardCell: UICollectionViewCell {
         
         boxView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.width.equalTo(347)
-            $0.height.equalTo(148)
         }
         
         companyImageView.snp.makeConstraints {
@@ -126,37 +124,37 @@ class CompanyBigCardCell: UICollectionViewCell {
             $0.height.equalTo(1)
         }
         
-        profileCraftBox.snp.makeConstraints{
-            $0.top.equalTo(horizontalSeparator.snp.bottom).offset(14)
-            $0.leading.equalTo(boxView.snp.leading).offset(12)
-            $0.width.equalTo(80)
-            $0.height.equalTo(54)
-        }
-        
-        separatorLeft.snp.makeConstraints{
+        separatorCenter.snp.makeConstraints{
             $0.top.equalTo(horizontalSeparator.snp.bottom).offset(15)
-            $0.leading.equalTo(profileCraftBox.snp.trailing).offset(1)
+            $0.centerX.equalToSuperview()
             $0.bottom.equalTo(boxView.snp.bottom).offset(-19)
         }
         
         aptitudeCheckBox.snp.makeConstraints{
             $0.top.equalTo(horizontalSeparator.snp.bottom).offset(14)
-            $0.leading.equalTo(separatorLeft.snp.trailing).offset(1)
-            $0.width.equalTo(80)
+            $0.trailing.equalTo(separatorCenter.snp.trailing).offset(-1)
+            $0.width.equalTo(85)
             $0.height.equalTo(54)
         }
-        
-        separatorCenter.snp.makeConstraints{
+    
+        separatorLeft.snp.makeConstraints{
             $0.top.equalTo(horizontalSeparator.snp.bottom).offset(15)
-            $0.leading.equalTo(aptitudeCheckBox.snp.trailing).offset(1)
+            $0.trailing.equalTo(aptitudeCheckBox.snp.leading).offset(-1)
             $0.bottom.equalTo(boxView.snp.bottom).offset(-19)
+        }
+        
+        profileCraftBox.snp.makeConstraints{
+            $0.top.equalTo(horizontalSeparator.snp.bottom).offset(14)
+            $0.trailing.equalTo(separatorLeft.snp.leading).offset(-1)
+            $0.width.equalTo(85)
+            $0.height.equalTo(54)
         }
         
         interviewPassBox.snp.makeConstraints{
             $0.top.equalTo(horizontalSeparator.snp.bottom).offset(15)
             $0.leading.equalTo(separatorCenter.snp.trailing).offset(1)
             $0.bottom.equalTo(boxView.snp.bottom).offset(-19)
-            $0.width.equalTo(80)
+            $0.width.equalTo(85)
             $0.height.equalTo(54)
         }
         
@@ -170,7 +168,7 @@ class CompanyBigCardCell: UICollectionViewCell {
             $0.top.equalTo(horizontalSeparator.snp.bottom).offset(15)
             $0.leading.equalTo(separatorRight.snp.trailing).offset(1)
             $0.bottom.equalTo(boxView.snp.bottom).offset(-19)
-            $0.width.equalTo(80)
+            $0.width.equalTo(85)
             $0.height.equalTo(54)
         }
     }

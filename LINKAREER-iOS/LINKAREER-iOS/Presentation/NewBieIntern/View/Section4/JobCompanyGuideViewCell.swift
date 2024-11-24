@@ -41,8 +41,6 @@ class JobCompanyGuideViewCell: UICollectionViewCell {
     private func setLayout() {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.width.equalTo(347)
-            $0.height.equalTo(520)
         }
     }
     
@@ -53,9 +51,9 @@ class JobCompanyGuideViewCell: UICollectionViewCell {
     
     private func setStyle() {
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.itemSize = CGSize(width: 347, height: 150)
+            layout.itemSize = CGSize(width: collectionView.bounds.width, height: 150)
             layout.minimumLineSpacing = 8
-            layout.headerReferenceSize = CGSize(width: 347, height: 50)
+            layout.headerReferenceSize = CGSize(width: collectionView.bounds.width, height: 50)
             
         }
         collectionView.backgroundColor = .clear
@@ -113,13 +111,17 @@ extension JobCompanyGuideViewCell: UICollectionViewDataSource, UICollectionViewD
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+          return CGSize(width: collectionView.bounds.width, height: 150)
+      }
+    
     // 헤더 크기 설정
        func collectionView(
            _ collectionView: UICollectionView,
            layout collectionViewLayout: UICollectionViewLayout,
            referenceSizeForHeaderInSection section: Int
        ) -> CGSize {
-           return CGSize(width: 347, height: 50)
+           return CGSize(width: collectionView.bounds.width, height: 50)
        }
     
     // 섹션의 패딩
