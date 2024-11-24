@@ -72,7 +72,7 @@ class NoTagHeaderView: UICollectionReusableView {
 
 extension NoTagHeaderView {
     
-    func configure(noTagHeaderData: NoTagHeader) {
+    func configure(noTagHeaderData: NoTagHeaderModel) {
         nickNameLabel.text = noTagHeaderData.nickname
         titleLabel.text = noTagHeaderData.title
     }
@@ -85,7 +85,7 @@ struct NoTagHeaderViewPreview: UIViewRepresentable {
         let view = NoTagHeaderView()
         
         // 샘플 데이터 설정
-        let sampleData = NoTagHeader(nickname: "앤솝", title: "님이 관심 있을만한 공고")
+        let sampleData = NoTagHeaderModel(nickname: "앤솝", title: "님이 관심 있을만한 공고")
         view.configure(noTagHeaderData: sampleData)
         
         return view

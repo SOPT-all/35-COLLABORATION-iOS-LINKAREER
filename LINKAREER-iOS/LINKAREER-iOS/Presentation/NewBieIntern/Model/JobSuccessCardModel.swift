@@ -7,21 +7,22 @@
 
 import UIKit
 
-struct SectionTitleModel {
-    let title: String
-    let items1: [JobSuccessCardModel]
-    let items2: [JobSuccessCardModel]
-    let items3: [JobSuccessCardModel]
-}
-
 struct JobSuccessCardModel {
     let iconImage: UIImage
     let head: String
     let boldText: String
 }
 
-struct JobSuccessDummyData {
-    static let shared = JobSuccessDummyData()
+struct SectionTitleModel {
+    let title: String
+    let items1: [JobSuccessCardModel]
+    let items2: [JobSuccessCardModel]
+    let items3: [JobSuccessCardModel]
+}
+//api
+struct SectionTitleModelData {
+    
+    static let shared = SectionTitleModelData()
     
     let section1 = SectionTitleModel(
         title: "합격후기",

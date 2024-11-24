@@ -15,10 +15,10 @@ struct CompanyBigCardDataModel {
     let interviewPassPoint: String
     let finalSealPoint: String
 }
-
-struct CompanyBigCardData {
+//api
+struct CompanyBigCardDataModelData {
     
-    static let shared = CompanyBigCardData()
+    static let shared = CompanyBigCardDataModelData()
     
     let cell1 = CompanyBigCardDataModel(
         companyImage: UIImage(resource: .imgCommuBestNh70),

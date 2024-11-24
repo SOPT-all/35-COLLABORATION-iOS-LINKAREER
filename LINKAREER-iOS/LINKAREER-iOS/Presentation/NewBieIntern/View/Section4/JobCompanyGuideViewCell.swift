@@ -18,7 +18,7 @@ class JobCompanyGuideViewCell: UICollectionViewCell {
     )
     
     private var data: [CompanyBigCardDataModel] = []
-    private var noTagHeader: NoTagHeader?
+    private var noTagHeader: NoTagHeaderModel?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -70,8 +70,8 @@ class JobCompanyGuideViewCell: UICollectionViewCell {
         )
     }
     
-    func configure(with sections: [CompanyBigCardDataModel], noTagHeaderData: NoTagHeader) {
-        self.data = sections
+    func configure(with CompanyBigCardData: [CompanyBigCardDataModel], noTagHeaderData: NoTagHeaderModel) {
+        self.data = CompanyBigCardData
         self.noTagHeader = noTagHeaderData
         collectionView.reloadData()
     }
@@ -146,8 +146,8 @@ struct JobCompanyGuideViewCellPreview: UIViewRepresentable {
     func makeUIView(context: Context) -> JobCompanyGuideViewCell {
         let view = JobCompanyGuideViewCell(frame: .init(x: 0, y: 0, width: 1000, height: 1000))
         
-        let dummyData = CompanyBigCardData.shared.allCellData
-        let headerData = NoTagHeader(nickname: "앤솝", title: "님이 관심 있을만한 공고")
+        let dummyData = CompanyBigCardDataModelData.shared.allCellData
+        let headerData = NoTagHeaderModel(nickname: "앤솝", title: "님이 관심 있을만한 공고")
         
         view.configure(with: dummyData, noTagHeaderData: headerData)
         

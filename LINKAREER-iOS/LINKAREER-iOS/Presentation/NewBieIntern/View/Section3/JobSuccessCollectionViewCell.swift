@@ -112,7 +112,7 @@ struct JobSuccessCollectionViewPreview: UIViewRepresentable {
     func makeUIView(context: Context) -> JobSuccessCollectionViewCell {
         let view = JobSuccessCollectionViewCell(frame: .init(x: 0, y: 0, width: 555, height: 700))
         
-        let dummyData = JobSuccessDummyData.shared.allSections
+        let dummyData = SectionTitleModelData.shared.allSections
         view.configure(with: dummyData)
         
         return view

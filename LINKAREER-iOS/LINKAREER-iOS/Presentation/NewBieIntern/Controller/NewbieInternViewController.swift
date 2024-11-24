@@ -15,7 +15,7 @@ class NewbieInternViewController: UIViewController {
     
     private let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    private var horizontalScrollData: [CompanyDayCardDataModel] = [] // Section2
+    private var horizontalScrollData: [CompanyDayCardModel] = [] // Section2
     private var jobSuccessData: [SectionTitleModel] = [] // Section 3
     private var otherSectionData: [String] = [] // 더미 데이터
     
@@ -69,20 +69,13 @@ extension NewbieInternViewController {
     
     //임시 데이터
     private func fetchData() {
-        horizontalScrollData = (1...10).map { i in
-            CompanyDayCardDataModel(
-                day: "\(i)",
-                image: UIImage(named: "img_hotofficial_ibk_142") ?? UIImage(systemName: "photo")!,
-                buttonTitle: "지원하기",
-                companyName: "회사 \(i)",
-                title: "2025년 채용 공고 \(i)",
-                category: "정규직",
-                viewCount: 1000 + i * 10,
-                commentCount: i * 2
-            )
-        }
+        // 섹션 2
+        horizontalScrollData = CompanyDayCardModelData.shared.allCard
+        
         // 섹션 3
-        jobSuccessData = JobSuccessDummyData.shared.allSections
+        jobSuccessData = SectionTitleModelData.shared.allSections
+        
+        // 더미
         otherSectionData = (1...5).map { "더미 데이터 \($0)" }
         collectionView.reloadData()
     }
@@ -141,7 +134,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
             for: indexPath
         ) as! JobSuccessCollectionViewCell
         
-        let dummyData = JobSuccessDummyData.shared.allSections
+        let dummyData = SectionTitleModelData.shared.allSections
         cell.configure(with: dummyData)
         
         return cell

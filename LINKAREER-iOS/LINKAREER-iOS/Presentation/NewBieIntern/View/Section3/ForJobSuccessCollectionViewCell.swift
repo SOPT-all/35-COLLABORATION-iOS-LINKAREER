@@ -102,7 +102,7 @@ struct ForJobSuccessCollectionViewCellPreview: UIViewRepresentable {
         let cell = ForJobSuccessCollectionViewCell(frame: CGRect(x: 0, y: 0, width: 375, height: 200))
         
     
-        let dummyData = JobSuccessDummyData.shared.section1
+        let dummyData = SectionTitleModelData.shared.section1
         
         cell.configure(with: dummyData)
         return cell
