@@ -66,33 +66,38 @@ class ForJobSuccessCollectionViewCell: UICollectionViewCell {
 extension ForJobSuccessCollectionViewCell {
     
     func configure(with model: SectionTitleModel) {
+
         headerView.configure(title: model.title)
         
-        if let firstItem = model.items1.first {
-            firstCard.configure(
+        if let firstItem = model.fisrtItems.first {
+            let cardModel = JobSuccessCardModel(
                 iconImage: firstItem.iconImage,
                 head: firstItem.head,
                 boldText: firstItem.boldText
             )
+            firstCard.configure(with: cardModel)
         }
         
-        if let secondItem = model.items2.first {
-            secondCard.configure(
+        if let secondItem = model.secondItems.first {
+            let cardModel = JobSuccessCardModel(
                 iconImage: secondItem.iconImage,
                 head: secondItem.head,
                 boldText: secondItem.boldText
             )
+            secondCard.configure(with: cardModel)
         }
         
-        if let thirdItem = model.items3.first {
-            thirdCard.configure(
+        if let thirdItem = model.thirdItems.first {
+            let cardModel = JobSuccessCardModel(
                 iconImage: thirdItem.iconImage,
                 head: thirdItem.head,
                 boldText: thirdItem.boldText
             )
+            thirdCard.configure(with: cardModel)
         }
     }
 }
+
 
 // MARK: - Preview
 
