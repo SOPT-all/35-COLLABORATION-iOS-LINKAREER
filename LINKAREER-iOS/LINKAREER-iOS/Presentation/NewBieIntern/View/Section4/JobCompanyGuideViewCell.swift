@@ -41,6 +41,8 @@ class JobCompanyGuideViewCell: UICollectionViewCell {
     private func setLayout() {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.width.equalTo(347)
+            $0.height.equalTo(520)
         }
     }
     
@@ -51,9 +53,10 @@ class JobCompanyGuideViewCell: UICollectionViewCell {
     
     private func setStyle() {
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.itemSize = CGSize(width: 350, height: 150)
+            layout.itemSize = CGSize(width: 347, height: 150)
             layout.minimumLineSpacing = 8
-            layout.headerReferenceSize = CGSize(width: 0, height: 60)
+            layout.headerReferenceSize = CGSize(width: 347, height: 50)
+            
         }
         collectionView.backgroundColor = .clear
     }
@@ -110,6 +113,15 @@ extension JobCompanyGuideViewCell: UICollectionViewDataSource, UICollectionViewD
         return cell
     }
     
+    // 헤더 크기 설정
+       func collectionView(
+           _ collectionView: UICollectionView,
+           layout collectionViewLayout: UICollectionViewLayout,
+           referenceSizeForHeaderInSection section: Int
+       ) -> CGSize {
+           return CGSize(width: 347, height: 50)
+       }
+    
     // 섹션의 패딩
     func collectionView(
         _ collectionView: UICollectionView,
@@ -144,7 +156,7 @@ extension JobCompanyGuideViewCell: UICollectionViewDataSource, UICollectionViewD
 
 struct JobCompanyGuideViewCellPreview: UIViewRepresentable {
     func makeUIView(context: Context) -> JobCompanyGuideViewCell {
-        let view = JobCompanyGuideViewCell(frame: .init(x: 0, y: 0, width: 1000, height: 1000))
+        let view = JobCompanyGuideViewCell(frame: .init(x: 0, y: 0, width: 347, height: 1000))
         
         let dummyData = CompanyBigCardDataModelData.shared.allCellData
         let headerData = NoTagHeaderModel(nickname: "앤솝", title: "님이 관심 있을만한 공고")
@@ -161,7 +173,7 @@ struct JobCompanyGuideViewCellPreview_Previews: PreviewProvider {
     static var previews: some View {
         JobCompanyGuideViewCellPreview()
             .previewLayout(.sizeThatFits)
-            .frame(width: 400, height: 1000)
+            .frame(width: 347, height: 1000)
             .padding()
     }
 }

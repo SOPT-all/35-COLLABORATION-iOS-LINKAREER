@@ -24,7 +24,7 @@ struct CompanyDayCardModelData {
     
     let cards: [CompanyDayCardModel] = [
         CompanyDayCardModel(
-            day: "D-7",
+            day: "7",
             image: UIImage(resource: .imgHotofficialLgcns142),
             buttonTitle: "정규직 1차 면접 프리패스",
             companyName: "LG CNS",
@@ -34,7 +34,7 @@ struct CompanyDayCardModelData {
             commentCount: 342
         ),
         CompanyDayCardModel(
-            day: "D-10",
+            day: "10",
             image: UIImage(resource: .imgHotofficialIbk142),
             buttonTitle: "정규직 1차 면접 프리패스",
             companyName: "IBK기업은행",
@@ -44,7 +44,7 @@ struct CompanyDayCardModelData {
             commentCount: 545
         ),
         CompanyDayCardModel(
-            day: "D-00",
+            day: "0",
             image: UIImage(resource: .imgHotofficialLalasweet142),
             buttonTitle: "정규직 전환",
             companyName: "주식회사 라라스윗",
@@ -54,7 +54,7 @@ struct CompanyDayCardModelData {
             commentCount: 76
         ),
         CompanyDayCardModel(
-            day: "D-7",
+            day: "7",
             image: UIImage(resource: .imgHotofficialLgcns142),
             buttonTitle: "정규직 1차 면접 프리패스",
             companyName: "LG CNS",
@@ -64,7 +64,7 @@ struct CompanyDayCardModelData {
             commentCount: 342
         ),
         CompanyDayCardModel(
-            day: "D-10",
+            day: "99",
             image: UIImage(resource: .imgHotofficialIbk142),
             buttonTitle: "정규직 1차 면접 프리패스",
             companyName: "IBK기업은행",
