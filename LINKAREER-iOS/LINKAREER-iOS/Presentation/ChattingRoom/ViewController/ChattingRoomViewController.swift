@@ -28,6 +28,7 @@ class ChattingRoomViewController: UIViewController {
         setStyle()
         registerCell()
         setDelegate()
+        setActions()
     }
     
     func setHierarchy() {
@@ -57,10 +58,19 @@ class ChattingRoomViewController: UIViewController {
         chattingRoomView.chattingTableView.register(ChatCell.self, forCellReuseIdentifier: ChatCell.identifier)
     }
     
+    func setActions() {
+        chattingRoomView.certificationPopUpView.closeButton.addTarget(self, action: #selector(closeButtonDidTap), for: .touchUpInside)
+    }
+    
 }
 
 private extension ChattingRoomViewController {
- 
+    
+    @objc
+    func closeButtonDidTap() {
+        print("눌림?")
+        chattingRoomView.certificationPopUpView.removeFromSuperview()
+    }
     
     func getTotalChatCount(for section: Int) -> Int {
         let chatRoom = chatPartner[section]

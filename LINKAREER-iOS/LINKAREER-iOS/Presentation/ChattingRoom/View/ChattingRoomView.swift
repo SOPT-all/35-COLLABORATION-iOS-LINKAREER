@@ -20,7 +20,7 @@ class ChattingRoomView: UIView {
     
     private let chatInputBar: ChatInputBar = ChatInputBar()
     
-    private let certificationPopUpView: CertificationPopUpView = CertificationPopUpView()
+    let certificationPopUpView: CertificationPopUpView = CertificationPopUpView()
     
     // MARK: - Life Cycle
     

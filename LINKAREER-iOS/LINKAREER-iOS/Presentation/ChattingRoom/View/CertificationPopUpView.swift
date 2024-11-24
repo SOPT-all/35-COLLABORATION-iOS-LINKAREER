@@ -19,7 +19,7 @@ class CertificationPopUpView: UIView {
     let certificationButton: UIButton = UIButton()
     private let subLabel: UILabel = UILabel()
     
-    private let closeButton: UIButton = UIButton()
+    let closeButton: UIButton = UIButton()
     
     // MARK: - Life Cycle
     
