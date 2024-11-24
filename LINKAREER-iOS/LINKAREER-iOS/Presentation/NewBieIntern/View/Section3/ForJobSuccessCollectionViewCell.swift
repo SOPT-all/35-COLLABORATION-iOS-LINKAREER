@@ -10,7 +10,9 @@ import SwiftUI
 
 import SnapKit
 import Then
-class ForJobSuccessCollectionViewCell: UICollectionViewCell {
+class ForJobSuccessCollectionViewCell:
+                                            
+    UICollectionViewCell {
     
     private let headerView : ForJobSuccessHeaderView = ForJobSuccessHeaderView()
     private let firstCard : CompanySmallCardView = CompanySmallCardView()
@@ -40,8 +42,8 @@ class ForJobSuccessCollectionViewCell: UICollectionViewCell {
         }
         
         firstCard.snp.makeConstraints {
-            $0.top.equalTo(headerView.snp.bottom)
-            $0.leading.equalToSuperview().offset(10)
+            $0.top.equalTo(headerView.snp.bottom).offset(33)
+            $0.leading.equalToSuperview()
             $0.width.equalTo(110)
             $0.height.equalTo(134)
         }
@@ -56,13 +58,12 @@ class ForJobSuccessCollectionViewCell: UICollectionViewCell {
         thirdCard.snp.makeConstraints {
             $0.top.equalTo(firstCard)
             $0.leading.equalTo(secondCard.snp.trailing).offset(8)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.trailing.equalToSuperview()
             $0.width.equalTo(110)
             $0.height.equalTo(134)
         }
     }
 }
-
 
 extension ForJobSuccessCollectionViewCell {
     

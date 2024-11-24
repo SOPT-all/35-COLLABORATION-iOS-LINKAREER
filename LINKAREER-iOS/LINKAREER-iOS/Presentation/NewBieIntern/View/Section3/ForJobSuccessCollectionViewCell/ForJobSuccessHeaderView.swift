@@ -45,9 +45,9 @@ class ForJobSuccessHeaderView: UIView {
     
     private func setLayout() {
         
-        titleLabel.snp.makeConstraints { $0.leading.equalToSuperview().offset(10)
-            $0.bottom.equalToSuperview().offset(-14)
-            $0.top.equalToSuperview().offset(10)
+        titleLabel.snp.makeConstraints {
+            $0.top.leading.equalToSuperview()
+            
         }
     }
     

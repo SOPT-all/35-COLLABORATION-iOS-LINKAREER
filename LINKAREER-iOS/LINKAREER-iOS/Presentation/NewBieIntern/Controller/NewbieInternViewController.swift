@@ -20,7 +20,8 @@ class NewbieInternViewController: UIViewController {
     private var jobGuideData: [CompanyBigCardDataModel] = [] // Section 4
 
     private var noTagTitleData: NoTagHeaderModel?
-    
+    private var tagTitleData: TagHeader?
+
     private var otherSectionData: [String] = [] // 더미 데이터
     
     override func viewDidLoad() {
@@ -33,7 +34,6 @@ class NewbieInternViewController: UIViewController {
         setDelegate()
     }
     
-    // 추후 추가된 뷰를 위해 함수 선언
     private func setHierarchy(){
         view.addSubview(collectionView)
     }
@@ -68,7 +68,7 @@ class NewbieInternViewController: UIViewController {
     private func setLayout() {
         collectionView.snp.makeConstraints { $0.edges.equalToSuperview()
             $0.width.equalTo(375)
-            $0.height.equalTo(2500)
+            $0.height.equalTo(1400)
         }
     }
 }
@@ -118,13 +118,12 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         }
     }
     
-    // 레이아웃
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch indexPath.section {
         case 0:
             return CGSize(width: collectionView.bounds.width, height: 255)
         case 1:
-            return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width)
+            return CGSize(width: 347, height: 507)
         case 2:
             return CGSize(width: 347, height: 520)
         case 3:
@@ -139,7 +138,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
             withReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier,
             for: indexPath
         ) as! CompanyHorizontalScrollCollectionViewCell
-        cell.configure(with: companyDayData) // 데이터를 주입
+        cell.configure(with: companyDayData)
         return cell
     }
     
@@ -150,7 +149,9 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         ) as! JobSuccessCollectionViewCell
         
         let dummyData = SectionTitleModelData.shared.allSections
-        cell.configure(with: dummyData)
+        if let dummyTitleData = TagHeader.headerData.first(where: { $0.title == "님이 관심 있을만한 공고" }) {
+            cell.configure(with: dummyData, tagHeader: dummyTitleData)
+        }
         
         return cell
     }
@@ -183,10 +184,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         label.snp.makeConstraints { $0.edges.equalToSuperview() }
         return cell
     }
-    
-    
 }
-
 
 //preview
 
