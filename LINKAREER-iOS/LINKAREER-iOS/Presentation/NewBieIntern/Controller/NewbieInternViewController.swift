@@ -12,14 +12,13 @@ import SnapKit
 import Then
 
 class NewbieInternViewController: UIViewController {
-
+    
     private let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-
-
-
+    
     private var horizontalScrollData: [CompanyDayCardDataModel] = [] // Section2
+    private var jobSuccessData: [SectionTitleModel] = [] // Section 3
     private var otherSectionData: [String] = [] // 더미 데이터
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setHierarchy()
@@ -52,6 +51,7 @@ class NewbieInternViewController: UIViewController {
     
     private func setRegister() {
         collectionView.register(CompanyHorizontalScrollCollectionViewCell.self, forCellWithReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier)
+        collectionView.register(JobSuccessCollectionViewCell.self, forCellWithReuseIdentifier: JobSuccessCollectionViewCell.identifier)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
     }
     
@@ -59,14 +59,14 @@ class NewbieInternViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
     }
-
+    
     private func setLayout() {
         collectionView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
 }
 
 extension NewbieInternViewController {
-
+    
     //임시 데이터
     private func fetchData() {
         horizontalScrollData = (1...10).map { i in
@@ -81,63 +81,89 @@ extension NewbieInternViewController {
                 commentCount: i * 2
             )
         }
+        // 섹션 3
+        jobSuccessData = JobSuccessDummyData.shared.allSections
         otherSectionData = (1...5).map { "더미 데이터 \($0)" }
         collectionView.reloadData()
     }
 }
 
 extension NewbieInternViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 3 //임시 섹션 3개
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 1 // 일단 첫 번째 섹션은 가로 스크롤 컬뷰셀
-        case 1, 2:
-            return otherSectionData.count // 나머지 섹션은 더미 데이터 사용
-        default:
-            return 0
-        }
+        return 1
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier, for: indexPath) as! CompanyHorizontalScrollCollectionViewCell
-            cell.configure(with: horizontalScrollData)
-            return cell
-        } else {
+        switch indexPath.section {
+        case 0:
+            return configureHorizontalScrollCell(for: collectionView, at: indexPath)
+        case 1:
+            return configureJobSuccessCell(for: collectionView, at: indexPath)
+        case 2:
             return configureDummyCell(for: collectionView, at: indexPath)
+        default:
+            return UICollectionViewCell()
         }
     }
-
+    
+    // 레이아웃
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        switch indexPath.section {
+        case 0:
+            return CGSize(width: collectionView.bounds.width, height: 255)
+        case 1:
+            return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width)
+        case 2:
+            return CGSize(width: collectionView.bounds.width, height: 50)
+        default:
+            return .zero
+        }
+    }
+    
+    private func configureHorizontalScrollCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier,
+            for: indexPath
+        ) as! CompanyHorizontalScrollCollectionViewCell
+        cell.configure(with: horizontalScrollData) // 데이터를 주입
+        return cell
+    }
+    
+    
+    private func configureJobSuccessCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: JobSuccessCollectionViewCell.identifier,
+            for: indexPath
+        ) as! JobSuccessCollectionViewCell
+        
+        let dummyData = JobSuccessDummyData.shared.allSections
+        cell.configure(with: dummyData)
+        
+        return cell
+    }
+    
+    
     private func configureDummyCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.identifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: UICollectionViewCell.identifier,
+            for: indexPath
+        )
         cell.backgroundColor = .lightGray
-
         let label = UILabel().then {
-            $0.text = otherSectionData[indexPath.item]
-            $0.textColor = .black
-            $0.font = UIFont.systemFont(ofSize: 14)
+            $0.text = "더미 데이터"
             $0.textAlignment = .center
         }
-
         cell.contentView.addSubview(label)
         label.snp.makeConstraints { $0.edges.equalToSuperview() }
         return cell
     }
-
-    // 레이아웃
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.section == 0 {
-            return CGSize(width: collectionView.frame.width - 32, height: 255)
-        } else {
-            //더미
-            return CGSize(width: collectionView.frame.width - 32, height: 50)
-        }
-    }
-
+    
+    
 }
 
 
@@ -147,7 +173,7 @@ struct NewbieInternViewControllerPreview: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> NewbieInternViewController {
         return NewbieInternViewController()
     }
-
+    
     func updateUIViewController(_ uiViewController: NewbieInternViewController, context: Context) {}
 }
 
