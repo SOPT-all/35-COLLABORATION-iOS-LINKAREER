@@ -15,8 +15,13 @@ class NewbieInternViewController: UIViewController {
     
     private let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    private var horizontalScrollData: [CompanyDayCardDataModel] = [] // Section2
+    private var companyDayData: [CompanyDayCardModel] = [] // Section2
     private var jobSuccessData: [SectionTitleModel] = [] // Section 3
+    private var jobGuideData: [CompanyBigCardDataModel] = [] // Section 4
+
+    private var noTagTitleData: NoTagHeaderModel? // Section 2의 header
+    private var tagTitleData: TagHeader? // Section 3의 header
+
     private var otherSectionData: [String] = [] // 더미 데이터
     
     override func viewDidLoad() {
@@ -29,7 +34,6 @@ class NewbieInternViewController: UIViewController {
         setDelegate()
     }
     
-    // 추후 추가된 뷰를 위해 함수 선언
     private func setHierarchy(){
         view.addSubview(collectionView)
     }
@@ -52,6 +56,7 @@ class NewbieInternViewController: UIViewController {
     private func setRegister() {
         collectionView.register(CompanyHorizontalScrollCollectionViewCell.self, forCellWithReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier)
         collectionView.register(JobSuccessCollectionViewCell.self, forCellWithReuseIdentifier: JobSuccessCollectionViewCell.identifier)
+        collectionView.register(JobCompanyGuideViewCell.self, forCellWithReuseIdentifier: JobCompanyGuideViewCell.identifier)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
     }
     
@@ -61,7 +66,10 @@ class NewbieInternViewController: UIViewController {
     }
     
     private func setLayout() {
-        collectionView.snp.makeConstraints { $0.edges.equalToSuperview() }
+        collectionView.snp.makeConstraints { $0.edges.equalToSuperview()
+            $0.width.equalTo(375)
+            $0.height.equalTo(1400)
+        }
     }
 }
 
@@ -69,20 +77,17 @@ extension NewbieInternViewController {
     
     //임시 데이터
     private func fetchData() {
-        horizontalScrollData = (1...10).map { i in
-            CompanyDayCardDataModel(
-                day: "\(i)",
-                image: UIImage(named: "img_hotofficial_ibk_142") ?? UIImage(systemName: "photo")!,
-                buttonTitle: "지원하기",
-                companyName: "회사 \(i)",
-                title: "2025년 채용 공고 \(i)",
-                category: "정규직",
-                viewCount: 1000 + i * 10,
-                commentCount: i * 2
-            )
-        }
+        // 섹션 2
+        companyDayData = CompanyDayCardModelData.shared.allCard
+        
         // 섹션 3
-        jobSuccessData = JobSuccessDummyData.shared.allSections
+        jobSuccessData = SectionTitleModelData.shared.allSections
+        
+        // 섹션 4
+        noTagTitleData = NoTagHeaderModelData.shared.title2
+        jobGuideData = CompanyBigCardDataModelData.shared.allCellData
+        
+        // 더미
         otherSectionData = (1...5).map { "더미 데이터 \($0)" }
         collectionView.reloadData()
     }
@@ -91,7 +96,7 @@ extension NewbieInternViewController {
 extension NewbieInternViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3 //임시 섹션 3개
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -105,35 +110,51 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         case 1:
             return configureJobSuccessCell(for: collectionView, at: indexPath)
         case 2:
+            return configureJobCompanyGuideCell(for: collectionView, at: indexPath)
+        case 3:
             return configureDummyCell(for: collectionView, at: indexPath)
         default:
             return UICollectionViewCell()
         }
     }
     
-    // 레이아웃
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.bounds.width * 0.92
         switch indexPath.section {
         case 0:
             return CGSize(width: collectionView.bounds.width, height: 255)
         case 1:
-            return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width)
+            return CGSize(width: width, height: 430)
         case 2:
-            return CGSize(width: collectionView.bounds.width, height: 50)
+            return CGSize(width: width, height: 520)
+        case 3:
+            return CGSize(width: width, height: 50)
         default:
             return .zero
         }
     }
+    
+     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+         switch section {
+         case 0:
+             return UIEdgeInsets(top: 20, left: 16, bottom: 10, right: 16)
+         case 1:
+             return UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
+         case 2:
+             return UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+         default:
+             return .zero
+         }
+     }
     
     private func configureHorizontalScrollCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier,
             for: indexPath
         ) as! CompanyHorizontalScrollCollectionViewCell
-        cell.configure(with: horizontalScrollData) // 데이터를 주입
+        cell.configure(with: companyDayData)
         return cell
     }
-    
     
     private func configureJobSuccessCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
@@ -141,9 +162,24 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
             for: indexPath
         ) as! JobSuccessCollectionViewCell
         
-        let dummyData = JobSuccessDummyData.shared.allSections
-        cell.configure(with: dummyData)
+        let dummyData = SectionTitleModelData.shared.allSections
+        if let dummyTitleData = TagHeader.headerData.first(where: { $0.title == "님이 관심 있을만한 공고" }) {
+            cell.configure(with: dummyData, tagHeader: dummyTitleData)
+        }
         
+        return cell
+    }
+    
+    private func configureJobCompanyGuideCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: JobCompanyGuideViewCell.identifier,
+            for: indexPath
+        ) as! JobCompanyGuideViewCell
+        
+        let dummyData = CompanyBigCardDataModelData.shared.allCellData
+        let dummyTitleData = NoTagHeaderModelData.shared.title2
+        cell.configure(with: dummyData, noTagHeaderData: dummyTitleData)
+
         return cell
     }
     
@@ -162,10 +198,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         label.snp.makeConstraints { $0.edges.equalToSuperview() }
         return cell
     }
-    
-    
 }
-
 
 //preview
 

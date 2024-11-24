@@ -116,6 +116,8 @@ class CompanyDayCardCell: UICollectionViewCell {
         logoImageView.do {
             $0.contentMode = .scaleAspectFit
             $0.clipsToBounds = true
+            $0.layer.cornerRadius = 10
+            $0.layer.masksToBounds = true
         }
         
         actionButton.do {
@@ -130,6 +132,7 @@ class CompanyDayCardCell: UICollectionViewCell {
     
     private func setHierarchy() {
         addSubviews(boxView, dayLabel, logoImageView, actionButton, companyNameLabel, titleLabel, categoryLabel, viewCountLabel, commentCountLabel)
+        logoImageView.addSubview(dayLabel)
     }
     
     private func setLayout() {
@@ -140,14 +143,16 @@ class CompanyDayCardCell: UICollectionViewCell {
         }
         
         dayLabel.snp.makeConstraints {
-            $0.leading.equalTo(boxView.snp.leading).offset(10)
-            $0.top.equalTo(boxView.snp.top).offset(10)
+            $0.leading.equalTo(logoImageView.snp.leading).offset(10)
+            $0.top.equalTo(logoImageView.snp.top).offset(10)
             $0.width.height.lessThanOrEqualTo(40)
         }
         
         logoImageView.snp.makeConstraints {
             $0.centerX.equalTo(boxView.snp.centerX)
             $0.centerY.equalTo(boxView.snp.centerY)
+            $0.width.height.equalTo(142)
+
         }
         
         actionButton.snp.makeConstraints {
