@@ -10,9 +10,8 @@ import SwiftUI
 
 import SnapKit
 import Then
-class ForJobSuccessCollectionViewCell:
-                                            
-    UICollectionViewCell {
+
+class ForJobSuccessCollectionViewCell: UICollectionViewCell {
     
     private let headerView : ForJobSuccessHeaderView = ForJobSuccessHeaderView()
     private let firstCard : CompanySmallCardView = CompanySmallCardView()
@@ -44,22 +43,21 @@ class ForJobSuccessCollectionViewCell:
         firstCard.snp.makeConstraints {
             $0.top.equalTo(headerView.snp.bottom).offset(33)
             $0.leading.equalToSuperview()
-            $0.width.equalTo(110)
+            $0.width.equalToSuperview().multipliedBy(0.317)
             $0.height.equalTo(134)
         }
         
         secondCard.snp.makeConstraints {
             $0.top.equalTo(firstCard)
-            $0.leading.equalTo(firstCard.snp.trailing).offset(8)
-            $0.width.equalTo(110)
+            $0.centerX.equalToSuperview()
+            $0.width.equalToSuperview().multipliedBy(0.317)
             $0.height.equalTo(134)
         }
         
         thirdCard.snp.makeConstraints {
             $0.top.equalTo(firstCard)
-            $0.leading.equalTo(secondCard.snp.trailing).offset(8)
             $0.trailing.equalToSuperview()
-            $0.width.equalTo(110)
+            $0.width.equalToSuperview().multipliedBy(0.317)
             $0.height.equalTo(134)
         }
     }
@@ -100,11 +98,9 @@ extension ForJobSuccessCollectionViewCell {
 
 struct ForJobSuccessCollectionViewCellPreview: UIViewRepresentable {
     func makeUIView(context: Context) -> ForJobSuccessCollectionViewCell {
-        let cell = ForJobSuccessCollectionViewCell(frame: CGRect(x: 0, y: 0, width: 375, height: 200))
+        let cell = ForJobSuccessCollectionViewCell(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         
-    
         let dummyData = SectionTitleModelData.shared.section1
-        
         cell.configure(with: dummyData)
         return cell
     }
@@ -115,6 +111,7 @@ struct ForJobSuccessCollectionViewCellPreview: UIViewRepresentable {
 struct ForJobSuccessCollectionViewCellPreview_Previews: PreviewProvider {
     static var previews: some View {
         ForJobSuccessCollectionViewCellPreview()
-            .frame(width: 375, height: 500)
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height) // 화면 크기로 고정
+            .ignoresSafeArea() // Safe Area 무시
     }
 }

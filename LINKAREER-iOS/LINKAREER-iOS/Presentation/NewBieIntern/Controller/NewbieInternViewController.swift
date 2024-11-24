@@ -119,19 +119,33 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.bounds.width * 0.92
         switch indexPath.section {
         case 0:
             return CGSize(width: collectionView.bounds.width, height: 255)
         case 1:
-            return CGSize(width: 347, height: 507)
+            return CGSize(width: width, height: 430)
         case 2:
-            return CGSize(width: 347, height: 520)
+            return CGSize(width: width, height: 520)
         case 3:
-            return CGSize(width: collectionView.bounds.width, height: 50)
+            return CGSize(width: width, height: 50)
         default:
             return .zero
         }
     }
+    
+     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+         switch section {
+         case 0:
+             return UIEdgeInsets(top: 20, left: 16, bottom: 10, right: 16)
+         case 1:
+             return UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
+         case 2:
+             return UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+         default:
+             return .zero
+         }
+     }
     
     private func configureHorizontalScrollCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(

@@ -43,7 +43,6 @@ class JobSuccessCollectionViewCell: UICollectionViewCell {
     private func setLayout() {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.width.equalTo(347)
         }
     }
     
@@ -54,10 +53,8 @@ class JobSuccessCollectionViewCell: UICollectionViewCell {
     
     private func setStyle() {
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.itemSize = CGSize(width: 347, height: 180)
-            layout.headerReferenceSize = CGSize(width: 347, height: 51)
-            
-            
+            layout.itemSize = CGSize(width: collectionView.bounds.width, height: 180)
+                        
         }
         collectionView.backgroundColor = .clear
     }
@@ -115,11 +112,21 @@ extension JobSuccessCollectionViewCell: UICollectionViewDataSource, UICollection
     }
     
     func collectionView(
+            _ collectionView: UICollectionView,
+            layout collectionViewLayout: UICollectionViewLayout,
+            sizeForItemAt indexPath: IndexPath
+        ) -> CGSize {
+            let width = collectionView.bounds.width 
+            let height: CGFloat = 180
+            return CGSize(width: width, height: height)
+        }
+    
+    func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForHeaderInSection section: Int
     ) -> CGSize {
-        return CGSize(width: 347, height: 50)
+        return CGSize(width: 347, height: 40)
     }
     
     func collectionView(
@@ -176,7 +183,6 @@ struct JobSuccessCollectionViewPreview_Previews: PreviewProvider {
     static var previews: some View {
         JobSuccessCollectionViewPreview()
             .previewLayout(.sizeThatFits)
-            .frame(width: 347, height: 600)
-            .padding()
+
     }
 }
