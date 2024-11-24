@@ -14,7 +14,7 @@ class ChatNavigationBarView: UIView {
     
     // MARK: - UI Properties
         
-    private let backButton: UIButton = UIButton()
+    let backButton: UIButton = UIButton()
     
     let chatRoomNameLabel: UILabel = UILabel()
     let chatParticipantsCountLabel: UILabel = UILabel()

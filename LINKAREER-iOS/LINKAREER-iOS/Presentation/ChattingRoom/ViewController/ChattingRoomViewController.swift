@@ -60,11 +60,23 @@ class ChattingRoomViewController: UIViewController {
     
     func setActions() {
         chattingRoomView.certificationPopUpView.closeButton.addTarget(self, action: #selector(closeButtonDidTap), for: .touchUpInside)
+        chattingRoomView.certificationPopUpView.certificationButton.addTarget(self, action: #selector(certificationButtonDidTap), for: .touchUpInside)
+        chattingRoomView.chatNavigationBarView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
     }
     
 }
 
 private extension ChattingRoomViewController {
+    
+    @objc
+    func backButtonDidTap() {
+        // TODO: - 화면 전환 연결 시 popViewController
+    }
+    
+    @objc
+    func certificationButtonDidTap() {
+        // TODO: - ChatCertificationVC 화면 전환 연결
+    }
     
     @objc
     func closeButtonDidTap() {
