@@ -42,7 +42,8 @@ class TagHeaderView: UICollectionReusableView {
     
     func setLayout() {
         nickNameLabel.snp.makeConstraints {
-            $0.top.leading.equalToSuperview()
+            $0.top.equalToSuperview().inset(24)
+            $0.leading.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints {
@@ -61,7 +62,8 @@ class TagHeaderView: UICollectionReusableView {
         }
         
         moreButton.snp.makeConstraints {
-            $0.verticalEdges.trailing.equalToSuperview()
+            $0.bottom.equalTo(tagStackView).inset(15)
+            $0.trailing.equalToSuperview()
             $0.width.equalTo(43)
         }
     }

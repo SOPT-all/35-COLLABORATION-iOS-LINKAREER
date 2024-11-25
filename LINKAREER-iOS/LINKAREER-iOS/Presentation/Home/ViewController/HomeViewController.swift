@@ -16,8 +16,6 @@ class HomeViewController: UIViewController {
     
     private let homeView: HomeView = HomeView()
     
-    
-    
     // MARK: - Properties
     
     private let dataSource: [HomeSection] = HomeSection.dataSource
