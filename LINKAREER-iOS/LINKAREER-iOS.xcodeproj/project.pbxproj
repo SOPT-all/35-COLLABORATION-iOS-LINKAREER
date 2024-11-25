@@ -215,6 +215,8 @@
 		};
 		0D926CDC2CE8EE640053EB5B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 0D926CC82CE8EE620053EB5B /* LINKAREER-iOS */;
+			baseConfigurationReferenceRelativePath = Global/Settings/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -278,6 +280,8 @@
 		};
 		0D926CDD2CE8EE640053EB5B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 0D926CC82CE8EE620053EB5B /* LINKAREER-iOS */;
+			baseConfigurationReferenceRelativePath = Global/Settings/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
