@@ -14,6 +14,8 @@ class HomeView: UIView {
     
     // MARK: - UI Properties
     
+    private let searchBarView = CustomSearchView()
+    
     lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createCompositionalLayout())
     
     // MARK: - UI Properties
@@ -36,12 +38,17 @@ class HomeView: UIView {
     
     
     func setHierarchy() {
-        self.addSubview(mainCollectionView)
+        self.addSubviews(mainCollectionView, searchBarView)
     }
     
     func setLayout() {
+        searchBarView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
         mainCollectionView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(24)
+            $0.top.equalTo(searchBarView.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
