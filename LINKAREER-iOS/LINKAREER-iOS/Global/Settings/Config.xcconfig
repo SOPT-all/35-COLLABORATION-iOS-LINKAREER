@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  LINKAREER-iOS
+//
+//  Created by 김민서 on 11/26/24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+BASE_URL = http:/$()/api.linkareer.store
