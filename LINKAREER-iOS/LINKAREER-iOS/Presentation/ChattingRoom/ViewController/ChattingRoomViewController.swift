@@ -55,6 +55,7 @@ class ChattingRoomViewController: UIViewController {
     }
     
     func registerCell() {
+        chattingRoomView.chattingTableView.register(ReplyChatCell.self, forCellReuseIdentifier: ReplyChatCell.identifier)
         chattingRoomView.chattingTableView.register(ChatCell.self, forCellReuseIdentifier: ChatCell.identifier)
     }
     
@@ -128,32 +129,60 @@ extension ChattingRoomViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatCell.identifier, for: indexPath) as? ChatCell else {
-            return UITableViewCell()
-        }
-        
         let chatRoom = chatPartner[indexPath.section]
         let chatPartner = chatRoom.chatPartner
-        
-        //채팅룸 정보 데이터 바인딩
+
         chattingRoomView.chatNavigationBarView.chatRoomNameLabel.text = chatRoom.chatRoomName
         chattingRoomView.chatNavigationBarView.chatParticipantsCountLabel.text = "\(chatRoom.chatParticipantsCount)명"
-        
+
         let chat = getChat(for: indexPath, in: chatRoom)
         let isMyChat = isChatMine(for: indexPath, in: chatRoom)
-        
-        // 채팅 내용 설정
+
         if isMyChat {
-            cell.setChatVisible(isChatMine: true)
-            cell.configureMyChat(chat: chat)
+            if chat.isReplied {
+                // 내 채팅이면서 답장이 있는 경우
+                guard let replyChatCell = tableView.dequeueReusableCell(withIdentifier: ReplyChatCell.identifier, for: indexPath) as? ReplyChatCell else {
+                    return UITableViewCell()
+                }
+                replyChatCell.setChatVisible(isChatMine: true)
+                replyChatCell.configureMyChat(chat: chat)
+                replyChatCell.selectionStyle = .none
+                
+                return replyChatCell
+            } else {
+                // 내 채팅이고 답장이 없는 경우
+                guard let chatCell = tableView.dequeueReusableCell(withIdentifier: ChatCell.identifier, for: indexPath) as? ChatCell else {
+                    return UITableViewCell()
+                }
+                chatCell.setChatVisible(isChatMine: true)
+                chatCell.configureMyChat(chat: chat)
+                chatCell.selectionStyle = .none
+
+                return chatCell
+            }
         } else {
-            cell.setChatVisible(isChatMine: false)
-            cell.configureOtherChat(partner: chatPartner, chat: chat) // ChatPartner 전달
+            if chat.isReplied {
+                // 상대 채팅이면서 답장이 있는 경우
+                guard let replyChatCell = tableView.dequeueReusableCell(withIdentifier: ReplyChatCell.identifier, for: indexPath) as? ReplyChatCell else {
+                    return UITableViewCell()
+                }
+                replyChatCell.setChatVisible(isChatMine: false)
+                replyChatCell.configureOtherChat(partner: chatPartner, chat: chat)
+                replyChatCell.selectionStyle = .none
+
+                return replyChatCell
+            } else {
+                // 상대 채팅이고 답장이 없는 경우
+                guard let chatCell = tableView.dequeueReusableCell(withIdentifier: ChatCell.identifier, for: indexPath) as? ChatCell else {
+                    return UITableViewCell()
+                }
+                chatCell.setChatVisible(isChatMine: false)
+                chatCell.configureOtherChat(partner: chatPartner, chat: chat)
+                chatCell.selectionStyle = .none
+                
+                return chatCell
+            }
         }
-        
-        cell.selectionStyle = .none
-        return cell
     }
+    
 }
-
-

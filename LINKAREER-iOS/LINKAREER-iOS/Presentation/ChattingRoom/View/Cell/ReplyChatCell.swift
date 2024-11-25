@@ -1,8 +1,8 @@
 //
-//  ChatCell.swift
+//  OtherChatCell.swift
 //  LINKAREER-iOS
 //
-//  Created by 김민서 on 11/25/24.
+//  Created by 김민서 on 11/23/24.
 //
 
 import UIKit
@@ -11,12 +11,12 @@ import SnapKit
 import Then
 
 
-final class ChatCell: UITableViewCell {
+final class ReplyChatCell: UITableViewCell {
     
     // MARK: - UI Properties
     
-    private let otherChatView: OtherChatView = OtherChatView()
-    private let myChatView: MyChatView = MyChatView()
+    private let otherReplyChatView: OtherReplyChatView = OtherReplyChatView()
+    private let myReplyChatView: MyReplyChatView = MyReplyChatView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,25 +32,25 @@ final class ChatCell: UITableViewCell {
     }
     
     func setHierarchy() {
-        self.addSubviews(otherChatView, myChatView)
+        self.addSubviews(otherReplyChatView, myReplyChatView)
     }
     
     func setLayout() {
-        otherChatView.snp.makeConstraints {
+        otherReplyChatView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        myChatView.snp.makeConstraints {
+        myReplyChatView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
 }
 
 
-extension ChatCell {
+extension ReplyChatCell {
     
     func setChatVisible(isChatMine: Bool) {
-        otherChatView.isHidden = isChatMine
-        myChatView.isHidden = !isChatMine
+        otherReplyChatView.isHidden = isChatMine
+        myReplyChatView.isHidden = !isChatMine
     }
     
     func configureChatView(for chat: Chat, isMyChat: Bool, partner: ChatPartner? = nil) {
@@ -62,7 +62,9 @@ extension ChatCell {
     }
     
     func configureMyChat(chat: Chat) {
-        myChatView.messageLabel.setTitle(chat.message, for: .normal)
+        myReplyChatView.replyNicknameLabel.text = "\(chat.reply?.repliedMessageSenderName ?? "") 님에게 답장"
+        myReplyChatView.replyContentLabel.text = chat.reply?.replyMessage
+        myReplyChatView.messageLabel.text = chat.message
     }
     
     func configureOtherChat(partner: ChatPartner?, chat: Chat) {
@@ -70,9 +72,11 @@ extension ChatCell {
             return
         }
         
-        otherChatView.do {
+        otherReplyChatView.do {
             $0.nicknameLabel.text = partner.partnerName
-            $0.messageLabel.setTitle(chat.message, for: .normal)
+            $0.replyNicknameLabel.text = "\(chat.reply?.repliedMessageSenderName ?? "") 님에게 답장"
+            $0.replyContentLabel.text = chat.reply?.replyMessage
+            $0.messageLabel.text = chat.message
         }
        
         addTagButton(for: partner)
@@ -84,7 +88,7 @@ extension ChatCell {
         
         tagButton.setStyle(title: tagText)
         
-        otherChatView.tagStackView.addArrangedSubview(tagButton)
+        otherReplyChatView.tagStackView.addArrangedSubview(tagButton)
         
         tagButton.snp.makeConstraints {
             $0.height.equalTo(22)

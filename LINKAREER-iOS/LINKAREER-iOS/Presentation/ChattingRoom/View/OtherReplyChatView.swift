@@ -1,8 +1,8 @@
 //
-//  OtherChatView.swift
+//  OtherReplyChatView.swift
 //  LINKAREER-iOS
 //
-//  Created by 김민서 on 11/23/24.
+//  Created by 김민서 on 11/25/24.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class OtherChatView: UIView {
+class OtherReplyChatView: UIView {
     
     // MARK: - UI Properties
     
@@ -20,7 +20,12 @@ class OtherChatView: UIView {
     let tagStackView: UIStackView = UIStackView()
     private let checkBadge: UIImageView = UIImageView(image: .icCheckbadgeHomeInperson)
     
-    let messageLabel: UIButton = UIButton()
+    private let chatBoxView: UIView = UIView()
+    
+    let replyNicknameLabel: UILabel = UILabel()
+    let replyContentLabel: UILabel = UILabel()
+    private let lineView: UIView = UIView()
+    let messageLabel: UILabel = UILabel()
     
     private let writeTimeLabel: UILabel = UILabel()
     private let likeButton: UIButton = UIButton()
@@ -43,7 +48,7 @@ class OtherChatView: UIView {
     
     func setHierarchy() {
         tagStackView.addArrangedSubviews(checkBadge)
-        addSubviews(profileImage, nicknameLabel, tagStackView, messageLabel, writeTimeLabel, likeButton)
+        addSubviews(profileImage, nicknameLabel, tagStackView, chatBoxView, replyNicknameLabel, replyContentLabel, lineView, messageLabel, writeTimeLabel, likeButton)
     }
     
     func setLayout() {
@@ -67,19 +72,42 @@ class OtherChatView: UIView {
             $0.height.equalTo(22)
         }
         
-        messageLabel.snp.makeConstraints {
-            $0.top.equalTo(tagStackView.snp.bottom).offset(6)
+        chatBoxView.snp.makeConstraints {
+            $0.top.equalTo(profileImage.snp.bottom).offset(3)
             $0.leading.equalToSuperview().inset(35)
+            $0.width.equalTo(200)
+        }
+        
+        replyNicknameLabel.snp.makeConstraints {
+            $0.top.equalTo(chatBoxView).inset(10)
+            $0.horizontalEdges.equalTo(chatBoxView).inset(16)
+        }
+        
+        replyContentLabel.snp.makeConstraints {
+            $0.top.equalTo(replyNicknameLabel.snp.bottom).offset(4)
+            $0.horizontalEdges.equalTo(chatBoxView).inset(16)
+        }
+        
+        lineView.snp.makeConstraints {
+            $0.top.equalTo(replyContentLabel.snp.bottom).offset(6)
+            $0.horizontalEdges.equalTo(chatBoxView).inset(16)
+            $0.height.equalTo(1)
+        }
+        
+        messageLabel.snp.makeConstraints {
+            $0.top.equalTo(lineView.snp.bottom).offset(6)
+            $0.horizontalEdges.equalTo(chatBoxView).inset(16)
+            $0.bottom.equalTo(chatBoxView).inset(10)
         }
         
         writeTimeLabel.snp.makeConstraints {
-            $0.bottom.equalTo(messageLabel)
-            $0.leading.equalTo(messageLabel.snp.trailing).offset(8)
+            $0.bottom.equalTo(chatBoxView)
+            $0.leading.equalTo(chatBoxView.snp.trailing).offset(8)
         }
         
         likeButton.snp.makeConstraints {
-            $0.top.equalTo(messageLabel.snp.bottom).offset(4)
-            $0.leading.equalTo(messageLabel)
+            $0.top.equalTo(chatBoxView.snp.bottom).offset(4)
+            $0.leading.equalTo(chatBoxView)
             $0.bottom.equalToSuperview().inset(13)
             $0.size.equalTo(25)
         }
@@ -95,9 +123,24 @@ class OtherChatView: UIView {
             $0.spacing = 2
         }
         
+        chatBoxView.do {
+            $0.backgroundColor = .blue50
+            $0.layer.cornerRadius = 8
+            $0.clipsToBounds = true
+        }
+        
+        replyNicknameLabel.do {
+            $0.setLabel( alignment: .left, textColor: .gray900, font: fontStyle.body3_b_13.font())
+        }
+        
+        replyContentLabel.do {
+            $0.setLabel(alignment: .left, textColor: .gray600, font: fontStyle.body12_r_12.font())
+        }
+        
+        lineView.backgroundColor = .gray300
+        
         messageLabel.do {
-            $0.setStyle(title: "",titleColor: .gray900, font: fontStyle.body10_r_14.font(), cornerRadius: 8,
-                        contentEdgeInsets: UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16))
+            $0.setLabel(alignment: .left, textColor: .gray900, font: fontStyle.body10_r_14.font())
         }
         
         writeTimeLabel.do {

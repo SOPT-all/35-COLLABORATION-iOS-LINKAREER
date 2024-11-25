@@ -14,12 +14,7 @@ class MyChatView: UIView {
     
     // MARK: - UI Properties
     
-    private let chatBoxView: UIView = UIView()
-    
-    let replyNicknameLabel: UILabel = UILabel()
-    let replyContentLabel: UILabel = UILabel()
-    private let lineView: UIView = UIView()
-    let messageLabel: UILabel = UILabel()
+    let messageLabel: UIButton = UIButton()
     
     private let writeTimeLabel: UILabel = UILabel()
     private let likeButton: UIButton = UIButton()
@@ -41,72 +36,31 @@ class MyChatView: UIView {
     
     
     func setHierarchy() {
-        addSubviews(chatBoxView, replyNicknameLabel, replyContentLabel, lineView, messageLabel, writeTimeLabel, likeButton)
+        addSubviews(messageLabel, writeTimeLabel, likeButton)
     }
     
     func setLayout() {
-        
-        chatBoxView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.trailing.equalToSuperview()
-            $0.width.equalTo(200)
-        }
-        
-        replyNicknameLabel.snp.makeConstraints {
-            $0.top.equalTo(chatBoxView).inset(10)
-            $0.horizontalEdges.equalTo(chatBoxView).inset(16)
-        }
-        
-        replyContentLabel.snp.makeConstraints {
-            $0.top.equalTo(replyNicknameLabel.snp.bottom).offset(4)
-            $0.horizontalEdges.equalTo(chatBoxView).inset(16)
-        }
-        
-        lineView.snp.makeConstraints {
-            $0.top.equalTo(replyContentLabel.snp.bottom).offset(6)
-            $0.horizontalEdges.equalTo(chatBoxView).inset(16)
-            $0.height.equalTo(1)
-        }
-        
         messageLabel.snp.makeConstraints {
-            $0.top.equalTo(lineView.snp.bottom).offset(6)
-            $0.horizontalEdges.equalTo(chatBoxView).inset(16)
-            $0.bottom.equalTo(chatBoxView).inset(10)
+            $0.top.trailing.equalToSuperview()
         }
         
         writeTimeLabel.snp.makeConstraints {
-            $0.bottom.equalTo(chatBoxView)
-            $0.trailing.equalTo(chatBoxView.snp.leading).offset(-8)
+            $0.bottom.equalTo(messageLabel)
+            $0.trailing.equalTo(messageLabel.snp.leading).offset(-8)
         }
         
         likeButton.snp.makeConstraints {
-            $0.top.equalTo(chatBoxView.snp.bottom).offset(4)
-            $0.trailing.equalTo(chatBoxView)
-            $0.bottom.equalToSuperview().inset(13)
+            $0.top.equalTo(messageLabel.snp.bottom).offset(4)
+            $0.trailing.equalTo(messageLabel)
             $0.size.equalTo(25)
         }
     }
     
     func setStyle() {
-
-        chatBoxView.do {
-            $0.backgroundColor = .blue50
-            $0.layer.cornerRadius = 8
-            $0.clipsToBounds = true
-        }
-        
-        replyNicknameLabel.do {
-            $0.setLabel( alignment: .right, textColor: .gray900, font: fontStyle.body3_b_13.font())
-        }
-        
-        replyContentLabel.do {
-            $0.setLabel(alignment: .right, textColor: .gray600, font: fontStyle.body12_r_12.font())
-        }
-        
-        lineView.backgroundColor = .gray300
         
         messageLabel.do {
-            $0.setLabel(alignment: .right, textColor: .gray900, font: fontStyle.body10_r_14.font())
+            $0.setStyle(title: "",titleColor: .gray900, font: fontStyle.body10_r_14.font(), cornerRadius: 8,
+                        contentEdgeInsets: UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16))
         }
         
         writeTimeLabel.do {
