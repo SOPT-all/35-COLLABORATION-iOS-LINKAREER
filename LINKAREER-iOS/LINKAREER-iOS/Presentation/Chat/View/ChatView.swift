@@ -12,6 +12,8 @@ import SnapKit
 
 final class ChatView: UIView {
     
+    private let searchBarView = CustomSearchView()
+    
     lazy var myChatButton: UIButton = UIButton()
     lazy var entireChatButton: UIButton = UIButton()
     
@@ -42,12 +44,17 @@ final class ChatView: UIView {
 extension ChatView {
     
     func setHierarchy() {
-        addSubviews(myChatButton, entireChatButton, totalCountLabel, categoryCollectionView, listCollectionView, emptyView)
+        addSubviews(searchBarView, myChatButton, entireChatButton, totalCountLabel, categoryCollectionView, listCollectionView, emptyView)
     }
     
     func setLayout() {
+        searchBarView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
         myChatButton.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(66)
+            $0.top.equalTo(searchBarView.snp.bottom).offset(8)
             $0.leading.equalToSuperview().inset(14)
             $0.height.equalTo(40)
         }

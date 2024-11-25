@@ -71,7 +71,7 @@ enum TabBarItem: CaseIterable {
         case .calendar:
             return HomeViewController()
         case .chat:
-            return UINavigationController(rootViewController: ChatCertificationInitialViewController())
+            return CustomNavigationController(rootViewController: ChatViewController())
         }
     }
 }
