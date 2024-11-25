@@ -58,7 +58,7 @@ class CompanySmallCardView: UIView {
     
     func setHierarchy() {
         addSubview(boxView)
-        [headLabel, boldLabel, iconView].forEach { boxView.addSubview($0) }
+        boxView.addSubviews(headLabel, boldLabel, iconView)
     }
     
     func setLayout(){
@@ -66,7 +66,7 @@ class CompanySmallCardView: UIView {
         boxView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview()
-            $0.width.equalTo(110)
+            $0.width.equalToSuperview()
             $0.height.equalTo(134)
         }
         
@@ -84,8 +84,7 @@ class CompanySmallCardView: UIView {
         iconView.snp.makeConstraints{
             $0.trailing.equalTo(boxView.snp.trailing).offset(-4)
             $0.bottom.equalTo(boxView.snp.bottom).offset(-12)
-            $0.width.equalTo(48)
-            $0.height.equalTo(48)
+            $0.size.equalTo(48)
         }
         
     }
@@ -93,14 +92,10 @@ class CompanySmallCardView: UIView {
     
 extension CompanySmallCardView {
         
-    func configure(
-        iconImage: UIImage,
-        head: String,
-        boldText: String
-    ) {
-        iconView.image = iconImage
-        headLabel.text = head
-        boldLabel.text = boldText
+    func configure(with model: JobSuccessCardModel) {
+        iconView.image = model.iconImage
+        headLabel.text = model.head
+        boldLabel.text = model.boldText
     }
     
 }
@@ -110,11 +105,13 @@ extension CompanySmallCardView {
 struct CompanySmallCardViewPreview: UIViewRepresentable {
     func makeUIView(context: Context) -> CompanySmallCardView {
         let card = CompanySmallCardView()
-        card.configure(
+        let model = JobSuccessCardModel(
             iconImage: UIImage(systemName: "star.fill")!,
             head: "합격을 위하여",
             boldText: "인적성 합격 후기"
         )
+        card.configure(with: model)
+
         return card
     }
 

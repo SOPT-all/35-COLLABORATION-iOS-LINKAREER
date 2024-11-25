@@ -14,7 +14,7 @@ class CompanyHorizontalScrollCollectionViewCell: UICollectionViewCell {
 
     private lazy var collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
-    private var data: [CompanyDayCardDataModel] = []
+    private var data: [CompanyDayCardModel] = []
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -66,7 +66,7 @@ extension CompanyHorizontalScrollCollectionViewCell {
     }
 
     // 컬렉션 뷰에 표시할 데이터 배열
-    func configure(with data: [CompanyDayCardDataModel]) {
+    func configure(with data: [CompanyDayCardModel]) {
         self.data = data
         collectionView.reloadData()
     }
