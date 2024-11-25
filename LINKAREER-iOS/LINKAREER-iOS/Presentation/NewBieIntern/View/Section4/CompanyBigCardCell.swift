@@ -30,17 +30,13 @@ class CompanyBigCardCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setView()
+        setStyle()
+        setHierarchy()
+        setLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setView() {
-        setStyle()
-        setHierarchy()
-        setupLayout()
     }
     
     private func setStyle() {
@@ -96,7 +92,7 @@ class CompanyBigCardCell: UICollectionViewCell {
         
     }
     
-    private func setupLayout() {
+    private func setLayout() {
         
         boxView.snp.makeConstraints {
             $0.edges.equalToSuperview()

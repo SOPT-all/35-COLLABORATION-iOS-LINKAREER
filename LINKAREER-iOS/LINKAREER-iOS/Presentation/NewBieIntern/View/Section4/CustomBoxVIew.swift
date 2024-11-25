@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SnapKit
 import Then
 // for CompanyBigCardCell
 class CustomBoxView: UIView {
@@ -19,7 +20,7 @@ class CustomBoxView: UIView {
         setHierarchy()
         setLayout()
         setStyle()
-        titleLabel.text = title
+        setTitle(title)
     }
     
     required init?(coder: NSCoder) {
@@ -56,6 +57,10 @@ class CustomBoxView: UIView {
             $0.centerX.equalToSuperview()
         }
     }
+    
+    private func setTitle(_ title: String) {
+            titleLabel.text = title
+        }
 }
 
 extension CustomBoxView{
