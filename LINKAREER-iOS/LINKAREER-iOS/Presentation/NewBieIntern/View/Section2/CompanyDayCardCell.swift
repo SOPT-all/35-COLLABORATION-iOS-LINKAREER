@@ -151,7 +151,7 @@ class CompanyDayCardCell: UICollectionViewCell {
         logoImageView.snp.makeConstraints {
             $0.centerX.equalTo(boxView.snp.centerX)
             $0.centerY.equalTo(boxView.snp.centerY)
-            $0.width.height.equalTo(142)
+            $0.size.equalTo(142)
 
         }
         

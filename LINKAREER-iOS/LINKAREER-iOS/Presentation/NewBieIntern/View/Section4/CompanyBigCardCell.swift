@@ -117,7 +117,6 @@ class CompanyBigCardCell: UICollectionViewCell {
         horizontalSeparator.snp.makeConstraints {
             $0.top.equalTo(companyImageView.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(12)
-            $0.height.equalTo(1)
         }
         
         separatorCenter.snp.makeConstraints{
