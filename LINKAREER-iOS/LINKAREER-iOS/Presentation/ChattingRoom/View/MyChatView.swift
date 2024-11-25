@@ -17,7 +17,7 @@ class MyChatView: UIView {
     let messageLabel: UIButton = UIButton()
     
     private let writeTimeLabel: UILabel = UILabel()
-    private let likeButton: UIButton = UIButton()
+    let likeButton: UIButton = UIButton()
     
     
     // MARK: - Life Cycle
@@ -52,7 +52,7 @@ class MyChatView: UIView {
         likeButton.snp.makeConstraints {
             $0.top.equalTo(messageLabel.snp.bottom).offset(4)
             $0.trailing.equalTo(messageLabel)
-            $0.size.equalTo(25)
+            $0.height.equalTo(26)
         }
     }
     
@@ -69,6 +69,13 @@ class MyChatView: UIView {
         
         likeButton.do {
             $0.setImage(.icChattingLike, for: .normal)
+            $0.titleLabel?.font = fontStyle.body13_r_11.font()
+            $0.setTitleColor(.gray700, for: .normal)
+            $0.layer.cornerRadius = 13
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor.gray300.cgColor
+            $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 5, bottom: 4, right: 1)
+            $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 0)
         }
         
     }

@@ -25,8 +25,6 @@ final class ReplyChatCell: UITableViewCell {
         setLayout()
     }
     
-    
-    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -48,12 +46,23 @@ final class ReplyChatCell: UITableViewCell {
 
 extension ReplyChatCell {
     
+    // 채팅 뷰 보이기 설정
     func setChatVisible(isChatMine: Bool) {
         otherReplyChatView.isHidden = isChatMine
         myReplyChatView.isHidden = !isChatMine
     }
     
+    // 채팅 유형에 맞게 설정
     func configureChatView(for chat: Chat, isMyChat: Bool, partner: ChatPartner? = nil) {
+        if isMyChat {
+            configureChatView(chat: chat, isMyChat: true)
+        } else {
+            configureChatView(chat: chat, isMyChat: false, partner: partner)
+        }
+    }
+    
+    // 공통된 채팅 설정을 위한 함수
+    private func configureChatView(chat: Chat, isMyChat: Bool, partner: ChatPartner? = nil) {
         if isMyChat {
             configureMyChat(chat: chat)
         } else {
@@ -61,31 +70,47 @@ extension ReplyChatCell {
         }
     }
     
+    // 내 채팅 설정
     func configureMyChat(chat: Chat) {
-        myReplyChatView.replyNicknameLabel.text = "\(chat.reply?.repliedMessageSenderName ?? "") 님에게 답장"
-        myReplyChatView.replyContentLabel.text = chat.reply?.replyMessage
-        myReplyChatView.messageLabel.text = chat.message
+        myReplyChatView.do {
+            $0.replyNicknameLabel.text = "\(chat.reply?.repliedMessageSenderName ?? "") 님에게 답장"
+            $0.replyContentLabel.text = chat.reply?.replyMessage
+            $0.messageLabel.text = chat.message
+            configureLikeButton($0.likeButton, likes: chat.likes, isPressed: chat.pressedLike)
+        }
     }
     
+    // 상대 채팅 설정
     func configureOtherChat(partner: ChatPartner?, chat: Chat) {
-        guard let partner = partner else {
-            return
-        }
-        
+        guard let partner = partner else { return }
+
         otherReplyChatView.do {
             $0.nicknameLabel.text = partner.partnerName
             $0.replyNicknameLabel.text = "\(chat.reply?.repliedMessageSenderName ?? "") 님에게 답장"
             $0.replyContentLabel.text = chat.reply?.replyMessage
             $0.messageLabel.text = chat.message
+            configureLikeButton($0.likeButton, likes: chat.likes, isPressed: chat.pressedLike)
         }
-       
+
         addTagButton(for: partner)
     }
-
-    func addTagButton(for partner: ChatPartner) {
+    
+    // 좋아요 버튼 설정
+    private func configureLikeButton(_ likeButton: UIButton, likes: Int, isPressed: Bool) {
+        likeButton.setTitle("\(likes)", for: .normal)
+        if likes > 0 {
+            likeButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 5, bottom: 4, right: 5)
+        } 
+        
+        if isPressed {
+            likeButton.setImage(.icChattingLikeActive, for: .normal)
+        }
+    }
+    
+    // 태그 버튼 추가
+    private func addTagButton(for partner: ChatPartner) {
         let tagButton: UIButton = UIButton()
         let tagText = partner.tag.companyName + "・" + partner.tag.job
-        
         tagButton.setStyle(title: tagText)
         
         otherReplyChatView.tagStackView.addArrangedSubview(tagButton)
@@ -95,7 +120,4 @@ extension ReplyChatCell {
             $0.width.greaterThanOrEqualTo(50)
         }
     }
-    
 }
-
-

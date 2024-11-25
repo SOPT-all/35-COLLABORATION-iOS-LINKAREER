@@ -33,9 +33,9 @@ struct ChatPartner {
                        tag: Tag(companyName: "현대자동차", job: "생산관리"),
                        chatList: [
                            Chat(
-                               message: "안녕하세요",
+                               message: "안녕하세요\n이 프로젝트 어떻게 진행할까요?이 프로젝트 어떻게 진행할까요?이 프로젝트 어떻게 진행할까요?",
                                isReplied: true,
-                               likes: 10,
+                               likes: 222,
                                pressedLike: true,
                                createdDate: "2024-11-23",
                                reply: Reply(replyMessage: "반갑습니다!", repliedMessageSenderName: "민서공이")
