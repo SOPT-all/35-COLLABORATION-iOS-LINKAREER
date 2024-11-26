@@ -80,16 +80,21 @@ extension HomeView {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, _ -> NSCollectionLayoutSection? in
             switch self.homeSection[sectionIndex] {
             case .homeBanner:
-                return self.setHomeBannerLayout()
+                let section = self.setHomeBannerLayout()
+                section.decorationItems = [
+                    .background(elementKind: SectionBackgroundView.identifier)
+                ]
+                return section
             case .catecoryBoard:
                 return self.setCategorySelectorLayout()
             case .interestBoard:
                 return self.setInterestBoardLayout()
             case .recommendRecruit:
                 return self.setRecommendRecruitLayout()
-           
+                
             }
         }
+
         return layout
     }
     
@@ -100,31 +105,33 @@ extension HomeView {
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(273))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
+
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)
         section.boundarySupplementaryItems = [self.setHeaderView(), self.setBottomPageControlView()]
+        section.decorationItems = [.background(elementKind: SectionBackgroundView.identifier)] // 배경 추가
         
         return section
     }
+
     
     func setCategorySelectorLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(40), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 0)
         group.interItemSpacing = .fixed(8)
-
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)
         section.boundarySupplementaryItems = [self.setHeaderView()]
-
+        
         return section
     }
-
+    
     
     func setInterestBoardLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(152))
@@ -148,7 +155,7 @@ extension HomeView {
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(142 + 8), heightDimension: .absolute(252))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 14, bottom: 65, trailing: 6) // 섹션의 여백 설정
         section.orthogonalScrollingBehavior = .continuous
@@ -156,7 +163,7 @@ extension HomeView {
         
         return section
     }
-
+    
     
     func setHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(75))
