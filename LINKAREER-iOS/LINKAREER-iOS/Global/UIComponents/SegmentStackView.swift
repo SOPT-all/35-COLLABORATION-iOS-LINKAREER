@@ -124,6 +124,10 @@ extension SegmentStackView {
             stackView.addArrangedSubview(tagButton)
         }
     }
+    
+    func getButtons() -> [UIButton] {
+        return tagButtons
+    }
 }
 
 

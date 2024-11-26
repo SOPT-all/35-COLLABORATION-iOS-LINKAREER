@@ -25,6 +25,8 @@ class HomeViewController: UIViewController {
     private var homeBanners: [HomeBanner] = HomeBanner.dummyData
     private var interestBoard: [Board] = Board.dummyData
     
+    private var isInternScreenShown = false
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -35,6 +37,7 @@ class HomeViewController: UIViewController {
         setStyle()
         registerCell()
         setDelegate()
+        setActions()
     }
     
     func setHierarchy() {
@@ -67,7 +70,50 @@ class HomeViewController: UIViewController {
         }
     }
     
+    
+    func setActions() {
+        let buttons = homeView.segmentStackView.getButtons()
+        for button in buttons {
+            button.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
+        }
+    }
+    
+    @objc
+    func handleButtonTap(_ sender: UIButton) {
+        let tagText = homeView.segmentStackView.tagTexts[sender.tag] // 버튼 텍스트 확인
+        
+        if tagText == "신입/인턴" {
+            isInternScreenShown.toggle() // 상태 변경
+            
+            if isInternScreenShown {
+                addBottomBorder(to: sender)
+                print("신입/인턴 화면으로 전환!") // 화면 전환 로직
+            } else {
+                print("원래 화면으로 복귀!") // 복귀 로직
+                removeBottomBorder(from: sender)
+            }
+        }
+    }
+    
 }
+
+extension HomeViewController {
+    
+    func addBottomBorder(to button: UIButton) {
+        let borderLayer = CALayer()
+        borderLayer.backgroundColor = UIColor.lkBlue.cgColor
+        borderLayer.frame = CGRect(x: 0, y: button.frame.height - 4, width: button.frame.width, height: 4)
+        borderLayer.name = "bottomBorder"
+        button.layer.addSublayer(borderLayer)
+        button.setTitleColor(.lkBlue, for: .normal)
+    }
+    
+    func removeBottomBorder(from button: UIButton) {
+        button.layer.sublayers?.removeAll(where: { $0.name == "bottomBorder" })
+        button.setTitleColor(.gray900, for: .normal)
+    }
+}
+
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -102,7 +148,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 fatalError("Unable to dequeue CategorySelectorCell")
             }
             let category = categorySelector[indexPath.row]
-            let isSelected = indexPath.row == 0 
+            let isSelected = indexPath.row == 0
             cell.configure(with: category, isSelected: isSelected)
             return cell
         case .interestBoard, .recommendRecruit:
