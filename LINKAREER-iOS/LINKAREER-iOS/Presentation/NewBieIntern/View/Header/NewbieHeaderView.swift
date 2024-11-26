@@ -61,7 +61,7 @@ class NewbieHeaderView: UICollectionReusableView {
     private func setLayout() {
         upHorizontalSeparator.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(1)
         }
         

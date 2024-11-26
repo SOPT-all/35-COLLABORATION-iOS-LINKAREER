@@ -19,7 +19,6 @@ final class ChatReSearchButtonView: UIView {
         setHierarchy()
         setStyle()
         setLayout()
-        setActions()
     }
 
     required init?(coder: NSCoder) {
@@ -54,13 +53,6 @@ final class ChatReSearchButtonView: UIView {
         }
     }
     
-    private func setActions() {
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-    }
-    
-    @objc private func buttonTapped() {
-        print("muyaho~~") 
-    }
 }
 
 

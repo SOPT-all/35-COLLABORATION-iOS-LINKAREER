@@ -82,9 +82,9 @@ class NewbieInternViewController: UIViewController {
         collectionView.register(CompanyMentorCollectionViewCell.self, forCellWithReuseIdentifier: CompanyMentorCollectionViewCell.identifier)
         
         collectionView.register(
-            FooterView.self,
+            PolicyFooterView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-            withReuseIdentifier: FooterView.identifier
+            withReuseIdentifier: PolicyFooterView.identifier
         )
         
     }
@@ -96,8 +96,7 @@ class NewbieInternViewController: UIViewController {
     
     private func setLayout() {
         collectionView.snp.makeConstraints { $0.edges.equalToSuperview()
-            $0.width.equalTo(375)
-            $0.height.equalTo(2500)
+     
         }
     }
 }
@@ -249,9 +248,9 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         if kind == UICollectionView.elementKindSectionFooter && indexPath.section == 5 {
             guard let footer = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
-                withReuseIdentifier: FooterView.identifier,
+                withReuseIdentifier: PolicyFooterView.identifier,
                 for: indexPath
-            ) as? FooterView else {
+            ) as? PolicyFooterView else {
                 return UICollectionReusableView()
             }
             return footer

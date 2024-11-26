@@ -5,8 +5,9 @@
 //  Created by Jaehyun Ahn on 11/25/24.
 //
 
-import Foundation
 import UIKit
+import SwiftUI
+
 import SnapKit
 import Then
 
@@ -18,7 +19,7 @@ final class CompanyMentorCollectionViewCell: UICollectionViewCell {
     )
     
     private let bottomButton: ChatReSearchButtonView = ChatReSearchButtonView()
-
+    
     private var tagHeaderData: TagHeader?
     private var chatListData: [ChatList] = []
     
@@ -42,15 +43,14 @@ final class CompanyMentorCollectionViewCell: UICollectionViewCell {
     private func setLayout() {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.bottom.equalTo(bottomButton.snp.top)
-                 }
-                 
-         bottomButton.snp.makeConstraints {
-             $0.centerX.equalToSuperview()
-             $0.top.equalTo(collectionView.snp.bottom).offset(10)
-             $0.height.equalTo(36)
-             $0.width.equalTo(150)
-         }
+        }
+        
+        bottomButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(40)
+            $0.height.equalTo(36)
+            $0.width.equalTo(150)
+        }
     }
     
     private func setDelegate() {
@@ -151,8 +151,6 @@ extension CompanyMentorCollectionViewCell: UICollectionViewDataSource, UICollect
     }
 }
 
-
-import SwiftUI
 
 struct CompanyMentorCollectionViewCellPreview: UIViewRepresentable {
     
