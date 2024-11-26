@@ -18,6 +18,8 @@ class HomeView: UIView {
     
     lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createCompositionalLayout())
     
+    let segmentStackView = SegmentStackView()
+    
     // MARK: - UI Properties
     
     private var homeSection: [HomeSection] = HomeSection.dataSource
@@ -38,7 +40,7 @@ class HomeView: UIView {
     
     
     func setHierarchy() {
-        self.addSubviews(mainCollectionView, searchBarView)
+        self.addSubviews(mainCollectionView, segmentStackView, searchBarView)
     }
     
     func setLayout() {
@@ -47,8 +49,14 @@ class HomeView: UIView {
             $0.horizontalEdges.equalToSuperview()
         }
         
-        mainCollectionView.snp.makeConstraints {
+        segmentStackView.snp.makeConstraints {
             $0.top.equalTo(searchBarView.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(48)
+        }
+        
+        mainCollectionView.snp.makeConstraints {
+            $0.top.equalTo(segmentStackView.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
