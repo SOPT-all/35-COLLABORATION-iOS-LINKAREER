@@ -142,20 +142,21 @@ extension HomeView {
     }
     
     func setRecommendRecruitLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(142), heightDimension: .absolute(252)) // 아이템 크기
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 40)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(142), heightDimension: .absolute(252))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(142 + 8), heightDimension: .absolute(252))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 14)
-        
+
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 65, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 14, bottom: 65, trailing: 6) // 섹션의 여백 설정
         section.orthogonalScrollingBehavior = .continuous
-        section.boundarySupplementaryItems = [ self.setPolicyFooterView()]
+        section.boundarySupplementaryItems = [self.setPolicyFooterView()]
         
         return section
     }
+
     
     func setHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(75))
