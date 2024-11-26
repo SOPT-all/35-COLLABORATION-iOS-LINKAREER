@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
-
+import Kingfisher
 
 final class BoardCell: UICollectionViewCell {
     
@@ -175,10 +175,14 @@ final class BoardCell: UICollectionViewCell {
 extension BoardCell {
     
     func configure(with board: Board) {
-        benefitTagButton.setTitle( board.category, for: .normal)
+        
+        print("Configuring BoardCell with: \(board)")
+
+        
+        benefitTagButton.setTitle( board.community, for: .normal)
         titleLabel.text = board.title
         contentLabel.text = board.content
-        imageView.image = board.image
+        imageView.kfSetImage(with: board.imageUrl)
         writerLabel.text = board.writer
         createAtLabel.text = board.createAt
         likeLabel.text = "\(board.likeCount)"
