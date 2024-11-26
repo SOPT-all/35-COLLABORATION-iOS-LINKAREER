@@ -23,7 +23,7 @@ class HomeViewController: UIViewController {
     private var tagHeader: [TagHeader] = TagHeader.headerData
     private var categorySelector: [CategorySelector] = CategorySelector.dummyData
     private var homeBanners: [HomeBanner] = HomeBanner.dummyData
-    private var interestBoard: [Board] = Board.dummyData
+    private var interestBoard: [Board] = []
     
     // MARK: - Life Cycle
     
@@ -35,6 +35,7 @@ class HomeViewController: UIViewController {
         setStyle()
         registerCell()
         setDelegate()
+        getPostList()
     }
     
     func setHierarchy() {
@@ -64,6 +65,47 @@ class HomeViewController: UIViewController {
             $0.register(TagHeaderView.self, forSupplementaryViewOfKind: TagHeaderView.identifier, withReuseIdentifier: TagHeaderView.identifier)
             $0.register(BottomPageControlView.self, forSupplementaryViewOfKind: BottomPageControlView.identifier, withReuseIdentifier: BottomPageControlView.identifier)
             $0.register(PolicyFooterView.self, forSupplementaryViewOfKind: PolicyFooterView.identifier, withReuseIdentifier: PolicyFooterView.identifier)
+        }
+    }
+    
+}
+extension HomeViewController {
+    
+    func getPostList() {
+        NetworkService.shared.homeService.getPostList(category: "INTEREST") { [weak self] response in
+            guard self != nil else { return }
+            
+            switch response {
+            case .success(let data):
+                let interestBoard = data.posts.map { postList in
+                    print(postList.imageUrl)
+                    return Board(
+                        community: postList.community,
+                        title: postList.title,
+                        content: postList.content,
+                        imageUrl: postList.imageUrl,
+                        writer: postList.writer,
+                        createAt: postList.beforeTime,
+                        likeCount: postList.favorites,
+                        commentCount: postList.comments,
+                        views: postList.views
+                    )
+                }
+                DispatchQueue.main.async {
+                    self?.interestBoard = interestBoard
+                    self?.homeView.mainCollectionView.reloadData()
+                }
+            case .requestErr:
+                print("요청 오류입니다")
+            case .decodedErr:
+                print("디코딩 오류입니다")
+            case .pathErr:
+                print("경로 오류입니다")
+            case .serverErr:
+                print("서버 오류입니다")
+            case .networkFail:
+                print("네트워크 오류입니다")
+            }
         }
     }
     
@@ -102,13 +144,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 fatalError("Unable to dequeue CategorySelectorCell")
             }
             let category = categorySelector[indexPath.row]
-            let isSelected = indexPath.row == 0 
+            let isSelected = indexPath.row == 0
             cell.configure(with: category, isSelected: isSelected)
             return cell
         case .interestBoard, .recommendRecruit:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCell.identifier, for: indexPath) as? BoardCell else {
                 fatalError("Unable to dequeue BoardCell")
             }
+            
             let board = interestBoard[indexPath.row]
             cell.configure(with: board)
             return cell
