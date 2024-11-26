@@ -95,16 +95,9 @@ extension HomeViewController {
                     self?.interestBoard = interestBoard
                     self?.homeView.mainCollectionView.reloadData()
                 }
-            case .requestErr:
-                print("요청 오류입니다")
-            case .decodedErr:
-                print("디코딩 오류입니다")
-            case .pathErr:
-                print("경로 오류입니다")
-            case .serverErr:
-                print("서버 오류입니다")
-            case .networkFail:
-                print("네트워크 오류입니다")
+            default:
+                print("Failed to fetch post list")
+                return
             }
         }
     }
