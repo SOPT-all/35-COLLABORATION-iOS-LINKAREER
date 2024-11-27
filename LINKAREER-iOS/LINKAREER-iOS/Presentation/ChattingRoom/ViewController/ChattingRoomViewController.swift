@@ -16,6 +16,8 @@ class ChattingRoomViewController: UIViewController {
     
     private let chattingRoomView: ChattingRoomView = ChattingRoomView()
         
+    // MARK: - Properties
+    
     private var chatData: [ChatRoom] = []
 
         
@@ -86,40 +88,35 @@ private extension ChattingRoomViewController {
         chattingRoomView.certificationPopUpView.removeFromSuperview()
     }
     
-    func getTotalChatCount(for section: Int) -> Int {
-        
-        let chatRoom = chatData[section]
-        let myChatCount = chatRoom.myChat.chatList.count
-        let partnerChatCount = chatRoom.chatPartner.chatList.count
-        
-        return myChatCount + partnerChatCount
-    }
-    
     func getChat(for indexPath: IndexPath, in chatRoom: ChatRoom) -> Chat {
-        let myChatList = chatRoom.myChat.chatList
-        let partnerChatList = chatRoom.chatPartner.chatList
-        
-        // 상대방 채팅 먼저 가져오기
-        if indexPath.row < partnerChatList.count {
-            return partnerChatList[indexPath.row]
-        } else {
-            let myIndex = indexPath.row - partnerChatList.count
-            return myChatList[myIndex]
-        }
-    }
-    
-    func isChatMine(for indexPath: IndexPath, in chatRoom: ChatRoom) -> Bool {
-        let myChatList = chatRoom.myChat.chatList
-        let partnerChatList = chatRoom.chatPartner.chatList
-        
-        // 내 채팅인지 확인
-        if indexPath.row < myChatList.count {
-            return true // 내 채팅
-        } else {
-            return false // 상대방 채팅
-        }
+        let sortedChats = getSortedChats(for: indexPath.section)
+        return sortedChats[indexPath.row]
     }
 
+    func isChatMine(for indexPath: IndexPath, in chatRoom: ChatRoom) -> Bool {
+        let chat = getChat(for: indexPath, in: chatRoom)
+        return chatData[indexPath.section].myChat.chatList.contains(where: { $0.message == chat.message })
+    }
+
+    
+    func getSortedChats(for section: Int) -> [Chat] {
+        let chatRoom = chatData[section]
+        let combinedChats = chatRoom.myChat.chatList + chatRoom.chatPartner.chatList
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        
+        return combinedChats.sorted { chat1, chat2 in
+            guard
+                let date1 = dateFormatter.date(from: chat1.createdTime),
+                let date2 = dateFormatter.date(from: chat2.createdTime)
+            else {
+                return false
+            }
+            return date1 < date2
+        }
+    }
+    
     
     //네트워크 통신
     func getChatHistory() {
@@ -178,16 +175,9 @@ private extension ChattingRoomViewController {
                 DispatchQueue.main.async {
                     self.chattingRoomView.chattingTableView.reloadData()
                 }
-            case .requestErr:
-                print("요청 오류입니다")
-            case .decodedErr:
-                print("디코딩 오류입니다")
-            case .pathErr:
-                print("경로 오류입니다")
-            case .serverErr:
-                print("서버 오류입니다")
-            case .networkFail:
-                print("네트워크 오류입니다")
+            default:
+                print("Failed to fetch post list")
+                return
             }
         }
     }
@@ -197,23 +187,20 @@ private extension ChattingRoomViewController {
 extension ChattingRoomViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        // chatData의 섹션 수 반환
         return chatData.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard section < chatData.count else { return 0 } // 방어 코드
-        return getTotalChatCount(for: section) // 섹션 내 전체 채팅 수 반환
+        guard section < chatData.count else { return 0 }
+        return getSortedChats(for: section).count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard indexPath.section < chatData.count else { return UITableViewCell() } // 방어 코드
+        guard indexPath.section < chatData.count else { return UITableViewCell() }
         
-        // 섹션의 채팅 데이터를 가져옴
         let chatRoom = chatData[indexPath.section]
         let chatPartner = chatRoom.chatPartner
         
-        // 인덱스에 맞는 채팅 가져오기
         let chat = getChat(for: indexPath, in: chatRoom)
         let isMyChat = isChatMine(for: indexPath, in: chatRoom)
 
