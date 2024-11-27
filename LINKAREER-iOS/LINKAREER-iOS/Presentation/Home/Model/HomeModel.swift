@@ -55,25 +55,15 @@ struct CategorySelector {
     }
 }
 
-struct Board {
-    let category: String
+struct Board: Codable {
+    let community: String
     let title: String
     let content: String
-    let image: UIImage
+    let imageUrl: String
     let writer: String
     let createAt: String
     let likeCount: Int
     let commentCount: Int
     let views: Int
-    
-    static var dummyData: [Board] {
-        return [
-            Board(category: "면접 합격 후기", title: "하나은행 2차 면접 후기입니다", content: "우선 대기실에 도착하면 안내 분들께서 친절하게", image: .imgCommuBestNh70, writer: "문과출신", createAt: "2시간 전", likeCount: 384, commentCount: 76, views: 6546),
-            Board(category: "자유 이야기방", title: "라인 1차 합격 했는데 고민되네요...", content: "막상 합격하니 얼떨떨 하기도 하고 제가 과연...", image: .imgCommuBestNh70, writer: "파란사과", createAt: "2시간 전", likeCount: 106, commentCount: 64, views: 3485),
-            Board(category: "인턴 고민", title: "하나은행 2차 면접 후기입니다", content: "우선 대기실에 도착하면 안내 분들께서 친절", image: .imgCommuBestNh70, writer: "surf", createAt: "1시간 전", likeCount: 45, commentCount: 2, views: 1294)
-        ]
-    }
 }
-
-
 

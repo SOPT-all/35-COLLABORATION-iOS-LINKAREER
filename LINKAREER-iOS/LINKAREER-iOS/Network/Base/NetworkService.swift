@@ -13,5 +13,7 @@ final class NetworkService {
     
     private init() {}
    
+    let homeService: HomeService = HomeService()
+
 }
 
