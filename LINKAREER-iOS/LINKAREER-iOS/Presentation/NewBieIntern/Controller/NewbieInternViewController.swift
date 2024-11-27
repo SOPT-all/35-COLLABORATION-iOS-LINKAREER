@@ -44,6 +44,7 @@ class NewbieInternViewController: UIViewController {
         setLayout()
         fetchData()
         setDelegate()
+        getCardList()
     }
     
     private func setHierarchy(){
@@ -96,7 +97,6 @@ class NewbieInternViewController: UIViewController {
     
     private func setLayout() {
         collectionView.snp.makeConstraints { $0.edges.equalToSuperview()
-     
         }
     }
 }
@@ -106,11 +106,11 @@ extension NewbieInternViewController {
     private func fetchData() {
         
         // 겟션 1
-        noTagHeaderDataInFirstSection = NoTagHeaderModel(nickname: "만수무강", title: "어깨 무릎")
+        noTagHeaderDataInFirstSection = NoTagHeaderModel(nickname: "실시간", title: "UX/UI 인기 공고 모아보기")
         CategoriesInFirstSection = ChatCategoryList.categoryDummy()
         
         // 섹션 2
-        companyDayData = CompanyDayCardModelData.shared.allCard
+        //        companyDayData = CompanyDayCardModelData.shared.allCard
         
         // 섹션 3
         jobSuccessData = SectionTitleModelData.shared.allSections
@@ -177,7 +177,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         case 3:
             return CGSize(width: width, height: 520)
         case 4:
-            return CGSize(width: width, height: 600)
+            return CGSize(width: width, height: 630)
         case 5:
             return CGSize(width: width, height: 400)
         default:
@@ -336,6 +336,61 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         }
         return cell
     }
+}
+
+
+extension NewbieInternViewController {
+    
+    func getCardList() {
+        // HomeService의 getPostList 호출
+        NetworkService.shared.newbieService.getPostList(category: "popular") { [weak self] response in
+            guard self != nil else { return }
+            
+            switch response {
+            case .success(let officialList):
+                // 성공적으로 데이터를 가져왔을 때
+                // 서버에서 받은 데이터를 모델에 매핑
+                let convertedData = officialList.map { official in
+                    CompanyDayCardModel(
+                        dDay: official.dday,
+                        imageUrl: official.imageUrl,
+                        interestJob: official.interestJob,
+                        companyName: official.companyName,
+                        title: official.title,
+                        tag: official.tag,
+                        views: official.views,
+                        comments: official.comments,
+                        bookmark: official.bookmark
+                    )
+                }
+                
+                
+                // UI 업데이트
+                DispatchQueue.main.async {
+                    self?.companyDayData = convertedData // 게시물 리스트 업데이트
+                    self?.collectionView.reloadData() // 컬렉션 뷰 갱신
+                }
+                
+                // 요청 오류 발생 시 처리 > 네트워크 성공적으로 연결 시 default로 한번에 처리해도 됨!
+            case .requestErr:
+                // 요청 오류 발생 시
+                print("요청 오류입니다")
+            case .decodedErr:
+                // 디코딩 오류 발생 시
+                print("디코딩 오류입니다")
+            case .pathErr:
+                // 경로 오류 발생 시
+                print("경로 오류입니다")
+            case .serverErr:
+                // 서버 오류 발생 시
+                print("서버 오류입니다")
+            case .networkFail:
+                // 네트워크 오류 발생 시
+                print("네트워크 오류입니다")
+            }
+        }
+    }
+    
 }
 
 //preview

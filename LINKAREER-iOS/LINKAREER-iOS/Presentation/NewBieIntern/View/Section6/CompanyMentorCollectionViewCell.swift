@@ -149,6 +149,15 @@ extension CompanyMentorCollectionViewCell: UICollectionViewDataSource, UICollect
     ) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 70)
     }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
+    }
+
 }
 
 
