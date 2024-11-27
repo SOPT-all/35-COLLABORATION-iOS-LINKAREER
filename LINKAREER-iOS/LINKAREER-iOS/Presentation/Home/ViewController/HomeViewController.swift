@@ -102,19 +102,14 @@ class HomeViewController: UIViewController {
 extension HomeViewController {
     
     func addBottomBorder(to button: UIButton) {
-        let borderLayer = CALayer()
-        borderLayer.backgroundColor = UIColor.lkBlue.cgColor
-        borderLayer.frame = CGRect(x: 0, y: button.frame.height - 4, width: button.frame.width, height: 4)
-        borderLayer.name = "bottomBorder"
-        button.layer.addSublayer(borderLayer)
-        button.setTitleColor(.lkBlue, for: .normal)
+        button.addBottomBorder(color: .lkBlue, height: 4.0)
     }
     
     func removeBottomBorder(from button: UIButton) {
-        button.layer.sublayers?.removeAll(where: { $0.name == "bottomBorder" })
-        button.setTitleColor(.gray900, for: .normal)
+        button.removeBottomBorder()
     }
 }
+
 
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
