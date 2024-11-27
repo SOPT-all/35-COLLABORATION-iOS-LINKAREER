@@ -8,15 +8,17 @@
 import UIKit
 
 struct CompanyDayCardModel {
-    let day: String
-    let image: UIImage
-    let buttonTitle: String
+    let dDay: String
+    let imageUrl: UIImage
+    let interestJob: String
     let companyName: String
     let title: String
-    let category: String
-    let viewCount: Int
-    let commentCount: Int
+    let tag: String
+    let views: Int
+    let comments: Int
+    let bookmark : Bool
 }
+
 //api
 struct CompanyDayCardModelData {
     
@@ -24,54 +26,59 @@ struct CompanyDayCardModelData {
     
     let cards: [CompanyDayCardModel] = [
         CompanyDayCardModel(
-            day: "7",
-            image: UIImage(resource: .imgHotofficialLgcns142),
-            buttonTitle: "정규직 1차 면접 프리패스",
+            dDay: "7",
+            imageUrl: UIImage(resource: .imgHotofficialLgcns142),
+            interestJob: "정규직 1차 면접 프리패스",
             companyName: "LG CNS",
             title: "[LG CNS] [인턴, 학사] 2025년 동계 DX Core...",
-            category: "정규직 1차 면접 프리패스",
-            viewCount: 20481,
-            commentCount: 342
+            tag: "정규직 1차 면접 프리패스",
+            views: 20481,
+            comments: 342,
+            bookmark: true
         ),
         CompanyDayCardModel(
-            day: "10",
-            image: UIImage(resource: .imgHotofficialIbk142),
-            buttonTitle: "정규직 1차 면접 프리패스",
+            dDay: "10",
+            imageUrl: UIImage(resource: .imgHotofficialIbk142),
+            interestJob: "정규직 1차 면접 프리패스",
             companyName: "IBK기업은행",
             title: "[IBK기업은행] 2025년 동계 체험형 청년인턴 채용...",
-            category: "정규직 1차 면접 프리패스",
-            viewCount: 31123,
-            commentCount: 545
+            tag: "정규직 1차 면접 프리패스",
+            views: 31123,
+            comments: 545,
+            bookmark: true
         ),
         CompanyDayCardModel(
-            day: "0",
-            image: UIImage(resource: .imgHotofficialLalasweet142),
-            buttonTitle: "정규직 전환",
+            dDay: "0",
+            imageUrl: UIImage(resource: .imgHotofficialLalasweet142),
+            interestJob: "정규직 전환",
             companyName: "주식회사 라라스윗",
             title: "[라라스윗] 온라인 마케팅 인턴십 5기",
-            category: "정규직 전환",
-            viewCount: 3424,
-            commentCount: 76
+            tag: "정규직 전환",
+            views: 3424,
+            comments: 76,
+            bookmark: true
         ),
         CompanyDayCardModel(
-            day: "7",
-            image: UIImage(resource: .imgHotofficialLgcns142),
-            buttonTitle: "정규직 1차 면접 프리패스",
+            dDay: "7",
+            imageUrl: UIImage(resource: .imgHotofficialLgcns142),
+            interestJob: "정규직 1차 면접 프리패스",
             companyName: "LG CNS",
             title: "[LG CNS] [인턴, 학사] 2025년 동계 DX Core...",
-            category: "정규직 1차 면접 프리패스",
-            viewCount: 20481,
-            commentCount: 342
+            tag: "정규직 1차 면접 프리패스",
+            views: 20481,
+            comments: 342,
+            bookmark: true
         ),
         CompanyDayCardModel(
-            day: "99",
-            image: UIImage(resource: .imgHotofficialIbk142),
-            buttonTitle: "정규직 1차 면접 프리패스",
+            dDay: "99",
+            imageUrl: UIImage(resource: .imgHotofficialIbk142),
+            interestJob: "정규직 1차 면접 프리패스",
             companyName: "IBK기업은행",
             title: "[IBK기업은행] 2025년 동계 체험형 청년인턴 채용...",
-            category: "정규직 1차 면접 프리패스",
-            viewCount: 31123,
-            commentCount: 545
+            tag: "정규직 1차 면접 프리패스",
+            views: 31123,
+            comments: 545,
+            bookmark: true
         )
     ]
     
