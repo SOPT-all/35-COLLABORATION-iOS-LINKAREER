@@ -111,7 +111,7 @@ final class HomeBannerCell: UICollectionViewCell {
         }
         
         titleLabel.do {
-            $0.setLabel(alignment: .left, textColor: .gray900, font: fontStyle.body2_b_14.font())
+            $0.setLabel(alignment: .left, numberOfLines: 1, textColor: .gray900, font: fontStyle.body2_b_14.font())
         }
         
         benefitTagButton.do {

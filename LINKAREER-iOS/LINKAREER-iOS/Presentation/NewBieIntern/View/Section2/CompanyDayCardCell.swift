@@ -149,10 +149,7 @@ class CompanyDayCardCell: UICollectionViewCell {
         }
         
         logoImageView.snp.makeConstraints {
-            $0.centerX.equalTo(boxView.snp.centerX)
-            $0.centerY.equalTo(boxView.snp.centerY)
-            $0.size.equalTo(142)
-
+            $0.center.equalTo(boxView)
         }
         
         actionButton.snp.makeConstraints {
@@ -185,11 +182,7 @@ class CompanyDayCardCell: UICollectionViewCell {
             $0.centerY.equalTo(viewCountLabel)
             $0.leading.equalTo(viewCountLabel.snp.trailing).offset(3)
         }
-        
-        snp.makeConstraints {
-            $0.height.equalTo(255)
-            $0.width.equalTo(142)
-        }
+
     }
 }
 extension CompanyDayCardCell {

@@ -14,7 +14,11 @@ class HomeView: UIView {
     
     // MARK: - UI Properties
     
+    private let searchBarView = CustomSearchView()
+    
     lazy var mainCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createCompositionalLayout())
+    
+    let segmentStackView = SegmentStackView()
     
     // MARK: - UI Properties
     
@@ -36,12 +40,23 @@ class HomeView: UIView {
     
     
     func setHierarchy() {
-        self.addSubview(mainCollectionView)
+        self.addSubviews(mainCollectionView, segmentStackView, searchBarView)
     }
     
     func setLayout() {
+        searchBarView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
+        segmentStackView.snp.makeConstraints {
+            $0.top.equalTo(searchBarView.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(48)
+        }
+        
         mainCollectionView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(24)
+            $0.top.equalTo(segmentStackView.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
@@ -65,16 +80,21 @@ extension HomeView {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, _ -> NSCollectionLayoutSection? in
             switch self.homeSection[sectionIndex] {
             case .homeBanner:
-                return self.setHomeBannerLayout()
+                let section = self.setHomeBannerLayout()
+                section.decorationItems = [
+                    .background(elementKind: SectionBackgroundView.identifier)
+                ]
+                return section
             case .catecoryBoard:
                 return self.setCategorySelectorLayout()
             case .interestBoard:
                 return self.setInterestBoardLayout()
             case .recommendRecruit:
                 return self.setRecommendRecruitLayout()
-           
+                
             }
         }
+
         return layout
     }
     
@@ -85,31 +105,33 @@ extension HomeView {
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(273))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
+
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)
         section.boundarySupplementaryItems = [self.setHeaderView(), self.setBottomPageControlView()]
+        section.decorationItems = [.background(elementKind: SectionBackgroundView.identifier)] // 배경 추가
         
         return section
     }
+
     
     func setCategorySelectorLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(40), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 0)
         group.interItemSpacing = .fixed(8)
-
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)
         section.boundarySupplementaryItems = [self.setHeaderView()]
-
+        
         return section
     }
-
+    
     
     func setInterestBoardLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(152))
@@ -120,30 +142,31 @@ extension HomeView {
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 14)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 24, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)
         section.boundarySupplementaryItems = [self.setHeaderView()]
         
         return section
     }
     
     func setRecommendRecruitLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(142), heightDimension: .absolute(252)) // 아이템 크기
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 40)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(142), heightDimension: .absolute(252))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(142 + 8), heightDimension: .absolute(252))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 14)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 65, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 14, bottom: 65, trailing: 6) // 섹션의 여백 설정
         section.orthogonalScrollingBehavior = .continuous
-        section.boundarySupplementaryItems = [ self.setPolicyFooterView()]
+        section.boundarySupplementaryItems = [self.setPolicyFooterView()]
         
         return section
     }
     
+    
     func setHeaderView() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(51))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(75))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: TagHeaderView.identifier, alignment: .top)
         header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 14)
         
@@ -151,7 +174,7 @@ extension HomeView {
     }
     
     func setBottomPageControlView() -> NSCollectionLayoutBoundarySupplementaryItem {
-        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(78))
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(54))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: BottomPageControlView.identifier, alignment: .bottom)
         
         return footer
