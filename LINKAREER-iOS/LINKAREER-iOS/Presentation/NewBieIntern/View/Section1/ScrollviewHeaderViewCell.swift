@@ -85,7 +85,6 @@ extension HorizontalCategoryCollectionViewCell: UICollectionViewDelegate, UIColl
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as? CategoryCollectionViewCell else {
                 return UICollectionViewCell()
             }
-        let categoryDummy = ChatCategoryList.categoryDummy()
 
         cell.configure(data: categoryDummy[indexPath.item])
             return cell
