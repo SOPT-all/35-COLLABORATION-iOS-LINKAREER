@@ -117,7 +117,6 @@ private extension ChattingRoomViewController {
         }
     }
     
-    
     //네트워크 통신
     func getChatHistory() {
         NetworkService.shared.chattingRoomService.getChatHistory { [weak self] result in
@@ -203,6 +202,9 @@ extension ChattingRoomViewController: UITableViewDelegate, UITableViewDataSource
         
         let chat = getChat(for: indexPath, in: chatRoom)
         let isMyChat = isChatMine(for: indexPath, in: chatRoom)
+
+        chattingRoomView.chatNavigationBarView.chatRoomNameLabel.text = chatRoom.chatRoomName
+        chattingRoomView.chatNavigationBarView.chatParticipantsCountLabel.text = "\(chatRoom.chatParticipantsCount)명"
 
         if isMyChat {
             guard let chatCell = tableView.dequeueReusableCell(withIdentifier: MyChatCell.identifier, for: indexPath) as? MyChatCell else {
