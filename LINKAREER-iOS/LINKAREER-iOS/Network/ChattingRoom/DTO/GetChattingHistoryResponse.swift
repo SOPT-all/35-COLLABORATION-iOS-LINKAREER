@@ -34,7 +34,7 @@ struct GetChattingHistoryResponse: Codable {
         let isReplied: Bool
         let likes: Int
         let pressedLike: Bool
-        let createdDate: String 
+        let createdTime: String 
         let reply: Reply?
         
         struct Reply: Codable {
