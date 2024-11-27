@@ -53,7 +53,7 @@ extension NewbieTargetType: BaseTargetType {
     
     var task: Moya.Task {
         switch self {
-        // 서버로 전달할 파라미터와 인코딩 설정
+            // 서버로 전달할 파라미터와 인코딩 설정
         case .getPostList(let category):
             return .requestParameters(parameters: ["category": category], encoding: URLEncoding.default)
         }
@@ -88,20 +88,20 @@ final class NewbieService: BaseService, NewbieServiceProtocol {
         // MoyaProvider를 사용하여 API 호출
         provider.request(.getPostList(category: category)) { response in
             switch response {
-            // 성공적으로 응답을 받은 경우
+                // 성공적으로 응답을 받은 경우
             case .success(let result):
                 let statusCode = result.statusCode // 응답 상태 코드
                 let data = result.data // 응답 데이터
                 
                 do {
-                               // 응답 데이터를 OfficialListResponse로 디코딩
-                               let decodedData = try JSONDecoder().decode(OfficialListResponse.self, from: data)
-                               completion(.success(decodedData.officialList)) // 배열 반환
-                           } catch {
-                               print("❌ 디코딩 실패: \(error.localizedDescription)")
-                               completion(.decodedErr)
-                           }
-            // 네트워크 요청 실패 시
+                    // 응답 데이터를 OfficialListResponse로 디코딩
+                    let decodedData = try JSONDecoder().decode(OfficialListResponse.self, from: data)
+                    completion(.success(decodedData.officialList)) // 배열 반환
+                } catch {
+                    print("❌ 디코딩 실패: \(error.localizedDescription)")
+                    completion(.decodedErr)
+                }
+                // 네트워크 요청 실패 시
             case .failure:
                 completion(.networkFail)
             }
@@ -109,5 +109,24 @@ final class NewbieService: BaseService, NewbieServiceProtocol {
     }
 }
 
+
+
+
+import Kingfisher
+import UIKit
+
+extension UIImageView {
+    
+    func kfSetImage(with urlString: String?, placeholder: UIImage? = nil) {
+        guard let urlString = urlString, let url = URL(string: urlString) else {
+            self.image = placeholder
+            return
+        }
+        self.kf.setImage(with: url,
+                         placeholder: placeholder,
+                         options: [.transition(.none), .cacheOriginalImage,])
+    }
+    
+}
 
 

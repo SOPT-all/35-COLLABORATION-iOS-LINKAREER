@@ -9,7 +9,7 @@ import UIKit
 
 struct CompanyDayCardModel {
     let dDay: String
-    let imageUrl: UIImage
+    let imageUrl: String
     let interestJob: String
     let companyName: String
     let title: String
@@ -19,7 +19,6 @@ struct CompanyDayCardModel {
     let bookmark : Bool
 }
 
-//api
 struct CompanyDayCardModelData {
     
     static let shared = CompanyDayCardModelData()
@@ -27,7 +26,7 @@ struct CompanyDayCardModelData {
     let cards: [CompanyDayCardModel] = [
         CompanyDayCardModel(
             dDay: "7",
-            imageUrl: UIImage(resource: .imgHotofficialLgcns142),
+            imageUrl: "img_hotofficial_lgcns_142",
             interestJob: "정규직 1차 면접 프리패스",
             companyName: "LG CNS",
             title: "[LG CNS] [인턴, 학사] 2025년 동계 DX Core...",
@@ -38,7 +37,7 @@ struct CompanyDayCardModelData {
         ),
         CompanyDayCardModel(
             dDay: "10",
-            imageUrl: UIImage(resource: .imgHotofficialIbk142),
+            imageUrl: "imgHotofficialIbk142",
             interestJob: "정규직 1차 면접 프리패스",
             companyName: "IBK기업은행",
             title: "[IBK기업은행] 2025년 동계 체험형 청년인턴 채용...",
@@ -49,7 +48,7 @@ struct CompanyDayCardModelData {
         ),
         CompanyDayCardModel(
             dDay: "0",
-            imageUrl: UIImage(resource: .imgHotofficialLalasweet142),
+            imageUrl: "imgHotofficialLalasweet142",
             interestJob: "정규직 전환",
             companyName: "주식회사 라라스윗",
             title: "[라라스윗] 온라인 마케팅 인턴십 5기",
@@ -60,7 +59,7 @@ struct CompanyDayCardModelData {
         ),
         CompanyDayCardModel(
             dDay: "7",
-            imageUrl: UIImage(resource: .imgHotofficialLgcns142),
+            imageUrl: "imgHotofficialIbk142",
             interestJob: "정규직 1차 면접 프리패스",
             companyName: "LG CNS",
             title: "[LG CNS] [인턴, 학사] 2025년 동계 DX Core...",
@@ -71,7 +70,7 @@ struct CompanyDayCardModelData {
         ),
         CompanyDayCardModel(
             dDay: "99",
-            imageUrl: UIImage(resource: .imgHotofficialIbk142),
+            imageUrl: "imgHotofficialIbk142",
             interestJob: "정규직 1차 면접 프리패스",
             companyName: "IBK기업은행",
             title: "[IBK기업은행] 2025년 동계 체험형 청년인턴 채용...",

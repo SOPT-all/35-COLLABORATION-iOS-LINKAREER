@@ -25,7 +25,7 @@ class HomeViewController: UIViewController {
     private var categorySelector: [CategorySelector] = CategorySelector.dummyData
     private var homeBanners: [HomeBanner] = HomeBanner.dummyData
     private var interestBoard: [Board] = Board.dummyData
-    private var recommendRecruit = CompanyDayCardModelData.shared.allCard
+    private var recommendRecruit: [CompanyDayCardModel] = CompanyDayCardModelData.shared.allCard
     
     private var isInternScreenShown = false
     

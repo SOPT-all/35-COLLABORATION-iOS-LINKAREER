@@ -189,7 +189,7 @@ extension CompanyDayCardCell {
     
     func configure(with model: CompanyDayCardModel) {
         dayLabel.text = model.dDay
-        logoImageView.image = model.imageUrl
+        logoImageView.kfSetImage(with: model.imageUrl, placeholder: UIImage(named: "placeholder"))
         actionButton.isSelected = model.bookmark
         companyNameLabel.text = model.companyName
         titleLabel.text = model.title

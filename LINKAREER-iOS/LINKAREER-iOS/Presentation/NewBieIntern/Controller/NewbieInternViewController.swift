@@ -44,7 +44,7 @@ class NewbieInternViewController: UIViewController {
         setLayout()
         fetchData()
         setDelegate()
-        getPostList()
+        getCardList()
     }
     
     private func setHierarchy(){
@@ -341,8 +341,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
 
 extension NewbieInternViewController {
     
-    private func getPostList() {
-        print("dd")
+    func getCardList() {
         // HomeService의 getPostList 호출
         NetworkService.shared.newbieService.getPostList(category: "recommend") { [weak self] response in
             guard self != nil else { return }
@@ -354,7 +353,7 @@ extension NewbieInternViewController {
                 let convertedData = officialList.map { official in
                     CompanyDayCardModel(
                         dDay: official.dday,
-                        imageUrl: UIImage(resource: .imgCompanypassLgcns54),
+                        imageUrl: official.imageUrl,
                         interestJob: official.interestJob,
                         companyName: official.companyName,
                         title: official.title,
