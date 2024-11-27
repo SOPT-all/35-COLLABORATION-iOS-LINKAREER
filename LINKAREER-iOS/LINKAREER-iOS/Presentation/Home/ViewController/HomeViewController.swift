@@ -162,16 +162,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
             let item = recommendRecruit[indexPath.item]
             
-            cell.configure(
-                day: item.day,
-                image: item.image,
-                buttonTitle: item.buttonTitle,
-                companyName: item.companyName,
-                title: item.title,
-                category: item.category,
-                viewCount: item.viewCount,
-                commentCount: item.commentCount
-            )
+            cell.configure(with: item)
             return cell
         }
         
