@@ -31,6 +31,7 @@ class ChattingRoomView: UIView {
         setLayout()
         setStyle()
     }
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -43,7 +44,7 @@ class ChattingRoomView: UIView {
     
     func setLayout() {
         chattingTableView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(172)
+            $0.top.equalToSuperview().inset(152)
             $0.horizontalEdges.equalToSuperview().inset(14)
             $0.bottom.equalToSuperview().inset(103)
         }
@@ -67,6 +68,7 @@ class ChattingRoomView: UIView {
     
     func setStyle() {
         chattingTableView.separatorStyle = .none
+        chattingTableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
     
 }
