@@ -194,8 +194,6 @@ extension ChattingRoomViewController: UITableViewDelegate, UITableViewDataSource
         guard indexPath.section < chatData.count else { return UITableViewCell() }
         
         let chatRoom = chatData[indexPath.section]
-        let chatPartner = chatRoom.chatPartner
-        
         let chat = getChat(for: indexPath, in: chatRoom)
         
         chattingRoomView.chatNavigationBarView.chatRoomNameLabel.text = chatRoom.chatRoomName
