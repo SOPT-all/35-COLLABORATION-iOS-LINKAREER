@@ -57,8 +57,8 @@ class ChattingRoomViewController: UIViewController {
     }
     
     func registerCell() {
-        chattingRoomView.chattingTableView.register(ReplyChatCell.self, forCellReuseIdentifier: ReplyChatCell.identifier)
-        chattingRoomView.chattingTableView.register(ChatCell.self, forCellReuseIdentifier: ChatCell.identifier)
+        chattingRoomView.chattingTableView.register(OtherChatCell.self, forCellReuseIdentifier: OtherChatCell.identifier)
+        chattingRoomView.chattingTableView.register(MyChatCell.self, forCellReuseIdentifier: MyChatCell.identifier)
     }
     
     func setActions() {
@@ -144,7 +144,7 @@ private extension ChattingRoomViewController {
                                 isReplied: chat.isReplied,
                                 likes: chat.likes,
                                 pressedLike: chat.pressedLike,
-                                createdDate: chat.createdDate,
+                                createdTime: chat.createdTime,
                                 reply: chat.reply.map { reply in
                                     Reply(
                                         replyMessage: reply.replyMessage,
@@ -161,7 +161,7 @@ private extension ChattingRoomViewController {
                                 isReplied: chat.isReplied,
                                 likes: chat.likes,
                                 pressedLike: chat.pressedLike,
-                                createdDate: chat.createdDate,
+                                createdTime: chat.createdTime,
                                 reply: chat.reply.map { reply in
                                     Reply(
                                         replyMessage: reply.replyMessage,
@@ -212,55 +212,28 @@ extension ChattingRoomViewController: UITableViewDelegate, UITableViewDataSource
         // 섹션의 채팅 데이터를 가져옴
         let chatRoom = chatData[indexPath.section]
         let chatPartner = chatRoom.chatPartner
-
-        chattingRoomView.chatNavigationBarView.chatRoomNameLabel.text = chatRoom.chatRoomName
-        chattingRoomView.chatNavigationBarView.chatParticipantsCountLabel.text = "\(chatRoom.chatParticipantsCount)명"
         
         // 인덱스에 맞는 채팅 가져오기
         let chat = getChat(for: indexPath, in: chatRoom)
         let isMyChat = isChatMine(for: indexPath, in: chatRoom)
 
-        // 셀 구성
         if isMyChat {
-            if chat.isReplied {
-                // 내 채팅 + 답장 있는 경우
-                guard let replyChatCell = tableView.dequeueReusableCell(withIdentifier: ReplyChatCell.identifier, for: indexPath) as? ReplyChatCell else {
-                    return UITableViewCell()
-                }
-                replyChatCell.setChatVisible(isChatMine: true)
-                replyChatCell.configureMyChat(chat: chat)
-                replyChatCell.selectionStyle = .none
-                return replyChatCell
-            } else {
-                // 내 채팅 + 답장 없는 경우
-                guard let chatCell = tableView.dequeueReusableCell(withIdentifier: ChatCell.identifier, for: indexPath) as? ChatCell else {
-                    return UITableViewCell()
-                }
-                chatCell.setChatVisible(isChatMine: true)
-                chatCell.configureMyChat(chat: chat)
-                chatCell.selectionStyle = .none
-                return chatCell
+            guard let chatCell = tableView.dequeueReusableCell(withIdentifier: MyChatCell.identifier, for: indexPath) as? MyChatCell else {
+                return UITableViewCell()
             }
+            chatCell.isChatReply(chat: chat)
+            chatCell.configureChat(chat: chat)
+            chatCell.selectionStyle = .none
+            return chatCell
         } else {
-            if chat.isReplied {
-                // 상대 채팅 + 답장 있는 경우
-                guard let replyChatCell = tableView.dequeueReusableCell(withIdentifier: ReplyChatCell.identifier, for: indexPath) as? ReplyChatCell else {
-                    return UITableViewCell()
-                }
-                replyChatCell.setChatVisible(isChatMine: false)
-                replyChatCell.configureOtherChat(partner: chatPartner, chat: chat)
-                replyChatCell.selectionStyle = .none
-                return replyChatCell
-            } else {
-                // 상대 채팅 + 답장 없는 경우
-                guard let chatCell = tableView.dequeueReusableCell(withIdentifier: ChatCell.identifier, for: indexPath) as? ChatCell else {
-                    return UITableViewCell()
-                }
-                chatCell.setChatVisible(isChatMine: false)
-                chatCell.configureOtherChat(partner: chatPartner, chat: chat)
-                chatCell.selectionStyle = .none
-                return chatCell
+            guard let chatCell = tableView.dequeueReusableCell(withIdentifier: OtherChatCell.identifier, for: indexPath) as? OtherChatCell else {
+                return UITableViewCell()
             }
+            chatCell.isChatReply(chat: chat)
+            chatCell.configureChat(partner: chatPartner, chat: chat)
+            chatCell.selectionStyle = .none
+            return chatCell
         }
     }
+
 }

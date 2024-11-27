@@ -1,5 +1,5 @@
 //
-//  MyReplyChatView.swift
+//  ChatCell.swift
 //  LINKAREER-iOS
 //
 //  Created by 김민서 on 11/25/24.
@@ -10,25 +10,23 @@ import UIKit
 import SnapKit
 import Then
 
-class MyReplyChatView: UIView {
+
+final class MyChatCell: UITableViewCell {
     
     // MARK: - UI Properties
     
     private let chatBoxView: UIView = UIView()
     
-    let replyNicknameLabel: UILabel = UILabel()
-    let replyContentLabel: UILabel = UILabel()
+    private let replyNicknameLabel: UILabel = UILabel()
+    private let replyContentLabel: UILabel = UILabel()
     private let lineView: UIView = UIView()
-    let messageLabel: UILabel = UILabel()
+    private let messageLabel: UILabel = UILabel()
     
-    private let writeTimeLabel: UILabel = UILabel()
+    let writeTimeLabel: UILabel = UILabel()
     let likeButton: UIButton = UIButton()
     
-    
-    // MARK: - Life Cycle
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setHierarchy()
         setLayout()
@@ -39,13 +37,11 @@ class MyReplyChatView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     func setHierarchy() {
         addSubviews(chatBoxView, replyNicknameLabel, replyContentLabel, lineView, messageLabel, writeTimeLabel, likeButton)
     }
     
     func setLayout() {
-        
         chatBoxView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.trailing.equalToSuperview()
@@ -69,7 +65,7 @@ class MyReplyChatView: UIView {
         }
         
         messageLabel.snp.makeConstraints {
-            $0.top.equalTo(lineView.snp.bottom).offset(6)
+            $0.top.equalTo(chatBoxView).inset(68)
             $0.horizontalEdges.equalTo(chatBoxView).inset(16)
             $0.bottom.equalTo(chatBoxView).inset(10)
         }
@@ -88,7 +84,6 @@ class MyReplyChatView: UIView {
     }
     
     func setStyle() {
-
         chatBoxView.do {
             $0.backgroundColor = .blue50
             $0.layer.cornerRadius = 8
@@ -96,17 +91,17 @@ class MyReplyChatView: UIView {
         }
         
         replyNicknameLabel.do {
-            $0.setLabel( alignment: .right, textColor: .gray900, font: fontStyle.body3_b_13.font())
+            $0.setLabel( alignment: .left, textColor: .gray900, font: fontStyle.body3_b_13.font())
         }
         
         replyContentLabel.do {
-            $0.setLabel(alignment: .right, textColor: .gray600, font: fontStyle.body12_r_12.font())
+            $0.setLabel(alignment: .left, numberOfLines: 1, textColor: .gray600, font: fontStyle.body12_r_12.font())
         }
         
         lineView.backgroundColor = .gray300
         
         messageLabel.do {
-            $0.setLabel(alignment: .right, textColor: .gray900, font: fontStyle.body10_r_14.font())
+            $0.setLabel(alignment: .left, textColor: .gray900, font: fontStyle.body10_r_14.font())
         }
         
         writeTimeLabel.do {
@@ -125,8 +120,44 @@ class MyReplyChatView: UIView {
         }
         
     }
-}
     
-   
+}
 
+extension MyChatCell {
+    
+    func isChatReply(chat: Chat) {
+        if !chat.isReplied {
+            replyNicknameLabel.isHidden = true
+            replyContentLabel.isHidden = true
+            lineView.isHidden = true
 
+            messageLabel.snp.remakeConstraints {
+                $0.top.equalTo(chatBoxView).inset(10)
+                $0.horizontalEdges.equalTo(chatBoxView).inset(16)
+                $0.bottom.equalTo(chatBoxView).inset(10)
+            }
+        }
+    }
+    
+    func configureChat(chat: Chat) {
+        
+        replyNicknameLabel.text = "\(chat.reply?.repliedMessageSenderName ?? "") 님에게 답장"
+        replyContentLabel.text = chat.reply?.replyMessage
+        messageLabel.text = chat.message
+        configureLikeButton(likeButton, likes: chat.likes, isPressed: chat.pressedLike)
+        
+    }
+    
+    private func configureLikeButton(_ likeButton: UIButton, likes: Int, isPressed: Bool) {
+        let likeTitle = (likes == 0) ? nil : "\(likes)"
+        
+        let rightInset: CGFloat = (likes > 0) ? 5 : 1
+        likeButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 5, bottom: 4, right: rightInset)
+        likeButton.setTitle(likeTitle, for: .normal)
+        
+        // 좋아요가 눌렸으면 아이콘을 활성화된 상태로 변경
+        if isPressed {
+            likeButton.setImage(.icChattingLikeActive, for: .normal)
+        }
+    }
+}
