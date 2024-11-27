@@ -22,7 +22,9 @@ final class TabBarController: UITabBarController {
         
         setupStyle()
         addTabBarController()
+        self.selectedIndex = TabBarItem.allCases.firstIndex(of: .home) ?? 0
     }
+
 }
 
 private extension TabBarController {
@@ -43,6 +45,7 @@ private extension TabBarController {
             )
             return currentViewController
         }
+
         setViewControllers(viewControllers, animated: false)
     }
     
