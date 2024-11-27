@@ -106,7 +106,7 @@ extension NewbieInternViewController {
     private func fetchData() {
         
         // 겟션 1
-        noTagHeaderDataInFirstSection = NoTagHeaderModel(nickname: "만수무강", title: "어깨 무릎")
+        noTagHeaderDataInFirstSection = NoTagHeaderModel(nickname: "실시간", title: "UX/UI 인기 공고 모아보기")
         CategoriesInFirstSection = ChatCategoryList.categoryDummy()
         
         // 섹션 2
@@ -343,7 +343,7 @@ extension NewbieInternViewController {
     
     func getCardList() {
         // HomeService의 getPostList 호출
-        NetworkService.shared.newbieService.getPostList(category: "recommend") { [weak self] response in
+        NetworkService.shared.newbieService.getPostList(category: "popular") { [weak self] response in
             guard self != nil else { return }
             
             switch response {

@@ -1,5 +1,5 @@
 //
-//  test.swift
+//  NewbieNetwork.swift
 //  LINKAREER-iOS
 //
 //  Created by Jaehyun Ahn on 11/27/24.
@@ -107,26 +107,6 @@ final class NewbieService: BaseService, NewbieServiceProtocol {
             }
         }
     }
-}
-
-
-
-
-import Kingfisher
-import UIKit
-
-extension UIImageView {
-    
-    func kfSetImage(with urlString: String?, placeholder: UIImage? = nil) {
-        guard let urlString = urlString, let url = URL(string: urlString) else {
-            self.image = placeholder
-            return
-        }
-        self.kf.setImage(with: url,
-                         placeholder: placeholder,
-                         options: [.transition(.none), .cacheOriginalImage,])
-    }
-    
 }
 
 

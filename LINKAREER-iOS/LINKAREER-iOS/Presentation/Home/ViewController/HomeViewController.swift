@@ -40,6 +40,7 @@ class HomeViewController: UIViewController {
         registerCell()
         setDelegate()
         setActions()
+        getCardList()
     }
     
     func setHierarchy() {
@@ -207,3 +208,64 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
 }
 
+
+
+
+
+
+
+
+
+extension HomeViewController {
+    
+    func getCardList() {
+        // HomeService의 getPostList 호출
+        NetworkService.shared.newbieService.getPostList(category: "recommend") { [weak self] response in
+            guard self != nil else { return }
+            
+            switch response {
+            case .success(let officialList):
+                // 성공적으로 데이터를 가져왔을 때
+                // 서버에서 받은 데이터를 모델에 매핑
+                let convertedData = officialList.map { official in
+                    CompanyDayCardModel(
+                        dDay: official.dday,
+                        imageUrl: official.imageUrl,
+                        interestJob: official.interestJob,
+                        companyName: official.companyName,
+                        title: official.title,
+                        tag: official.tag,
+                        views: official.views,
+                        comments: official.comments,
+                        bookmark: official.bookmark
+                    )
+                }
+                
+                
+                // UI 업데이트
+                DispatchQueue.main.async {
+                    self?.recommendRecruit = convertedData // 게시물 리스트 업데이트
+                    self?.homeView.mainCollectionView.reloadData()
+                }
+                
+                // 요청 오류 발생 시 처리 > 네트워크 성공적으로 연결 시 default로 한번에 처리해도 됨!
+            case .requestErr:
+                // 요청 오류 발생 시
+                print("요청 오류입니다")
+            case .decodedErr:
+                // 디코딩 오류 발생 시
+                print("디코딩 오류입니다")
+            case .pathErr:
+                // 경로 오류 발생 시
+                print("경로 오류입니다")
+            case .serverErr:
+                // 서버 오류 발생 시
+                print("서버 오류입니다")
+            case .networkFail:
+                // 네트워크 오류 발생 시
+                print("네트워크 오류입니다")
+            }
+        }
+    }
+    
+}
