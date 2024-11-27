@@ -16,7 +16,6 @@ class HomeViewController: UIViewController {
     
     private let homeView: HomeView = HomeView()
     private let newbieVC: NewbieInternViewController = NewbieInternViewController()
-
     
     // MARK: - Properties
     
@@ -45,7 +44,6 @@ class HomeViewController: UIViewController {
     
     func setHierarchy() {
         self.view.addSubview(homeView)
-        
     }
     
     func setLayout() {
