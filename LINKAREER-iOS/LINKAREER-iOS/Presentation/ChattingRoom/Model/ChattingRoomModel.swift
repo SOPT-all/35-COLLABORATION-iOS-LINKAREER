@@ -37,6 +37,7 @@ struct Chat: Codable {
     let pressedLike: Bool
     let createdTime: String
     let reply: Reply?
+    let isMine: Bool
 }
 
 struct Reply: Codable {

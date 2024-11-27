@@ -15,12 +15,12 @@ class ChattingRoomViewController: UIViewController {
     // MARK: - UI Properties
     
     private let chattingRoomView: ChattingRoomView = ChattingRoomView()
-        
+    
     // MARK: - Properties
     
     private var chatData: [ChatRoom] = []
-
-        
+    
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -92,12 +92,6 @@ private extension ChattingRoomViewController {
         let sortedChats = getSortedChats(for: indexPath.section)
         return sortedChats[indexPath.row]
     }
-
-    func isChatMine(for indexPath: IndexPath, in chatRoom: ChatRoom) -> Bool {
-        let chat = getChat(for: indexPath, in: chatRoom)
-        return chatData[indexPath.section].myChat.chatList.contains(where: { $0.message == chat.message })
-    }
-
     
     func getSortedChats(for section: Int) -> [Chat] {
         let chatRoom = chatData[section]
@@ -121,7 +115,7 @@ private extension ChattingRoomViewController {
     func getChatHistory() {
         NetworkService.shared.chattingRoomService.getChatHistory { [weak self] result in
             guard let self = self else { return }
-
+            
             switch result {
             case .success(let data):
                 let chatRoom = ChatRoom(
@@ -146,7 +140,8 @@ private extension ChattingRoomViewController {
                                         replyMessage: reply.replyMessage,
                                         repliedMessageSenderName: reply.repliedMessageSenderName
                                     )
-                                }
+                                },
+                                isMine: false
                             )
                         }
                     ),
@@ -163,7 +158,8 @@ private extension ChattingRoomViewController {
                                         replyMessage: reply.replyMessage,
                                         repliedMessageSenderName: reply.repliedMessageSenderName
                                     )
-                                }
+                                },
+                                isMine: true
                             )
                         }
                     )
@@ -201,12 +197,11 @@ extension ChattingRoomViewController: UITableViewDelegate, UITableViewDataSource
         let chatPartner = chatRoom.chatPartner
         
         let chat = getChat(for: indexPath, in: chatRoom)
-        let isMyChat = isChatMine(for: indexPath, in: chatRoom)
-
+        
         chattingRoomView.chatNavigationBarView.chatRoomNameLabel.text = chatRoom.chatRoomName
         chattingRoomView.chatNavigationBarView.chatParticipantsCountLabel.text = "\(chatRoom.chatParticipantsCount)명"
-
-        if isMyChat {
+        
+        if chat.isMine {
             guard let chatCell = tableView.dequeueReusableCell(withIdentifier: MyChatCell.identifier, for: indexPath) as? MyChatCell else {
                 return UITableViewCell()
             }
@@ -219,10 +214,10 @@ extension ChattingRoomViewController: UITableViewDelegate, UITableViewDataSource
                 return UITableViewCell()
             }
             chatCell.isChatReply(chat: chat)
-            chatCell.configureChat(partner: chatPartner, chat: chat)
+            chatCell.configureChat(partner: chatRoom.chatPartner, chat: chat)
             chatCell.selectionStyle = .none
             return chatCell
         }
     }
-
+    
 }
