@@ -143,8 +143,8 @@ class CompanyDayCardCell: UICollectionViewCell {
         }
         
         dayLabel.snp.makeConstraints {
-            $0.leading.equalTo(logoImageView.snp.leading).offset(10)
-            $0.top.equalTo(logoImageView.snp.top).offset(10)
+            $0.leading.equalTo(boxView.snp.leading).offset(10)
+            $0.top.equalTo(boxView.snp.top).offset(10)
             $0.width.height.lessThanOrEqualTo(40)
         }
         
