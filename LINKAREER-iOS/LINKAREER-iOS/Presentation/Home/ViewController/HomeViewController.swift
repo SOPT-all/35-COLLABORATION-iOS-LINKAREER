@@ -15,6 +15,8 @@ class HomeViewController: UIViewController {
     // MARK: - UI Properties
     
     private let homeView: HomeView = HomeView()
+    private let newbieVC: NewbieInternViewController = NewbieInternViewController()
+
     
     // MARK: - Properties
     
@@ -43,6 +45,7 @@ class HomeViewController: UIViewController {
     
     func setHierarchy() {
         self.view.addSubview(homeView)
+        
     }
     
     func setLayout() {
@@ -90,11 +93,24 @@ class HomeViewController: UIViewController {
             if isInternScreenShown {
                 addBottomBorder(to: sender)
                 print("신입/인턴 화면으로 전환!") // 화면 전환 로직
+                loadNewbieInternViewController()
             } else {
                 print("원래 화면으로 복귀!") // 복귀 로직
                 removeBottomBorder(from: sender)
             }
         }
+    }
+    
+    private func loadNewbieInternViewController() {
+        addChild(newbieVC)
+        view.addSubview(newbieVC.view)
+
+        newbieVC.view.snp.makeConstraints { make in
+            make.top.equalTo(homeView.segmentStackView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+
+        newbieVC.didMove(toParent: self)
     }
     
 }
@@ -162,16 +178,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
             let item = recommendRecruit[indexPath.item]
             
-            cell.configure(
-                day: item.day,
-                image: item.image,
-                buttonTitle: item.buttonTitle,
-                companyName: item.companyName,
-                title: item.title,
-                category: item.category,
-                viewCount: item.viewCount,
-                commentCount: item.commentCount
-            )
+            cell.configure(with: item)
             return cell
         }
         

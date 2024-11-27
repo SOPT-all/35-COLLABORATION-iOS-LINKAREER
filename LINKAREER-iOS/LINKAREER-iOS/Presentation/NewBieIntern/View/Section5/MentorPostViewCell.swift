@@ -156,7 +156,7 @@ extension MentorPostViewCell: UICollectionViewDataSource, UICollectionViewDelega
         layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForHeaderInSection section: Int
     ) -> CGSize {
-        return section == 0 ? CGSize(width: collectionView.bounds.width, height: 64) : .zero
+        return section == 0 ? CGSize(width: collectionView.bounds.width, height: 90) : .zero
     }
 }
 

@@ -96,7 +96,6 @@ class NewbieInternViewController: UIViewController {
     
     private func setLayout() {
         collectionView.snp.makeConstraints { $0.edges.equalToSuperview()
-     
         }
     }
 }
@@ -177,7 +176,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         case 3:
             return CGSize(width: width, height: 520)
         case 4:
-            return CGSize(width: width, height: 600)
+            return CGSize(width: width, height: 630)
         case 5:
             return CGSize(width: width, height: 400)
         default:
