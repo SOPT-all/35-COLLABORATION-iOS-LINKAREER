@@ -45,7 +45,7 @@ final class MyChatCell: UITableViewCell {
         chatBoxView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.trailing.equalToSuperview()
-            $0.width.equalTo(200)
+            $0.leading.greaterThanOrEqualToSuperview().inset(60)
         }
         
         replyNicknameLabel.snp.makeConstraints {
@@ -130,7 +130,7 @@ extension MyChatCell {
             replyNicknameLabel.isHidden = true
             replyContentLabel.isHidden = true
             lineView.isHidden = true
-
+            
             messageLabel.snp.remakeConstraints {
                 $0.top.equalTo(chatBoxView).inset(10)
                 $0.horizontalEdges.equalTo(chatBoxView).inset(16)
@@ -140,13 +140,11 @@ extension MyChatCell {
     }
     
     func configureChat(chat: Chat) {
-        
         replyNicknameLabel.text = "\(chat.reply?.repliedMessageSenderName ?? "") 님에게 답장"
         replyContentLabel.text = chat.reply?.replyMessage
         messageLabel.text = chat.message
         writeTimeLabel.text = chat.createdTime
         configureLikeButton(likeButton, likes: chat.likes, isPressed: chat.pressedLike)
-        
     }
     
     private func configureLikeButton(_ likeButton: UIButton, likes: Int, isPressed: Bool) {

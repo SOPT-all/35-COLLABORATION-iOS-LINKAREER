@@ -75,7 +75,7 @@ final class OtherChatCell: UITableViewCell {
         chatBoxView.snp.makeConstraints {
             $0.top.equalTo(profileImage.snp.bottom).offset(3)
             $0.leading.equalToSuperview().inset(35)
-            $0.width.equalTo(200)
+            $0.trailing.lessThanOrEqualToSuperview().inset(60)
         }
         
         replyNicknameLabel.snp.makeConstraints {
