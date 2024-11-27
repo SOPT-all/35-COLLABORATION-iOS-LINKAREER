@@ -24,6 +24,9 @@ class HomeViewController: UIViewController {
     private var categorySelector: [CategorySelector] = CategorySelector.dummyData
     private var homeBanners: [HomeBanner] = HomeBanner.dummyData
     private var interestBoard: [Board] = []
+    private var recommendRecruit = CompanyDayCardModelData.shared.allCard
+    
+    private var isInternScreenShown = false
     
     // MARK: - Life Cycle
     
@@ -35,6 +38,7 @@ class HomeViewController: UIViewController {
         setStyle()
         registerCell()
         setDelegate()
+        setActions()
         getPostList()
     }
     
@@ -62,9 +66,35 @@ class HomeViewController: UIViewController {
             $0.register(HomeBannerCell.self, forCellWithReuseIdentifier: HomeBannerCell.identifier)
             $0.register(BoardCell.self, forCellWithReuseIdentifier: BoardCell.identifier)
             $0.register(CategorySelectorCell.self, forCellWithReuseIdentifier: CategorySelectorCell.identifier)
+            $0.register(CompanyDayCardCell.self, forCellWithReuseIdentifier: CompanyDayCardCell.identifier)
             $0.register(TagHeaderView.self, forSupplementaryViewOfKind: TagHeaderView.identifier, withReuseIdentifier: TagHeaderView.identifier)
             $0.register(BottomPageControlView.self, forSupplementaryViewOfKind: BottomPageControlView.identifier, withReuseIdentifier: BottomPageControlView.identifier)
             $0.register(PolicyFooterView.self, forSupplementaryViewOfKind: PolicyFooterView.identifier, withReuseIdentifier: PolicyFooterView.identifier)
+            $0.collectionViewLayout.register(SectionBackgroundView.self, forDecorationViewOfKind: SectionBackgroundView.identifier)
+        }
+    }
+
+    func setActions() {
+        let buttons = homeView.segmentStackView.getButtons()
+        for button in buttons {
+            button.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
+        }
+    }
+    
+    @objc
+    func handleButtonTap(_ sender: UIButton) {
+        let tagText = homeView.segmentStackView.tagTexts[sender.tag] // 버튼 텍스트 확인
+        
+        if tagText == "신입/인턴" {
+            isInternScreenShown.toggle() // 상태 변경
+            
+            if isInternScreenShown {
+                addBottomBorder(to: sender)
+                print("신입/인턴 화면으로 전환!") // 화면 전환 로직
+            } else {
+                print("원래 화면으로 복귀!") // 복귀 로직
+                removeBottomBorder(from: sender)
+            }
         }
     }
     
@@ -104,6 +134,19 @@ extension HomeViewController {
     
 }
 
+extension HomeViewController {
+    
+    func addBottomBorder(to button: UIButton) {
+        button.addBottomBorder(color: .lkBlue, height: 4.0)
+    }
+    
+    func removeBottomBorder(from button: UIButton) {
+        button.removeBottomBorder()
+    }
+}
+
+
+
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -119,7 +162,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case .interestBoard:
             return interestBoard.count
         case .recommendRecruit:
-            return interestBoard.count
+            return recommendRecruit.count
         }
     }
     
@@ -140,7 +183,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let isSelected = indexPath.row == 0
             cell.configure(with: category, isSelected: isSelected)
             return cell
-        case .interestBoard, .recommendRecruit:
+        case .interestBoard:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCell.identifier, for: indexPath) as? BoardCell else {
                 fatalError("Unable to dequeue BoardCell")
             }
@@ -148,7 +191,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let board = interestBoard[indexPath.row]
             cell.configure(with: board)
             return cell
+            
+        case .recommendRecruit:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CompanyDayCardCell.identifier, for: indexPath) as? CompanyDayCardCell else {
+                fatalError("Unable to dequeue CompanyDayCardCell")
+            }
+            let item = recommendRecruit[indexPath.item]
+            
+            cell.configure(with: item)
+            return cell
         }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

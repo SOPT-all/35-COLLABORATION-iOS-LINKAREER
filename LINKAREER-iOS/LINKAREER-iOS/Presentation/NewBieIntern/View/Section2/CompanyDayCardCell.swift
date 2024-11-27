@@ -149,10 +149,7 @@ class CompanyDayCardCell: UICollectionViewCell {
         }
         
         logoImageView.snp.makeConstraints {
-            $0.centerX.equalTo(boxView.snp.centerX)
-            $0.centerY.equalTo(boxView.snp.centerY)
-            $0.size.equalTo(142)
-
+            $0.center.equalTo(boxView)
         }
         
         actionButton.snp.makeConstraints {
@@ -185,59 +182,26 @@ class CompanyDayCardCell: UICollectionViewCell {
             $0.centerY.equalTo(viewCountLabel)
             $0.leading.equalTo(viewCountLabel.snp.trailing).offset(3)
         }
-        
-        snp.makeConstraints {
-            $0.height.equalTo(255)
-            $0.width.equalTo(142)
-        }
+
     }
 }
 extension CompanyDayCardCell {
     
-    func configure(
-        day: String,
-        image: UIImage,
-        buttonTitle: String,
-        companyName: String,
-        title: String,
-        category: String,
-        viewCount: Int,
-        commentCount: Int
-    ) {
-        dayLabel.text = "D-\(day)"
-        logoImageView.image = image
-        actionButton.setTitle(buttonTitle, for: .normal)
-        companyNameLabel.text = companyName
-        titleLabel.text = title
-        categoryLabel.text = category
-        viewCountLabel.text = "조회수 \(viewCount)"
-        commentCountLabel.text = "댓글 \(commentCount)"
-    }
-}
-
-// MARK: - PreView
-
-struct CompanyDayCardCellPreview: UIViewRepresentable {
-    func makeUIView(context: Context) -> CompanyDayCardCell {
-        let cell = CompanyDayCardCell(frame: CGRect(x: 0, y: 0, width: 194, height: 1004))
-        cell.configure(
-            day: "3",
-            image: UIImage(resource: .imgHotofficialIbk142),
-            buttonTitle: "지원하기",
-            companyName: "IBK 기업은행",
-            title: "2025년 마케팅 인턴 모집",
-            category: "정규직",
-            viewCount: 12000,
-            commentCount: 100
-        )
-        return cell
+    func configure(with model: CompanyDayCardModel) {
+        dayLabel.text = model.dDay
+        logoImageView.image = model.imageUrl
+        actionButton.isSelected = model.bookmark
+        companyNameLabel.text = model.companyName
+        titleLabel.text = model.title
+        categoryLabel.text = model.tag
+        viewCountLabel.text = "조회수 \(model.views)"
+        commentCountLabel.text = "댓글 \(model.comments)"
     }
     
-    func updateUIView(_ uiView: CompanyDayCardCell, context: Context) {}
-}
-
-struct CompanyDayCardCellPreview_Previews: PreviewProvider {
-    static var previews: some View {
-        CompanyDayCardCellPreview()
-    }
+    private func updateBookmarkButtonUI() {
+         let image = actionButton.isSelected
+        ? UIImage(systemName: "bookmark.fill") // 이거 채워진 북마크가 없어서 일단 기본 제공 북마크로 대체
+        : UIImage(resource: .icBookmarkWDefault)
+         actionButton.setImage(image, for: .normal)
+     }
 }

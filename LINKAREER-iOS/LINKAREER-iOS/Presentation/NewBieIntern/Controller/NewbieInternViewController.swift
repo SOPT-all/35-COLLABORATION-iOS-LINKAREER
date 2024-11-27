@@ -11,18 +11,30 @@ import SwiftUI
 import SnapKit
 import Then
 
+
 class NewbieInternViewController: UIViewController {
     
     private let collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
+    private var noTagHeaderDataInFirstSection: NoTagHeaderModel? // Section 1 헤더 데이터
+    private var CategoriesInFirstSection: [ChatCategoryList] = []
+    
+    
     private var companyDayData: [CompanyDayCardModel] = [] // Section2
     private var jobSuccessData: [SectionTitleModel] = [] // Section 3
     private var jobGuideData: [CompanyBigCardDataModel] = [] // Section 4
-
+    private var mentorPostCategories: [ChatCategoryList] = [] // Section 5
+    private var mentorPostBoards: [Board] = [] // Section 5
+    
+    private var mentorPostHeader: TagHeader? // Section 5의 header
     private var noTagTitleData: NoTagHeaderModel? // Section 2의 header
+    
     private var tagTitleData: TagHeader? // Section 3의 header
-
-    private var otherSectionData: [String] = [] // 더미 데이터
+    
+    //section 6
+    private var tagHeaderData: TagHeader?
+    private var chatListData: [ChatList] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,10 +66,27 @@ class NewbieInternViewController: UIViewController {
     }
     
     private func setRegister() {
+        
+        collectionView.register(
+            NewbieHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: NewbieHeaderView.identifier
+        )
+        
+        collectionView.register(CompanyHorizontalScrollHeaderCollectionViewCell.self, forCellWithReuseIdentifier: CompanyHorizontalScrollHeaderCollectionViewCell.identifier)
         collectionView.register(CompanyHorizontalScrollCollectionViewCell.self, forCellWithReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier)
         collectionView.register(JobSuccessCollectionViewCell.self, forCellWithReuseIdentifier: JobSuccessCollectionViewCell.identifier)
         collectionView.register(JobCompanyGuideViewCell.self, forCellWithReuseIdentifier: JobCompanyGuideViewCell.identifier)
+        collectionView.register(MentorPostViewCell.self, forCellWithReuseIdentifier: MentorPostViewCell.identifier)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
+        collectionView.register(CompanyMentorCollectionViewCell.self, forCellWithReuseIdentifier: CompanyMentorCollectionViewCell.identifier)
+        
+        collectionView.register(
+            PolicyFooterView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier: PolicyFooterView.identifier
+        )
+        
     }
     
     private func setDelegate(){
@@ -67,16 +96,19 @@ class NewbieInternViewController: UIViewController {
     
     private func setLayout() {
         collectionView.snp.makeConstraints { $0.edges.equalToSuperview()
-            $0.width.equalTo(375)
-            $0.height.equalTo(1400)
+     
         }
     }
 }
 
 extension NewbieInternViewController {
     
-    //임시 데이터
     private func fetchData() {
+        
+        // 겟션 1
+        noTagHeaderDataInFirstSection = NoTagHeaderModel(nickname: "만수무강", title: "어깨 무릎")
+        CategoriesInFirstSection = ChatCategoryList.categoryDummy()
+        
         // 섹션 2
         companyDayData = CompanyDayCardModelData.shared.allCard
         
@@ -87,8 +119,19 @@ extension NewbieInternViewController {
         noTagTitleData = NoTagHeaderModelData.shared.title2
         jobGuideData = CompanyBigCardDataModelData.shared.allCellData
         
-        // 더미
-        otherSectionData = (1...5).map { "더미 데이터 \($0)" }
+        // 섹션 5
+        mentorPostCategories = [
+            ChatCategoryList(category: "Q&A"),
+            ChatCategoryList(category: "취업"),
+            ChatCategoryList(category: "이직")
+        ]
+        mentorPostBoards = Board.dummyData
+        mentorPostHeader = TagHeader.headerData.first
+        
+        // 섹션 6
+        tagHeaderData = TagHeader.headerData[2]
+        chatListData = ChatList.listDummy()
+        
         collectionView.reloadData()
     }
 }
@@ -96,7 +139,7 @@ extension NewbieInternViewController {
 extension NewbieInternViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 4
+        return 6
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -106,13 +149,17 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            return configureHorizontalScrollCell(for: collectionView, at: indexPath)
+            return configureCompanyHorizontalScrollHeaderCell(for: collectionView, at: indexPath)
         case 1:
-            return configureJobSuccessCell(for: collectionView, at: indexPath)
+            return configureHorizontalScrollCell(for: collectionView, at: indexPath)
         case 2:
-            return configureJobCompanyGuideCell(for: collectionView, at: indexPath)
+            return configureJobSuccessCell(for: collectionView, at: indexPath)
         case 3:
-            return configureDummyCell(for: collectionView, at: indexPath)
+            return configureJobCompanyGuideCell(for: collectionView, at: indexPath)
+        case 4:
+            return configureMentorPostViewCell(for: collectionView, at: indexPath)
+        case 5:
+            return configureCompanyMentorCollectionViewCell(for: collectionView, at: indexPath)
         default:
             return UICollectionViewCell()
         }
@@ -122,31 +169,110 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         let width = collectionView.bounds.width * 0.92
         switch indexPath.section {
         case 0:
-            return CGSize(width: collectionView.bounds.width, height: 255)
+            return CGSize(width: width, height: 90)
         case 1:
-            return CGSize(width: width, height: 430)
+            return CGSize(width: collectionView.bounds.width, height: 255)
         case 2:
-            return CGSize(width: width, height: 520)
+            return CGSize(width: width, height: 430)
         case 3:
-            return CGSize(width: width, height: 50)
+            return CGSize(width: width, height: 520)
+        case 4:
+            return CGSize(width: width, height: 600)
+        case 5:
+            return CGSize(width: width, height: 400)
         default:
             return .zero
         }
     }
     
-     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-         switch section {
-         case 0:
-             return UIEdgeInsets(top: 20, left: 16, bottom: 10, right: 16)
-         case 1:
-             return UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
-         case 2:
-             return UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
-         default:
-             return .zero
-         }
-     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        switch section {
+        case 0:
+            return UIEdgeInsets(top: 20, left: 16, bottom: 10, right: 16)
+        case 1:
+            return UIEdgeInsets(top: 10, left: 0, bottom: 20, right: 0)
+        case 2:
+            return UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+        case 3:
+            return UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
+        case 4:
+            return UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
+        case 5:
+            return UIEdgeInsets(top: 0, left: 0, bottom: 150, right: 0)
+        default:
+            return .zero
+        }
+    }
+    
+    // header size
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
+        switch section {
+        case 0:
+            return CGSize(width: collectionView.bounds.width, height: 50)
+        default:
+            return .zero
+        }
+    }
+    
+    // footer size
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForFooterInSection section: Int
+    ) -> CGSize {
+        return section == 5 ? CGSize(width: collectionView.bounds.width, height: 80) : .zero
+    }
+    
+    // header & footer set
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader && indexPath.section == 0 {
+            guard let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: NewbieHeaderView.identifier,
+                for: indexPath
+            ) as? NewbieHeaderView else {
+                return UICollectionReusableView()
+            }
+            return header
+        }
+        
+        if kind == UICollectionView.elementKindSectionFooter && indexPath.section == 5 {
+            guard let footer = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: PolicyFooterView.identifier,
+                for: indexPath
+            ) as? PolicyFooterView else {
+                return UICollectionReusableView()
+            }
+            return footer
+        }
+        return UICollectionReusableView()
+    }
+    
+    //Section 1
+    private func configureCompanyHorizontalScrollHeaderCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CompanyHorizontalScrollHeaderCollectionViewCell.identifier,
+            for: indexPath
+        ) as! CompanyHorizontalScrollHeaderCollectionViewCell
+        
+        if let noTagHeader = noTagHeaderDataInFirstSection {
+            cell.configure(with: CategoriesInFirstSection, noTagHeaderData: noTagHeader)
+        }
+        
+        return cell
+    }
+    
+    // Section 2
     private func configureHorizontalScrollCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier,
@@ -156,6 +282,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         return cell
     }
     
+    // Section 3
     private func configureJobSuccessCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: JobSuccessCollectionViewCell.identifier,
@@ -163,13 +290,13 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         ) as! JobSuccessCollectionViewCell
         
         let dummyData = SectionTitleModelData.shared.allSections
-        if let dummyTitleData = TagHeader.headerData.first(where: { $0.title == "님이 관심 있을만한 공고" }) {
+        if let dummyTitleData = TagHeader.headerData.first {
             cell.configure(with: dummyData, tagHeader: dummyTitleData)
         }
-        
         return cell
     }
     
+    // Section 4
     private func configureJobCompanyGuideCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: JobCompanyGuideViewCell.identifier,
@@ -179,30 +306,41 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         let dummyData = CompanyBigCardDataModelData.shared.allCellData
         let dummyTitleData = NoTagHeaderModelData.shared.title2
         cell.configure(with: dummyData, noTagHeaderData: dummyTitleData)
-
+        
         return cell
     }
     
-    
-    private func configureDummyCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+    // Section 5
+    private func configureMentorPostViewCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: UICollectionViewCell.identifier,
+            withReuseIdentifier: MentorPostViewCell.identifier,
             for: indexPath
-        )
-        cell.backgroundColor = .lightGray
-        let label = UILabel().then {
-            $0.text = "더미 데이터"
-            $0.textAlignment = .center
+        ) as! MentorPostViewCell
+        
+        if let header = mentorPostHeader {
+            cell.configure(with: mentorPostCategories, boards: mentorPostBoards, tagHeaderData: header)
         }
-        cell.contentView.addSubview(label)
-        label.snp.makeConstraints { $0.edges.equalToSuperview() }
+        
+        return cell
+    }
+    
+    // Section 6
+    private func configureCompanyMentorCollectionViewCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CompanyMentorCollectionViewCell.identifier,
+            for: indexPath
+        ) as! CompanyMentorCollectionViewCell
+        
+        if let tagHeaderData = tagHeaderData {
+            cell.configure(with: tagHeaderData, chatListData: chatListData)
+        }
         return cell
     }
 }
 
 //preview
 
-struct NewbieInternViewControllerPreview: UIViewControllerRepresentable {
+struct NewPreview: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> NewbieInternViewController {
         return NewbieInternViewController()
     }
@@ -210,9 +348,9 @@ struct NewbieInternViewControllerPreview: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: NewbieInternViewController, context: Context) {}
 }
 
-struct NewbieInternViewControllerPreview_Previews: PreviewProvider {
+struct NewbieIPreviews: PreviewProvider {
     static var previews: some View {
-        NewbieInternViewControllerPreview()
+        NewPreview()
             .edgesIgnoringSafeArea(.all)
     }
 }
