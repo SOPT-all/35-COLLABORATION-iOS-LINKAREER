@@ -24,9 +24,10 @@ class HomeViewController: UIViewController {
     private var tagHeader: [TagHeader] = TagHeader.headerData
     private var categorySelector: [CategorySelector] = CategorySelector.dummyData
     private var homeBanners: [HomeBanner] = HomeBanner.dummyData
+
     private var interestBoard: [Board] = Board.dummyData
     private var recommendRecruit: [CompanyDayCardModel] = []
-    
+
     private var isInternScreenShown = false
     
     // MARK: - Life Cycle
@@ -41,6 +42,7 @@ class HomeViewController: UIViewController {
         setDelegate()
         setActions()
         getCardList()
+
     }
     
     func setHierarchy() {
@@ -124,6 +126,40 @@ class HomeViewController: UIViewController {
     }
     
 }
+extension HomeViewController {
+    
+    func getPostList() {
+        NetworkService.shared.homeService.getPostList(category: "INTEREST") { [weak self] response in
+            guard self != nil else { return }
+            
+            switch response {
+            case .success(let data):
+                let interestBoard = data.posts.map { postList in
+                    print(postList.imageUrl)
+                    return Board(
+                        community: postList.community,
+                        title: postList.title,
+                        content: postList.content,
+                        imageUrl: postList.imageUrl,
+                        writer: postList.writer,
+                        createAt: postList.beforeTime,
+                        likeCount: postList.favorites,
+                        commentCount: postList.comments,
+                        views: postList.views
+                    )
+                }
+                DispatchQueue.main.async {
+                    self?.interestBoard = interestBoard
+                    self?.homeView.mainCollectionView.reloadData()
+                }
+            default:
+                print("Failed to fetch post list")
+                return
+            }
+        }
+    }
+    
+}
 
 extension HomeViewController {
     
@@ -178,6 +214,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCell.identifier, for: indexPath) as? BoardCell else {
                 fatalError("Unable to dequeue BoardCell")
             }
+            
             let board = interestBoard[indexPath.row]
             cell.configure(with: board)
             return cell

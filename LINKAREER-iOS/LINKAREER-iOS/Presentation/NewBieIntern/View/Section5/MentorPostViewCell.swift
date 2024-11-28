@@ -163,38 +163,38 @@ extension MentorPostViewCell: UICollectionViewDataSource, UICollectionViewDelega
 
 //preview
 
-struct MentorPostViewCellPreview: UIViewRepresentable {
-    
-    func makeUIView(context: Context) -> UIView {
-        let cell = MentorPostViewCell()
-        
-
-        let categories = [
-            ChatCategoryList(category: "Q&A"),
-            ChatCategoryList(category: "취업"),
-            ChatCategoryList(category: "이직")
-        ]
-        let boards = Board.dummyData
-        let tagHeaderData = TagHeader.headerData.first ?? TagHeader(
-            nickname: "무야호",
-            title: "제목",
-            discription: "디스크립션",
-            tags: ["태그임", "123"]
-        )
-
-        cell.configure(with: categories, boards: boards, tagHeaderData: tagHeaderData)
-        
-        return cell
-    }
-    
-    func updateUIView(_ uiView: UIView, context: Context) {}
-}
-
-struct MentorPostViewCellPreview_Previews: PreviewProvider {
-    static var previews: some View {
-        MentorPostViewCellPreview()
-            .frame(width: UIScreen.main.bounds.width, height: 600)
-            .previewLayout(.sizeThatFits)
-            .padding()
-    }
-}
+//struct MentorPostViewCellPreview: UIViewRepresentable {
+//    
+//    func makeUIView(context: Context) -> UIView {
+//        let cell = MentorPostViewCell()
+//        
+//
+//        let categories = [
+//            ChatCategoryList(category: "Q&A"),
+//            ChatCategoryList(category: "취업"),
+//            ChatCategoryList(category: "이직")
+//        ]
+//        let boards = Board.dummyData
+//        let tagHeaderData = TagHeader.headerData.first ?? TagHeader(
+//            nickname: "무야호",
+//            title: "제목",
+//            discription: "디스크립션",
+//            tags: ["태그임", "123"]
+//        )
+//
+//        cell.configure(with: categories, boards: boards, tagHeaderData: tagHeaderData)
+//        
+//        return cell
+//    }
+//    
+//    func updateUIView(_ uiView: UIView, context: Context) {}
+//}
+//
+//struct MentorPostViewCellPreview_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MentorPostViewCellPreview()
+//            .frame(width: UIScreen.main.bounds.width, height: 600)
+//            .previewLayout(.sizeThatFits)
+//            .padding()
+//    }
+//}
