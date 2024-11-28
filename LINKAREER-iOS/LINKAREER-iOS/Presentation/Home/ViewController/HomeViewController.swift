@@ -96,6 +96,8 @@ class HomeViewController: UIViewController {
             } else {
                 print("원래 화면으로 복귀!") // 복귀 로직
                 removeBottomBorder(from: sender)
+                unloadNewbieInternViewController() // 화면 복귀 로직인데
+
             }
         }
     }
@@ -110,6 +112,15 @@ class HomeViewController: UIViewController {
         }
 
         newbieVC.didMove(toParent: self)
+    }
+    
+    private func unloadNewbieInternViewController() {
+                //내가 homeVC의 자식 VC으로 뉴비뷰를 추가 했는데 그거 옵셔널로 풀고
+        if let newbieVC = children.first(where: { $0 is NewbieInternViewController }) {
+            newbieVC.willMove(toParent: nil) //addChild() 반대 -> 헤제
+            newbieVC.view.removeFromSuperview() //부모 뷰 계층에서 안보이게
+            newbieVC.removeFromParent() // 메모리 까지 제거
+        }
     }
     
 }
