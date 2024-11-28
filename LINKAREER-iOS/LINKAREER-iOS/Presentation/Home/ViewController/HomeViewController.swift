@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
     // MARK: - UI Properties
     
     private let homeView: HomeView = HomeView()
+    private let newbieVC: NewbieInternViewController = NewbieInternViewController()
     
     // MARK: - Properties
     
@@ -23,9 +24,10 @@ class HomeViewController: UIViewController {
     private var tagHeader: [TagHeader] = TagHeader.headerData
     private var categorySelector: [CategorySelector] = CategorySelector.dummyData
     private var homeBanners: [HomeBanner] = HomeBanner.dummyData
-    private var interestBoard: [Board] = []
-    private var recommendRecruit = CompanyDayCardModelData.shared.allCard
-    
+
+    private var interestBoard: [Board] = Board.dummyData
+    private var recommendRecruit: [CompanyDayCardModel] = []
+
     private var isInternScreenShown = false
     
     // MARK: - Life Cycle
@@ -39,7 +41,8 @@ class HomeViewController: UIViewController {
         registerCell()
         setDelegate()
         setActions()
-        getPostList()
+        getCardList()
+
     }
     
     func setHierarchy() {
@@ -91,10 +94,34 @@ class HomeViewController: UIViewController {
             if isInternScreenShown {
                 addBottomBorder(to: sender)
                 print("신입/인턴 화면으로 전환!") // 화면 전환 로직
+                loadNewbieInternViewController()
             } else {
                 print("원래 화면으로 복귀!") // 복귀 로직
                 removeBottomBorder(from: sender)
+                unloadNewbieInternViewController() // 화면 복귀 로직인데
+
             }
+        }
+    }
+    
+    private func loadNewbieInternViewController() {
+        addChild(newbieVC)
+        view.addSubview(newbieVC.view)
+
+        newbieVC.view.snp.makeConstraints {
+            $0.top.equalTo(homeView.segmentStackView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+
+        newbieVC.didMove(toParent: self)
+    }
+    
+    private func unloadNewbieInternViewController() {
+                //내가 homeVC의 자식 VC으로 뉴비뷰를 추가 했는데 그거 옵셔널로 풀고
+        if let newbieVC = children.first(where: { $0 is NewbieInternViewController }) {
+            newbieVC.willMove(toParent: nil) //addChild() 반대 -> 헤제
+            newbieVC.view.removeFromSuperview() //부모 뷰 계층에서 안보이게
+            newbieVC.removeFromParent() // 메모리 까지 제거
         }
     }
     
@@ -229,3 +256,39 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
 }
 
+extension HomeViewController {
+    
+    func getCardList() {
+
+        NetworkService.shared.newbieService.getPostList(category: "recommend") { [weak self] response in
+            guard self != nil else { return }
+            
+            switch response {
+            case .success(let officialList):
+                
+                let convertedData = officialList.map { official in
+                    CompanyDayCardModel(
+                        dDay: official.dday,
+                        imageUrl: official.imageUrl,
+                        interestJob: official.interestJob,
+                        companyName: official.companyName,
+                        title: official.title,
+                        tag: official.tag,
+                        views: official.views,
+                        comments: official.comments,
+                        bookmark: official.bookmark
+                    )
+                }
+                
+                DispatchQueue.main.async {
+                    self?.recommendRecruit = convertedData
+                    self?.homeView.mainCollectionView.reloadData()
+                }
+                
+            default:
+                print("디폴트")
+            }
+        }
+    }
+    
+}

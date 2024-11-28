@@ -143,8 +143,8 @@ class CompanyDayCardCell: UICollectionViewCell {
         }
         
         dayLabel.snp.makeConstraints {
-            $0.leading.equalTo(logoImageView.snp.leading).offset(10)
-            $0.top.equalTo(logoImageView.snp.top).offset(10)
+            $0.leading.equalTo(boxView.snp.leading).offset(10)
+            $0.top.equalTo(boxView.snp.top).offset(10)
             $0.width.height.lessThanOrEqualTo(40)
         }
         
@@ -189,7 +189,7 @@ extension CompanyDayCardCell {
     
     func configure(with model: CompanyDayCardModel) {
         dayLabel.text = model.dDay
-        logoImageView.image = model.imageUrl
+        logoImageView.kfSetImage(with: model.imageUrl, placeholder: UIImage(named: "placeholder"))
         actionButton.isSelected = model.bookmark
         companyNameLabel.text = model.companyName
         titleLabel.text = model.title

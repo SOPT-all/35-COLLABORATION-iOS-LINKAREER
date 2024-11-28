@@ -15,7 +15,7 @@ struct CompanyBigCardDataModel {
     let interviewPassPoint: String
     let finalSealPoint: String
 }
-//api
+//임시 데이터
 struct CompanyBigCardDataModelData {
     
     static let shared = CompanyBigCardDataModelData()

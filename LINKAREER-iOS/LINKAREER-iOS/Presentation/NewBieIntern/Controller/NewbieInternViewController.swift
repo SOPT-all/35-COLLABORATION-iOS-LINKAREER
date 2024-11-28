@@ -44,6 +44,7 @@ class NewbieInternViewController: UIViewController {
         setLayout()
         fetchData()
         setDelegate()
+        getCardList()
     }
     
     private func setHierarchy(){
@@ -96,7 +97,6 @@ class NewbieInternViewController: UIViewController {
     
     private func setLayout() {
         collectionView.snp.makeConstraints { $0.edges.equalToSuperview()
-     
         }
     }
 }
@@ -106,11 +106,11 @@ extension NewbieInternViewController {
     private func fetchData() {
         
         // 겟션 1
-        noTagHeaderDataInFirstSection = NoTagHeaderModel(nickname: "만수무강", title: "어깨 무릎")
+        noTagHeaderDataInFirstSection = NoTagHeaderModel(nickname: "실시간", title: "UX/UI 인기 공고 모아보기")
         CategoriesInFirstSection = ChatCategoryList.categoryDummy()
         
         // 섹션 2
-        companyDayData = CompanyDayCardModelData.shared.allCard
+        //        companyDayData = CompanyDayCardModelData.shared.allCard
         
         // 섹션 3
         jobSuccessData = SectionTitleModelData.shared.allSections
@@ -177,7 +177,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         case 3:
             return CGSize(width: width, height: 520)
         case 4:
-            return CGSize(width: width, height: 600)
+            return CGSize(width: width, height: 630)
         case 5:
             return CGSize(width: width, height: 400)
         default:
@@ -336,6 +336,43 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
         }
         return cell
     }
+}
+
+
+extension NewbieInternViewController {
+    
+    func getCardList() {
+        NetworkService.shared.newbieService.getPostList(category: "popular") { [weak self] response in
+            guard self != nil else { return }
+            
+            switch response {
+            case .success(let officialList):
+                
+                let convertedData = officialList.map { official in
+                    CompanyDayCardModel(
+                        dDay: official.dday,
+                        imageUrl: official.imageUrl,
+                        interestJob: official.interestJob,
+                        companyName: official.companyName,
+                        title: official.title,
+                        tag: official.tag,
+                        views: official.views,
+                        comments: official.comments,
+                        bookmark: official.bookmark
+                    )
+                }
+                
+                DispatchQueue.main.async {
+                    self?.companyDayData = convertedData
+                    self?.collectionView.reloadData()
+                }
+                
+            default:
+                print("디폴트")
+            }
+        }
+    }
+    
 }
 
 //preview
