@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Official: Codable {
+struct GetOfficialResponse: Codable {
     let id: Int
     let interestJob: String
     let imageUrl: String
@@ -21,5 +21,5 @@ struct Official: Codable {
 }
 
 struct OfficialListResponse: Codable {
-    let officialList: [Official]
+    let officialList: [GetOfficialResponse]
 }

@@ -19,7 +19,7 @@ struct SectionTitleModel {
     let secondItems: [JobSuccessCardModel]
     let thirdItems: [JobSuccessCardModel]
 }
-//api
+
 struct SectionTitleModelData {
     
     static let shared = SectionTitleModelData()

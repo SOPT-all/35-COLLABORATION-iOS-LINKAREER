@@ -6,10 +6,11 @@
 //
 
 import Moya
+import Foundation
 
 protocol NewbieServiceProtocol {
     // 카테고리별 게시물 리스트 요청 메서드
-    func getPostList(category: String, completion: @escaping (NetworkResult<[Official]>) -> Void)
+    func getPostList(category: String, completion: @escaping (NetworkResult<[GetOfficialResponse]>) -> Void)
 }
 
 //네트워크 요청을 실제로 처리하며, 싱글톤 패턴으로 구현
@@ -23,7 +24,7 @@ final class NewbieService: BaseService, NewbieServiceProtocol {
     
     // 카테고리별 게시물 리스트 요청 메서드
     // Parameters - category: 요청할 카테고리 / completion: 요청 결과를 처리하는 클로저
-    func getPostList(category: String, completion: @escaping (NetworkResult<[Official]>) -> Void) {
+    func getPostList(category: String, completion: @escaping (NetworkResult<[GetOfficialResponse]>) -> Void) {
         
         // MoyaProvider를 사용하여 API 호출
         provider.request(.getPostList(category: category)) { response in
