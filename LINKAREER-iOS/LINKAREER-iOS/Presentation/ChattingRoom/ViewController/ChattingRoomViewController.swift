@@ -16,7 +16,10 @@ class ChattingRoomViewController: UIViewController {
     
     private let chattingRoomView: ChattingRoomView = ChattingRoomView()
     
-    private let chatPartner = ChatPartner.dummyData
+    // MARK: - Properties
+    
+    private var chatData: [ChatRoom] = []
+    
     
     // MARK: - Life Cycle
     
@@ -29,6 +32,7 @@ class ChattingRoomViewController: UIViewController {
         registerCell()
         setDelegate()
         setActions()
+        getChatHistory()
     }
     
     func setHierarchy() {
@@ -55,7 +59,8 @@ class ChattingRoomViewController: UIViewController {
     }
     
     func registerCell() {
-        chattingRoomView.chattingTableView.register(ChatCell.self, forCellReuseIdentifier: ChatCell.identifier)
+        chattingRoomView.chattingTableView.register(OtherChatCell.self, forCellReuseIdentifier: OtherChatCell.identifier)
+        chattingRoomView.chattingTableView.register(MyChatCell.self, forCellReuseIdentifier: MyChatCell.identifier)
     }
     
     func setActions() {
@@ -83,77 +88,134 @@ private extension ChattingRoomViewController {
         chattingRoomView.certificationPopUpView.removeFromSuperview()
     }
     
-    func getTotalChatCount(for section: Int) -> Int {
-        let chatRoom = chatPartner[section]
-        let myChatCount = chatRoom.myChat.chatList.count
-        let partnerChatCount = chatRoom.chatPartner.chatList.count
-        
-        return myChatCount + partnerChatCount
-    }
-    
     func getChat(for indexPath: IndexPath, in chatRoom: ChatRoom) -> Chat {
-        let myChatList = chatRoom.myChat.chatList
-        let partnerChatList = chatRoom.chatPartner.chatList
+        let sortedChats = getSortedChats(for: indexPath.section)
+        return sortedChats[indexPath.row]
+    }
+    
+    func getSortedChats(for section: Int) -> [Chat] {
+        let chatRoom = chatData[section]
+        let combinedChats = chatRoom.myChat.chatList + chatRoom.chatPartner.chatList
         
-        if indexPath.row < myChatList.count {
-            return myChatList[indexPath.row]
-        } else {
-            let partnerIndex = indexPath.row - myChatList.count
-            return partnerChatList[partnerIndex]
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        
+        return combinedChats.sorted { chat1, chat2 in
+            guard
+                let date1 = dateFormatter.date(from: chat1.createdTime),
+                let date2 = dateFormatter.date(from: chat2.createdTime)
+            else {
+                return false
+            }
+            return date1 < date2
         }
     }
     
-    func isChatMine(for indexPath: IndexPath, in chatRoom: ChatRoom) -> Bool {
-        let myChatList = chatRoom.myChat.chatList
-        let partnerChatList = chatRoom.chatPartner.chatList
-        
-        // 내 채팅인지 확인
-        if indexPath.row < myChatList.count {
-            return true
-        } else {
-            let partnerIndex = indexPath.row - myChatList.count
-            let chat = partnerChatList[partnerIndex]
-            return chat.reply?.repliedMessageSenderName == nil // 답장 아닌 경우 내 채팅
+    //네트워크 통신
+    func getChatHistory() {
+        NetworkService.shared.chattingRoomService.getChatHistory { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let data):
+                let chatRoom = ChatRoom(
+                    chatRoomName: data.chatRoomName,
+                    chatParticipantsCount: data.chatParticiPantsCount,
+                    chatPartner: ChatPartner(
+                        partnerName: data.chatPartner.partnerName,
+                        isBlueChecked: data.chatPartner.isBlueChecked,
+                        tag: Tag(
+                            companyName: data.chatPartner.tag.companyName,
+                            job: data.chatPartner.tag.job
+                        ),
+                        chatList: data.chatPartner.chatList.map { chat in
+                            Chat(
+                                message: chat.message,
+                                isReplied: chat.isReplied,
+                                likes: chat.likes,
+                                pressedLike: chat.pressedLike,
+                                createdTime: chat.createdTime,
+                                reply: chat.reply.map { reply in
+                                    Reply(
+                                        replyMessage: reply.replyMessage,
+                                        repliedMessageSenderName: reply.repliedMessageSenderName
+                                    )
+                                },
+                                isMine: false
+                            )
+                        }
+                    ),
+                    myChat: MyChat(
+                        chatList: data.myChat.chatList.map { chat in
+                            Chat(
+                                message: chat.message,
+                                isReplied: chat.isReplied,
+                                likes: chat.likes,
+                                pressedLike: chat.pressedLike,
+                                createdTime: chat.createdTime,
+                                reply: chat.reply.map { reply in
+                                    Reply(
+                                        replyMessage: reply.replyMessage,
+                                        repliedMessageSenderName: reply.repliedMessageSenderName
+                                    )
+                                },
+                                isMine: true
+                            )
+                        }
+                    )
+                )
+                
+                self.chatData = [chatRoom]
+                
+                DispatchQueue.main.async {
+                    self.chattingRoomView.chattingTableView.reloadData()
+                }
+            default:
+                print("Failed to fetch post list")
+                return
+            }
         }
     }
-    
 }
 
 
 extension ChattingRoomViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return chatData.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let totalChatCount = getTotalChatCount(for: section)
-        return totalChatCount
+        guard section < chatData.count else { return 0 }
+        return getSortedChats(for: section).count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatCell.identifier, for: indexPath) as? ChatCell else {
-            return UITableViewCell()
-        }
+        guard indexPath.section < chatData.count else { return UITableViewCell() }
         
-        let chatRoom = chatPartner[indexPath.section]
-        let chatPartner = chatRoom.chatPartner
+        let chatRoom = chatData[indexPath.section]
+        let chat = getChat(for: indexPath, in: chatRoom)
         
-        //채팅룸 정보 데이터 바인딩
         chattingRoomView.chatNavigationBarView.chatRoomNameLabel.text = chatRoom.chatRoomName
         chattingRoomView.chatNavigationBarView.chatParticipantsCountLabel.text = "\(chatRoom.chatParticipantsCount)명"
         
-        let chat = getChat(for: indexPath, in: chatRoom)
-        let isMyChat = isChatMine(for: indexPath, in: chatRoom)
-        
-        // 채팅 내용 설정
-        if isMyChat {
-            cell.setChatVisible(isChatMine: true)
-            cell.configureMyChat(chat: chat)
+        if chat.isMine {
+            guard let chatCell = tableView.dequeueReusableCell(withIdentifier: MyChatCell.identifier, for: indexPath) as? MyChatCell else {
+                return UITableViewCell()
+            }
+            chatCell.isChatReply(chat: chat)
+            chatCell.configureChat(chat: chat)
+            chatCell.selectionStyle = .none
+            return chatCell
         } else {
-            cell.setChatVisible(isChatMine: false)
-            cell.configureOtherChat(partner: chatPartner, chat: chat) // ChatPartner 전달
+            guard let chatCell = tableView.dequeueReusableCell(withIdentifier: OtherChatCell.identifier, for: indexPath) as? OtherChatCell else {
+                return UITableViewCell()
+            }
+            chatCell.isChatReply(chat: chat)
+            chatCell.configureChat(partner: chatRoom.chatPartner, chat: chat)
+            chatCell.selectionStyle = .none
+            return chatCell
         }
-        
-        cell.selectionStyle = .none
-        return cell
     }
+    
 }
-
-

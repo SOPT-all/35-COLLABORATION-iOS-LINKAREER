@@ -12,6 +12,8 @@ final class NetworkService {
     static let shared = NetworkService()
     
     private init() {}
+    
+    let chattingRoomService: ChattingRoomService = ChattingRoomService()
    
     let homeService: HomeService = HomeService()
 

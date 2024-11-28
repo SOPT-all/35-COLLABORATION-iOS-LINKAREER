@@ -125,7 +125,7 @@ extension NewbieInternViewController {
             ChatCategoryList(category: "취업"),
             ChatCategoryList(category: "이직")
         ]
-        mentorPostBoards = Board.dummyData
+//        mentorPostBoards = Board.dummyData
         mentorPostHeader = TagHeader.headerData.first
         
         // 섹션 6
