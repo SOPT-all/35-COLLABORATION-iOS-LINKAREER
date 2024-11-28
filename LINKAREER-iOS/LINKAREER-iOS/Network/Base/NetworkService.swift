@@ -15,5 +15,7 @@ final class NetworkService {
     
     let chattingRoomService: ChattingRoomService = ChattingRoomService()
    
+    let homeService: HomeService = HomeService()
+
 }
 
