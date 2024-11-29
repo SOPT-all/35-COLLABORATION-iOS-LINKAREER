@@ -11,6 +11,8 @@ import Foundation
 protocol NewbieServiceProtocol {
     // 카테고리별 게시물 리스트 요청 메서드
     func getPostList(category: String, completion: @escaping (NetworkResult<[GetOfficialResponse]>) -> Void)
+    func postBookMark(officialId: Int, completion: @escaping (NetworkResult<[BookmarkResponseDTO]>) -> Void)
+    func deleteBookMark(officialId: Int, completion: @escaping (NetworkResult<[BookmarkResponseDTO]>) -> Void)
 }
 
 //네트워크 요청을 실제로 처리하며, 싱글톤 패턴으로 구현
@@ -48,6 +50,34 @@ final class NewbieService: BaseService, NewbieServiceProtocol {
             }
         }
     }
+    
+    func postBookMark(officialId: Int, completion: @escaping (NetworkResult<[BookmarkResponseDTO]>) -> Void) {
+        provider.request(.postBookMark(officialId: officialId)) { result in
+            switch result {
+            case .success(let response):
+                let statusCode = response.statusCode
+                let data = response.data
+                let networkResult: NetworkResult<[BookmarkResponseDTO]> = self.judgeStatus(statusCode: statusCode, data: data)
+                completion(networkResult)
+            case .failure:
+                completion(.networkFail)
+            }
+        }
+    }
+    
+    
+    func deleteBookMark(officialId: Int, completion: @escaping (NetworkResult<[BookmarkResponseDTO]>) -> Void) {
+        provider.request(.deleteBookMark(officialId: officialId)) { result in
+            switch result {
+            case .success(let response):
+                let statusCode = response.statusCode
+                let data = response.data
+                let networkResult: NetworkResult<[BookmarkResponseDTO]> = self.judgeStatus(statusCode: statusCode, data: data)
+                completion(networkResult)
+            case .failure:
+                completion(.networkFail)
+            }
+        }
+    }
 }
-
 
