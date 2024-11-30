@@ -45,6 +45,7 @@ class NewbieInternViewController: UIViewController {
         fetchData()
         setDelegate()
         getCardList()
+        getPostList()
     }
     
     private func setHierarchy(){
@@ -373,21 +374,53 @@ extension NewbieInternViewController {
         }
     }
     
-}
-
-//preview
-
-struct NewPreview: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> NewbieInternViewController {
-        return NewbieInternViewController()
+    func getPostList() {
+        NetworkService.shared.homeService.getPostList(category: "JOB") { [weak self] response in
+            guard self != nil else { return }
+            
+            switch response {
+            case .success(let data):
+                let mentorPostBoards = data.posts.map { postList in
+                    print(postList.imageUrl)
+                    return Board(
+                        community: postList.community,
+                        title: postList.title,
+                        content: postList.content,
+                        imageUrl: postList.imageUrl,
+                        writer: postList.writer,
+                        createAt: postList.beforeTime,
+                        likeCount: postList.favorites,
+                        commentCount: postList.comments,
+                        views: postList.views
+                    )
+                }
+                DispatchQueue.main.async {
+                    self?.mentorPostBoards = mentorPostBoards
+                    self?.collectionView.reloadData()
+                }
+            default:
+                print("Failed to fetch post list")
+                return
+            }
+        }
+        
     }
     
-    func updateUIViewController(_ uiViewController: NewbieInternViewController, context: Context) {}
 }
 
-struct NewbieIPreviews: PreviewProvider {
-    static var previews: some View {
-        NewPreview()
-            .edgesIgnoringSafeArea(.all)
-    }
-}
+////preview
+//
+//struct NewPreview: UIViewControllerRepresentable {
+//    func makeUIViewController(context: Context) -> NewbieInternViewController {
+//        return NewbieInternViewController()
+//    }
+//    
+//    func updateUIViewController(_ uiViewController: NewbieInternViewController, context: Context) {}
+//}
+//
+//struct NewbieIPreviews: PreviewProvider {
+//    static var previews: some View {
+//        NewPreview()
+//            .edgesIgnoringSafeArea(.all)
+//    }
+//}
