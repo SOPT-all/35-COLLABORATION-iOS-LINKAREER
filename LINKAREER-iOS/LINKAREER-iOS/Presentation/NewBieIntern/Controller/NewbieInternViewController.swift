@@ -125,7 +125,6 @@ extension NewbieInternViewController {
             ChatCategoryList(category: "취업"),
             ChatCategoryList(category: "이직")
         ]
-//        mentorPostBoards = Board.dummyData
         mentorPostHeader = TagHeader.headerData.first
         
         // 섹션 6
@@ -278,6 +277,7 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
             withReuseIdentifier: CompanyHorizontalScrollCollectionViewCell.identifier,
             for: indexPath
         ) as! CompanyHorizontalScrollCollectionViewCell
+        cell.delegate = self
         cell.configure(with: companyDayData)
         return cell
     }
@@ -339,8 +339,14 @@ extension NewbieInternViewController: UICollectionViewDataSource, UICollectionVi
 }
 
 
+extension NewbieInternViewController: BookMarkDelegate {
+    func didTapActionButton(in cell: CompanyDayCardCell) {
+        cell.actionButton.isSelected ? deleteBookmarkAPI() : postBookmarkAPI()
+        cell.actionButton.isSelected.toggle()
+    }
+}
+
 extension NewbieInternViewController {
-    
     func getCardList() {
         NetworkService.shared.newbieService.getPostList(category: "popular") { [weak self] response in
             guard self != nil else { return }
@@ -369,6 +375,28 @@ extension NewbieInternViewController {
                 
             default:
                 print("디폴트")
+            }
+        }
+    }
+    
+    func postBookmarkAPI() {
+        NetworkService.shared.newbieService.postBookMark(officialId: 1) { response in
+            switch response {
+            case .success(let data):
+                print("Success")
+            default:
+                return
+            }
+        }
+    }
+    
+    func deleteBookmarkAPI() {
+        NetworkService.shared.newbieService.deleteBookMark(officialId: 1) { response in
+            switch response {
+            case .success(let data):
+                print("Success")
+            default:
+                return
             }
         }
     }

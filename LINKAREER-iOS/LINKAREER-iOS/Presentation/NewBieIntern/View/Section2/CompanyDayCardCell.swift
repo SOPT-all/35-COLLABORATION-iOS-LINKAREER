@@ -10,13 +10,19 @@ import SwiftUI
 import SnapKit
 import Then
 
+protocol BookMarkDelegate: AnyObject {
+    func didTapActionButton(in cell: CompanyDayCardCell)
+}
+
 class CompanyDayCardCell: UICollectionViewCell {
+    
+    weak var delegate: BookMarkDelegate?
     
     private let boxView: UIView = UIView()
     private let dayLabel: PaddedUILabel = PaddedUILabel()
     private let categoryLabel: PaddedUILabel = PaddedUILabel()
     private let logoImageView: UIImageView = UIImageView()
-    private let actionButton: UIButton = UIButton()
+    let actionButton: UIButton = UIButton()
     private let companyNameLabel: UILabel = UILabel()
     private let titleLabel: UILabel = UILabel()
     private let viewCountLabel: UILabel = UILabel()
@@ -27,6 +33,7 @@ class CompanyDayCardCell: UICollectionViewCell {
         setStyle()
         setHierarchy()
         setLayout()
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -182,7 +189,7 @@ class CompanyDayCardCell: UICollectionViewCell {
             $0.centerY.equalTo(viewCountLabel)
             $0.leading.equalTo(viewCountLabel.snp.trailing).offset(3)
         }
-
+        
     }
 }
 extension CompanyDayCardCell {
@@ -198,10 +205,19 @@ extension CompanyDayCardCell {
         commentCountLabel.text = "댓글 \(model.comments)"
     }
     
-    private func updateBookmarkButtonUI() {
-         let image = actionButton.isSelected
-        ? UIImage(systemName: "bookmark.fill") // 이거 채워진 북마크가 없어서 일단 기본 제공 북마크로 대체
-        : UIImage(resource: .icBookmarkWDefault)
-         actionButton.setImage(image, for: .normal)
-     }
+    func updateBookmarkButtonUI() {
+        let image = actionButton.isSelected
+        ? UIImage(resource: .icScrapBActive)
+        : UIImage(resource: .icScrapBDefault)
+        actionButton.setImage(image, for: .normal)
+    }
+    
+    func setAddTarget() {
+        actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func actionButtonTapped() {
+        delegate?.didTapActionButton(in: self)
+        updateBookmarkButtonUI()
+    }
 }

@@ -10,8 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
+
 class CompanyHorizontalScrollCollectionViewCell: UICollectionViewCell {
 
+    weak var delegate: BookMarkDelegate?
+    
     private lazy var collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
     private var data: [CompanyDayCardModel] = []
@@ -87,9 +90,9 @@ extension CompanyHorizontalScrollCollectionViewCell: UICollectionViewDataSource,
         ) as? CompanyDayCardCell else {
             return UICollectionViewCell()
         }
-
         let item = data[indexPath.item]
         cell.configure(with:item)
+        cell.delegate = delegate
         return cell
     }
 
